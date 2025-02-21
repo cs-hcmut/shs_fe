@@ -1,9 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 import HttpStatusCode from "../constants/httpStatusCode.enum";
-import { PagingResponse } from "../types/common.type";
 import { defaultPaging } from "../types/paging.type";
 import moment from "moment";
+import { PagingResponse } from "../types/_commons/common.type";
 
 export const extractKeyFromUrl = (url: string): string => {
   const regex = /\/([^/?]+)\?/;

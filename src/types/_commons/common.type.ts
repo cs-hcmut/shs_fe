@@ -3,6 +3,7 @@ import { HTMLInputTypeAttribute, ReactNode } from "react";
 import { Pagination } from "../paging.type";
 import { InputFieldName } from "../input.type";
 import { UserModel } from "../user.type";
+import { IDType } from "./id.type";
 
 export interface CustomImage {
   imgUrl: string;
@@ -48,8 +49,8 @@ export interface InputField {
   readonly?: boolean;
 }
 
-export interface SQLModel {
-  id: string;
+export interface DatabaseCommonFields {
+  id: IDType;
   created_at: string;
   updated_at: string;
 }
