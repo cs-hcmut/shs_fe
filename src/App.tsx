@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import "./App.css";
 import ScrollToTop from "./components/utils/ScrollToTop";
-import useRouteElements from "./hooks/useRouteElements";
+import useRouteElements from "./routes/useRouteElements";
 import { PrimeReactProvider } from "primereact/api";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { AppProvider } from "./contexts/app.context";

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HTMLInputTypeAttribute, ReactNode } from "react";
-import { InputFieldName } from "./input.type";
-import { UserModel } from "./user.type";
-import { Pagination } from "./paging.type";
+import { Pagination } from "../paging.type";
+import { InputFieldName } from "../input.type";
+import { UserModel } from "../user.type";
 
 export interface CustomImage {
   imgUrl: string;

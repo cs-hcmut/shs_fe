@@ -1,7 +1,7 @@
 import { useRoutes } from "react-router-dom";
-import MainRoute from "../routes/mainRoute";
-import AuthenticationRoute from "../routes/authenticationRoute";
-import ProtectedRoute from "../routes/userRoute";
+import MainRoute from "./mainRoute";
+import AuthenticationRoute from "./authenticationRoute";
+import ProtectedRoute from "./protectedRoute";
 
 export default function useRouteElements() {
   const routeElements = useRoutes([

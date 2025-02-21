@@ -67,6 +67,52 @@ export default {
         hoveringBg: "#3B5FAD",
 
         primaryBlue: "#00B4D8",
+
+        utility: {
+          success: {
+            50: "#ECFDF3",
+            200: "#ABEFC6",
+            500: "#17B26A",
+            700: "#067647",
+          },
+          error: {
+            50: "#FEF3F2",
+            200: "#FECDCA",
+            500: "#F04438",
+            600: "#D92D20",
+            700: "#B42318",
+          },
+          blue: {
+            light: {
+              100: "#E0F2FE",
+              200: "#B9E6FE",
+              600: "#0086C9",
+            },
+          },
+          green: {
+            100: "#D3F8DF",
+            200: "#AAF0C4",
+            600: "#099250",
+          },
+          yellow: {
+            100: "#FEF7C3",
+            200: "#FEEE95",
+            600: "#CA8504",
+          },
+        },
+        border: {
+          primary: "#D5D7DA",
+          secondary: "#E9EAEB",
+        },
+        bg: {
+          secondary: "#F6F7F9",
+          primary_hover: "#F6F7F9",
+        },
+        button: {
+          primary: {
+            bg: "#A47764",
+          },
+        },
       },
       spacing: {
         128: "32rem", // Adding custom spacing (e.g., for width or height)
