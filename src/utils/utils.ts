@@ -51,6 +51,11 @@ export const getIdFromNameId = (nameId: string) => {
   return arr[arr.length - 1];
 };
 
+export const getNameFromNameId = (nameId: string) => {
+  const arr = nameId.split("-i:");
+  return arr[0];
+};
+
 export function formatCurrency(currency: number) {
   return new Intl.NumberFormat("de-DE").format(currency);
 }

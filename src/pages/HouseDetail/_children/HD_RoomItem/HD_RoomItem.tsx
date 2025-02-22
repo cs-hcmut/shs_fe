@@ -1,5 +1,8 @@
 import { RoomModel } from "../../../../types/room/room.type";
 import CustomButton from "../../../../components/_common/CustomButton";
+import { useNavigate, useParams } from "react-router-dom";
+import { homeManagementPaths } from "../../../../constants/path";
+import { generateNameId } from "../../../../utils/utils";
 
 interface HD_RoomItemProps {
   room: RoomModel;
@@ -8,9 +11,20 @@ interface HD_RoomItemProps {
 export default function HD_RoomItem({ room }: HD_RoomItemProps) {
   const { id: roomId, roomName, devicesCount, powerConsumedInDay } = room;
 
+  // ! Handle click house
+  const { homeId: homeNameId } = useParams();
+  const navigate = useNavigate();
+
+  const onClickRoom = () => {
+    navigate({
+      pathname: `${homeManagementPaths.homes}/${homeNameId}/${generateNameId({ name: roomName, id: roomId })}`,
+    });
+  };
+
   return (
     <CustomButton
       variant="outlined"
+      onClick={onClickRoom}
       className="py-4 px-3 rounded-lg border !border-border-primary flex !flex-col !gap-3"
     >
       <p className="text-lg">{roomName}</p>

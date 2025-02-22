@@ -8,5 +8,6 @@ export default mainPath;
 
 export const homeManagementPaths = {
   homes: "/homes",
-  homesDetail: "/homes/:id",
+  homesDetail: "/homes/:homeId",
+  roomDetail: "/homes/:homeId/:roomId",
 };

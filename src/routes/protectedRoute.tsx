@@ -5,6 +5,7 @@ import { AppContext } from "../contexts/app.context";
 import { homeManagementPaths } from "../constants/path";
 import HomeManagement from "../pages/HomeManagement";
 import HouseDetail from "../pages/HouseDetail";
+import RoomDetail from "../pages/RoomDetail";
 
 export function ProtectedRouteWrapper() {
   const { isAuthenticated } = useContext(AppContext);
@@ -31,6 +32,10 @@ const ProtectedRoute: RouteObject = {
     {
       path: homeManagementPaths.homesDetail,
       element: <HouseDetail />,
+    },
+    {
+      path: homeManagementPaths.roomDetail,
+      element: <RoomDetail />,
     },
   ],
 };

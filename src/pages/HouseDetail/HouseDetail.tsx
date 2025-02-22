@@ -6,8 +6,8 @@ import { HD_floorList } from "./_mocks/floor-list";
 import HD_FloorItem from "./_children/HD_FloorItem";
 
 export default function HouseDetail() {
-  const { id } = useParams();
-  const houseId = getIdFromNameId(id as string);
+  const { homeId } = useParams();
+  const houseId = getIdFromNameId(homeId as string);
 
   return (
     <AppLayout
