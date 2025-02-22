@@ -4,6 +4,7 @@ import AppLayout from "../../layouts/AppLayout";
 import { homeManagementPaths } from "../../constants/path";
 import RD_RoomController from "./_children/RD_RoomController/RD_RoomController";
 import RD_PowerStatistic from "./_children/RD_PowerStatistic";
+import RD_PowerUsageEstimate from "./_children/RD_PowerUsageEstimate";
 
 export default function RoomDetail() {
   const { roomId: roomNameId, homeId: homeNameId } = useParams();
@@ -42,13 +43,15 @@ export default function RoomDetail() {
         </div>
 
         <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
-          <div className="col-span-1 lg:col-span-2 border rounded-xl border-border-primary p-4 lg:p-6 overflow-hidden bg-white">
+          <div className="col-span-1 lg:col-span-2 border rounded-xl border-border-primary p-4 lg:p-6 overflow-hidden bg-white h-fit">
             <RD_RoomController />
           </div>
           <div className="col-span-1 border rounded-xl border-border-primary p-4 lg:p-6 overflow-hidden bg-white">
-            <RD_PowerStatistic />
+            <RD_PowerUsageEstimate />
           </div>
         </div>
+
+        <RD_PowerStatistic />
       </div>
     </AppLayout>
   );
