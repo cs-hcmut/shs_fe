@@ -197,6 +197,7 @@ export function useChart(options?: ChartOptions): ChartOptions {
       x: {
         show: true,
       },
+
       ...options?.tooltip,
     },
 
