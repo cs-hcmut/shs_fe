@@ -4,6 +4,8 @@ import AppLayout from "../../layouts/AppLayout";
 import { homeManagementPaths } from "../../constants/path";
 import { HD_floorList } from "./_mocks/floor-list";
 import HD_FloorItem from "./_children/HD_FloorItem";
+import { Divider } from "@mui/material";
+import HD_PowerStatistic from "./_children/HD_PowerStatistic";
 
 export default function HouseDetail() {
   const { homeId } = useParams();
@@ -23,10 +25,16 @@ export default function HouseDetail() {
         },
       ]}
     >
-      <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-        {HD_floorList.map((floor) => (
-          <HD_FloorItem key={floor.id} floor={floor} />
-        ))}
+      <div className="w-full flex flex-col gap-8">
+        <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+          {HD_floorList.map((floor) => (
+            <HD_FloorItem key={floor.id} floor={floor} />
+          ))}
+        </div>
+
+        <Divider className="!border-primary-blue" />
+
+        <HD_PowerStatistic />
       </div>
     </AppLayout>
   );

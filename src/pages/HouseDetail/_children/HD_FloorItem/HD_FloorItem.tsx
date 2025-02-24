@@ -32,7 +32,7 @@ export default function HD_FloorItem({ floor }: HD_FloorItemProps) {
   const roomList = roomListMap[floorId] || [];
 
   return (
-    <div className="py-4 px-3 rounded-lg border border-border-primary flex flex-col gap-4">
+    <div className="py-4 px-3 bg-white rounded-lg border border-border-primary flex flex-col gap-4">
       <p className="text-xl font-semibold text-primaryBlue">
         Floor {floorLevel}
       </p>
