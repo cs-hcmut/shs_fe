@@ -1,6 +1,5 @@
 import { Divider } from "@mui/material";
 import RD_PowerStatistic_Usage from "./_children/RD_PowerStatistic_Usage";
-import RD_PowerStatistic_PieChart from "./_children/RD_PowerStatistic_PieChart";
 import RD_PowerStatistic_LineChart from "./_children/RD_PowerStatistic_LineChart";
 
 interface RD_PowerStatisticProps {}
@@ -14,14 +13,7 @@ export default function RD_PowerStatistic({}: RD_PowerStatisticProps) {
 
       <Divider className="!border-primary-blue" />
 
-      <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
-        <div className="col-span-1">
-          <RD_PowerStatistic_Usage />
-        </div>
-        <div className="col-span-1 lg:col-span-2">
-          <RD_PowerStatistic_PieChart />
-        </div>
-      </div>
+      <RD_PowerStatistic_Usage />
 
       <Divider className="!border-primary-blue" />
 
