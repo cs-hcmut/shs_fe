@@ -8,7 +8,7 @@ export default function HD_PowerStatistic({}: RD_PowerStatisticProps) {
   return (
     <div className="w-full flex flex-col gap-6 border rounded-xl border-border-primary p-4 lg:p-6 overflow-hidden bg-white">
       <p className="text-2xl font-semibold uppercase text-primary-blue">
-        Power statistics
+        Statistics
       </p>
 
       <Divider className="!border-primary-blue" />
