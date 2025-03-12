@@ -1,5 +1,5 @@
 import { getIdFromNameId } from "../../utils/utils";
-import { Link, NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import AppLayout from "../../layouts/AppLayout";
 import { homeManagementPaths } from "../../constants/path";
 import { HD_floorList } from "./_mocks/floor-list";
@@ -12,8 +12,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
 
 export default function HouseDetail() {
-  const { homeId } = useParams();
-  const houseId = getIdFromNameId(homeId as string);
+  const { homeId: houseNameId } = useParams();
+  const houseId = getIdFromNameId(houseNameId as string);
 
   return (
     <AppLayout
@@ -42,7 +42,7 @@ export default function HouseDetail() {
 
         <div className=" gap-4 lg:gap-6 grid grid-cols-3 lg:grid-cols-6">
           <Link
-            to={homeManagementPaths.config}
+            to={`${homeManagementPaths.homes}/${houseNameId}/config`}
             className="flex flex-col items-center bg-white hover:bg-slate-100 p-6 rounded-2xl border border-primaryBlue"
           >
             <FontAwesomeIcon
@@ -55,7 +55,7 @@ export default function HouseDetail() {
           </Link>
 
           <Link
-            to={homeManagementPaths.schedule}
+            to={`${homeManagementPaths.homes}/${houseNameId}/schedule`}
             className="flex flex-col items-center bg-white hover:bg-slate-100 p-6 rounded-2xl border border-primaryBlue"
           >
             <FontAwesomeIcon
