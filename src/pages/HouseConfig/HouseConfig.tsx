@@ -8,10 +8,14 @@ import MuiStyles from "src/styles";
 import { getIdFromNameId } from "src/utils/utils";
 import { _mock_HouseConfigList } from "./_mocks/configList.mock";
 import HouseConfig_ConfigItem from "./_children/HouseConfig_ConfigItem";
+import HouseConfig_AddConfig from "./_children/HouseConfig_AddConfig";
+import useHouseConfigStore from "./_stores/HouseConfig.store";
 
 interface CHouseConfigProps {}
 
 export default function HouseConfig({}: CHouseConfigProps) {
+  const { setAddingConfig } = useHouseConfigStore();
+
   const { homeId: houseNameId } = useParams();
   const houseId = getIdFromNameId(houseNameId as string);
 
@@ -36,6 +40,9 @@ export default function HouseConfig({}: CHouseConfigProps) {
           </p>
 
           <Button
+            onClick={() => {
+              setAddingConfig(true);
+            }}
             sx={MuiStyles.buttonStyles.bluePrimaryBg}
             className="!rounded-lg !text-white !font-medium flex !items-center !py-2 !px-4 !justify-center !normal-case !gap-2"
           >
@@ -49,6 +56,8 @@ export default function HouseConfig({}: CHouseConfigProps) {
           })}
         </div>
       </div>
+
+      <HouseConfig_AddConfig />
     </AppLayout>
   );
 }
