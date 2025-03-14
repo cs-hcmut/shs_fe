@@ -6,11 +6,9 @@ export const _mock_HouseConfigList: HouseConfigModel[] = [
     name: "Config 1",
     conditions: [
       {
-        device: {
-          id: "1",
-          type: "thermometer",
-          name: "Floor 2 thermometer",
-        },
+        deviceId: "1",
+        deviceName: "Floor 2 thermometer",
+        deviceType: "temperature_sensor",
         value: "temperature",
         condition: ">=",
         threshold: "32 Celcius",
@@ -48,11 +46,9 @@ export const _mock_HouseConfigList: HouseConfigModel[] = [
     name: "Config 2",
     conditions: [
       {
-        device: {
-          id: "1",
-          type: "thermometer",
-          name: "Floor 2 thermometer",
-        },
+        deviceId: "1",
+        deviceType: "temperature_sensor",
+        deviceName: "Floor 2 thermometer",
         value: "temperature",
         condition: "<=",
         threshold: "22 Celcius",

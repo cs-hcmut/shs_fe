@@ -1,13 +1,15 @@
 import { IDType } from "../_commons/id.type";
 
-export type MeasuringDeviceType = "thermometer";
+export type MeasuringDeviceType =
+  | "temperature_sensor"
+  | "humidity_sensor"
+  | "lux_meter"
+  | "sound_level_meter";
 
 export interface HouseConfig_Condition {
-  device: {
-    id: IDType;
-    type: MeasuringDeviceType;
-    name: string;
-  };
+  deviceType: MeasuringDeviceType;
+  deviceName: string;
+  deviceId: IDType;
   value: HouseConfig_Condition_ValueType;
   condition: HouseConfig_Condition_ConditionType;
   threshold: number | string;

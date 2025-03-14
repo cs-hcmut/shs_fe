@@ -54,7 +54,7 @@ interface ConditionProps {
   conditionItem: HouseConfig_Condition;
 }
 function Condition({ conditionItem }: ConditionProps) {
-  const { device, value, condition, threshold } = conditionItem;
+  const { deviceName, value, condition, threshold } = conditionItem;
 
   const conditionMap: { [key in HouseConfig_Condition_ConditionType]: string } =
     {
@@ -69,7 +69,7 @@ function Condition({ conditionItem }: ConditionProps) {
   return (
     <p className="flex gap-1">
       <span>When</span>
-      <span className="font-bold"> {device.name}</span>
+      <span className="font-bold"> {deviceName}</span>
       <span className=""> have the </span>
       <span className="text-primaryBlue">{value}</span>
       <span className="text-utility-success-500 italic">
