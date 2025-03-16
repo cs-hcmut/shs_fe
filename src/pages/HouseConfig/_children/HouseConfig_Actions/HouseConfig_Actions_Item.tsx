@@ -1,26 +1,38 @@
 import { useForm } from "react-hook-form";
-import { HouseConfig_Condition } from "src/types/house-config/houseConfig.condition.type";
+import useHouseConfigStore_Actions, {
+  HouseConfig_DeviceActionForm,
+} from "../../_stores/HouseConfig_Actions.store";
 import CustomFormInput from "src/components/_inputs/CustomFormInput";
-import useHouseConfigStore_Conditions from "../../_stores/HouseConfig_Conditions.store";
+import {
+  DEVICE_ACTION_LIST,
+  DEVICE_ACTION_NAME_MAP,
+  Device_DeviceTypeList,
+  DeviceType,
+} from "src/types/device/device.type";
 
-interface HouseConfig_Conditions_ItemProps {
-  conditionIndex: number;
+interface HouseConfig_Actions_ItemProps {
+  actionIndex: number;
 }
 
-export default function HouseConfig_Conditions_Item({
-  conditionIndex,
-}: HouseConfig_Conditions_ItemProps) {
-  const { conditionList, setConditionList } = useHouseConfigStore_Conditions();
+export default function HouseConfig_Actions_Item({
+  actionIndex,
+}: HouseConfig_Actions_ItemProps) {
+  const { removeDeviceAction } = useHouseConfigStore_Actions();
 
-  const formMethods = useForm<HouseConfig_Condition>({});
+  const formMethods = useForm<HouseConfig_DeviceActionForm>({});
 
   const { control } = formMethods;
 
   // ! remove condition
   const onRemoveCondition = () => {
-    setConditionList(
-      conditionList.filter((_, index) => index !== conditionIndex)
-    );
+    removeDeviceAction(actionIndex);
+  };
+
+  const deviceTypeNameMap: { [key in DeviceType]: string } = {
+    air_conditioner: "Air conditioner",
+    door: "Door",
+    fan: "Fan",
+    light: "Light",
   };
 
   const inputWrapperClassname =
@@ -41,25 +53,39 @@ export default function HouseConfig_Conditions_Item({
         <CustomFormInput
           control={control}
           inputField={{
-            name: "deviceType",
-            title: "Type",
+            name: "roomId",
+            title: "Room",
             type: "options",
             valueOptions: [
-              { name: "Temperature sensor", value: "temperature_sensor" },
-              { name: "Humidity sensor", value: "humidity_sensor" },
-              { name: "Lux meter", value: "lux_meter" },
-              { name: "Sound level meter", value: "sound_level_meter" },
+              { name: "Room 1", value: "1" },
+              { name: "Room 2", value: "2" },
+              { name: "Room 3", value: "3" },
             ],
           }}
           wrapperClassName={inputWrapperClassname}
         />
-        <div className="grid grid-cols-4 gap-1">
-          <div className="col-span-2">
+
+        <div className="grid grid-cols-3 gap-1">
+          <div className="col-span-1">
+            <CustomFormInput
+              control={control}
+              inputField={{
+                name: "deviceType",
+                title: "Device type",
+                type: "options",
+                valueOptions: Device_DeviceTypeList.map((type) => {
+                  return { name: deviceTypeNameMap[type], value: type };
+                }),
+              }}
+              wrapperClassName={inputWrapperClassname}
+            />
+          </div>
+          <div className="col-span-1">
             <CustomFormInput
               control={control}
               inputField={{
                 name: "deviceId",
-                title: "Sensor",
+                title: "Device",
                 type: "options",
                 valueOptions: [
                   { name: "Device 1", value: "1" },
@@ -74,31 +100,17 @@ export default function HouseConfig_Conditions_Item({
             <CustomFormInput
               control={control}
               inputField={{
-                name: "condition",
-                title: "Condition",
+                name: "action",
+                title: "Action",
                 type: "options",
-                valueOptions: [
-                  { name: "=", value: "=" },
-                  { name: "!=", value: "!=" },
-                  { name: ">", value: ">" },
-                  { name: ">=", value: ">=" },
-                  { name: "<", value: "<" },
-                  { name: "<=", value: "<=" },
-                ],
+                valueOptions: DEVICE_ACTION_LIST.map((action) => {
+                  return {
+                    name: DEVICE_ACTION_NAME_MAP[action],
+                    value: action,
+                  };
+                }),
               }}
               wrapperClassName={inputWrapperClassname}
-            />
-          </div>
-          <div className="col-span-1">
-            <CustomFormInput
-              control={control}
-              inputField={{
-                name: "threshold",
-                title: "Threshold",
-                type: "text",
-              }}
-              wrapperClassName={inputWrapperClassname}
-              inputContainerClassName={inputWrapperClassname}
             />
           </div>
         </div>

@@ -1,4 +1,3 @@
-import React from "react";
 import useHouseConfigStore_Conditions, {
   houseConfigStore_Condition_defaultCondition,
 } from "../../_stores/HouseConfig_Conditions.store";
@@ -18,11 +17,13 @@ export default function HouseConfig_Conditions({}: HouseConfig_ConditionsProps) 
   };
 
   return (
-    <div className="w-full flex flex-col gap-4">
-      <p className="font-medium text-lg text-slate-800">Conditions</p>
+    <div className="w-full flex flex-col gap-4 h-full overflow-hidden">
+      <p className="font-medium text-lg text-slate-800 text-center">
+        Conditions
+      </p>
 
-      <div className="w-full flex flex-col gap-2">
-        {conditionList.map((cond, index) => {
+      <div className="w-full flex flex-col gap-2 overflow-auto">
+        {conditionList.map((_, index) => {
           return (
             <HouseConfig_Conditions_Item key={index} conditionIndex={index} />
           );
@@ -30,7 +31,7 @@ export default function HouseConfig_Conditions({}: HouseConfig_ConditionsProps) 
 
         <button
           onClick={onAddCondition}
-          className="p-2 rounded-lg bg-unhoveringBg hover:bg-hoveringBg text-white"
+          className="p-2 rounded-lg border border-primaryBlue hover:bg-slate-100"
         >
           Add condition
         </button>

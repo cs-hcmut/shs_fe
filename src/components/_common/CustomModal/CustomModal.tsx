@@ -7,17 +7,22 @@ interface CustomModalProps {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
   children: ReactNode;
+  onClose?: () => void;
 }
 
 export default function CustomModal({
   isOpen,
   setIsOpen,
   children,
+  onClose,
 }: CustomModalProps) {
   return (
     <Modal
       open={isOpen}
       onClose={() => {
+        if (onClose) {
+          onClose();
+        }
         setIsOpen(false);
       }}
       className="relative"
