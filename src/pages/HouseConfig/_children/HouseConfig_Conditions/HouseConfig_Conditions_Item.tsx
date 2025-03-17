@@ -1,18 +1,22 @@
 import { useForm } from "react-hook-form";
-import { HouseConfig_Condition } from "src/types/house-config/houseConfig.condition.type";
+import { HouseConfig_ConditionForm } from "src/types/house-config/houseConfig.condition.type";
 import CustomFormInput from "src/components/_inputs/CustomFormInput";
 import useHouseConfigStore_Conditions from "../../_stores/HouseConfig_Conditions.store";
 
 interface HouseConfig_Conditions_ItemProps {
   conditionIndex: number;
+  defaultData?: HouseConfig_ConditionForm;
 }
 
 export default function HouseConfig_Conditions_Item({
   conditionIndex,
+  defaultData,
 }: HouseConfig_Conditions_ItemProps) {
   const { conditionList, setConditionList } = useHouseConfigStore_Conditions();
 
-  const formMethods = useForm<HouseConfig_Condition>({});
+  const formMethods = useForm<HouseConfig_ConditionForm>({
+    defaultValues: defaultData ? defaultData : {},
+  });
 
   const { control } = formMethods;
 
@@ -41,7 +45,7 @@ export default function HouseConfig_Conditions_Item({
         <CustomFormInput
           control={control}
           inputField={{
-            name: "deviceType",
+            name: "sensorType",
             title: "Type",
             type: "options",
             valueOptions: [
@@ -58,13 +62,13 @@ export default function HouseConfig_Conditions_Item({
             <CustomFormInput
               control={control}
               inputField={{
-                name: "deviceId",
+                name: "sensorId",
                 title: "Sensor",
                 type: "options",
                 valueOptions: [
-                  { name: "Device 1", value: "1" },
-                  { name: "Device 2", value: "2" },
-                  { name: "Device 3", value: "3" },
+                  { name: "Sensor 1", value: "1" },
+                  { name: "Sensor 2", value: "2" },
+                  { name: "Sensor 3", value: "3" },
                 ],
               }}
               wrapperClassName={inputWrapperClassname}

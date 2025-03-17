@@ -7,13 +7,15 @@ export type MeasuringDeviceType =
   | "sound_level_meter";
 
 export interface HouseConfig_Condition {
-  deviceType: MeasuringDeviceType;
-  deviceName: string;
-  deviceId: IDType;
+  sensorType: MeasuringDeviceType;
+  sensorName: string;
+  sensorId: IDType;
   value: HouseConfig_Condition_ValueType;
   condition: HouseConfig_Condition_ConditionType;
   threshold: number | string;
 }
+
+export interface HouseConfig_ConditionForm extends HouseConfig_Condition {}
 
 export type HouseConfig_Condition_ValueType =
   | "temperature"

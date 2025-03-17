@@ -12,14 +12,18 @@ import {
 
 interface HouseConfig_Actions_ItemProps {
   actionIndex: number;
+  defaultData?: HouseConfig_DeviceActionForm;
 }
 
 export default function HouseConfig_Actions_Item({
   actionIndex,
+  defaultData,
 }: HouseConfig_Actions_ItemProps) {
   const { removeDeviceAction } = useHouseConfigStore_Actions();
 
-  const formMethods = useForm<HouseConfig_DeviceActionForm>({});
+  const formMethods = useForm<HouseConfig_DeviceActionForm>({
+    defaultValues: defaultData ? defaultData : {},
+  });
 
   const { control } = formMethods;
 

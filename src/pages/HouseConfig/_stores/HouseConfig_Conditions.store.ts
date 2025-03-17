@@ -8,9 +8,9 @@ export interface IHouseConfigStore_Conditions {
 
 export const houseConfigStore_Condition_defaultCondition: HouseConfig_Condition =
   {
-    deviceId: "-1",
-    deviceName: "Sensor device",
-    deviceType: "temperature_sensor",
+    sensorId: "-1",
+    sensorName: "Sensor device",
+    sensorType: "temperature_sensor",
     condition: "=",
     value: "temperature",
     threshold: "0",

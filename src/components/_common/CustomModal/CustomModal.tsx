@@ -16,25 +16,18 @@ export default function CustomModal({
   children,
   onClose,
 }: CustomModalProps) {
+  const closeModal = () => {
+    if (onClose) {
+      onClose();
+    }
+    setIsOpen(false);
+  };
+
   return (
-    <Modal
-      open={isOpen}
-      onClose={() => {
-        if (onClose) {
-          onClose();
-        }
-        setIsOpen(false);
-      }}
-      className="relative"
-    >
+    <Modal open={isOpen} onClose={closeModal} className="relative">
       <div className="bg-white max-w-[80vw] relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 py-4 px-6 rounded-xl">
         <div className="mr-[20px] overflow-hidden">{children}</div>
-        <IconButton
-          onClick={() => {
-            setIsOpen(false);
-          }}
-          className="!absolute !right-1 !top-1"
-        >
+        <IconButton onClick={closeModal} className="!absolute !right-1 !top-1">
           <FontAwesomeIcon icon={faXmark} />
         </IconButton>
       </div>

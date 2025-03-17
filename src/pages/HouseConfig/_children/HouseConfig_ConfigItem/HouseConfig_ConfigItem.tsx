@@ -7,6 +7,7 @@ import {
   HouseConfig_Condition_ConditionType,
 } from "src/types/house-config/houseConfig.condition.type";
 import { HouseConfigModel } from "src/types/house-config/houseConfig.type";
+import useHouseConfigStore_ConfigDetail from "../../_stores/HouseConfig_ConfigDetail.store";
 
 interface HouseConfig_ConfigItemProps {
   config: HouseConfigModel;
@@ -17,11 +18,20 @@ export default function HouseConfig_ConfigItem({
 }: HouseConfig_ConfigItemProps) {
   const { actions, conditions, name } = config;
 
+  const { setViewingConfigDetail, setCurrentConfig } =
+    useHouseConfigStore_ConfigDetail();
+
+  const onClickEdit = () => {
+    setCurrentConfig(config);
+    setViewingConfigDetail(true);
+  };
+
   return (
     <div className="rounded-lg bg-white overflow-hidden flex flex-col w-full gap-4 py-2 px-4 border border-border-primary">
       <div className="w-full flex items-center justify-between">
         <p className="font-semibold text-lg">{name}</p>
         <Button
+          onClick={onClickEdit}
           variant="outlined"
           className="!font-medium !text-black !normal-case !items-center !flex !rounded-md"
         >
@@ -54,7 +64,7 @@ interface ConditionProps {
   conditionItem: HouseConfig_Condition;
 }
 function Condition({ conditionItem }: ConditionProps) {
-  const { deviceName, value, condition, threshold } = conditionItem;
+  const { sensorName: deviceName, value, condition, threshold } = conditionItem;
 
   const conditionMap: { [key in HouseConfig_Condition_ConditionType]: string } =
     {

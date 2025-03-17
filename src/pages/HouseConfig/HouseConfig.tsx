@@ -10,6 +10,7 @@ import { _mock_HouseConfigList } from "./_mocks/configList.mock";
 import HouseConfig_ConfigItem from "./_children/HouseConfig_ConfigItem";
 import HouseConfig_AddConfig from "./_children/HouseConfig_AddConfig";
 import useHouseConfigStore from "./_stores/HouseConfig.store";
+import HouseConfig_ConfigDetail from "./_children/HouseConfig_ConfigDetail";
 
 interface CHouseConfigProps {}
 
@@ -58,6 +59,8 @@ export default function HouseConfig({}: CHouseConfigProps) {
       </div>
 
       <HouseConfig_AddConfig />
+
+      <HouseConfig_ConfigDetail />
     </AppLayout>
   );
 }
