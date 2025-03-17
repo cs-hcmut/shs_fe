@@ -3,8 +3,8 @@ import { FloorModel } from "../../../types/floor/floor.type";
 export const HD_floorList: FloorModel[] = [
   {
     id: "1-1",
-    created_at: "",
-    updated_at: "",
+    createdAt: "",
+    updatedAt: "",
     floorLevel: 1,
     houseId: "1",
     roomsCount: 4,
@@ -15,8 +15,8 @@ export const HD_floorList: FloorModel[] = [
   },
   {
     id: "1-2",
-    created_at: "",
-    updated_at: "",
+    createdAt: "",
+    updatedAt: "",
     floorLevel: 2,
     houseId: "1",
     roomsCount: 3,
@@ -27,8 +27,8 @@ export const HD_floorList: FloorModel[] = [
   },
   {
     id: "1-3",
-    created_at: "",
-    updated_at: "",
+    createdAt: "",
+    updatedAt: "",
     floorLevel: 3,
     houseId: "1",
     roomsCount: 1,

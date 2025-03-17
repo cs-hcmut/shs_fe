@@ -1,12 +1,16 @@
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faHouse, faUser } from "@fortawesome/free-solid-svg-icons";
 import mainPath, { homeManagementPaths } from "../../constants/path";
 import { useContext } from "react";
 import { AppContext } from "../../contexts/app.context";
+import NotificationSite from "src/pages/NotificationSite";
+import useNotificationSiteStore from "src/pages/NotificationSite/_stores/NotificationSite.store";
 
 export default function MainHeader() {
   const { isAuthenticated } = useContext(AppContext);
+
+  const { setShowingNotificationModal } = useNotificationSiteStore();
 
   return (
     <div className="flex justify-center items-center text-lg h-full p-6 gap-6 shadow-gray-400 shadow-sm bg-white">
@@ -24,7 +28,21 @@ export default function MainHeader() {
             className="text-gray-text w-8 h-8 hover:text-primary-blue"
           />
         </NavLink>
+
+        <button
+          type="button"
+          onClick={() => {
+            setShowingNotificationModal(true);
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faBell}
+            className="text-gray-text w-8 h-8 hover:text-primary-blue"
+          />
+        </button>
       </div>
+
+      <NotificationSite />
     </div>
   );
 }

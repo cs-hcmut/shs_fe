@@ -51,8 +51,8 @@ export interface InputField {
 
 export interface DatabaseCommonFields {
   id: IDType;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface DataRow {
