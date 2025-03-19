@@ -34,7 +34,7 @@ export const requestVerifySchema = yup.object({
 export type RequestVerifySchema = yup.InferType<typeof requestVerifySchema>;
 
 export const loginSchema = yup.object({
-  email: yup.string().required("Email is required"),
+  username: yup.string().required("Username is required"),
   password: yup.string().required("Password is required"),
 });
 export type LoginSchema = yup.InferType<typeof loginSchema>;

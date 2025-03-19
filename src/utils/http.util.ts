@@ -6,8 +6,8 @@ import {
   setAccessTokenToSessionStorage,
 } from "./auth.util";
 import config from "../configs/config";
-import { ErrorRespone } from "../types/common.type";
 import { HttpErrorKeys } from "../constants/httpResponeErrorKey";
+import { ErrorRespone } from "src/types/_commons/common.type";
 
 const domain = config.ApiURL;
 export const ApiURL = domain;

@@ -1,6 +1,6 @@
 const config = {
   maxSizeUploadAvatar: 5242880, // bytes
-  ApiURL: "http://localhost:8000",
+  ApiURL: "https://smart-home-backend-f9d8.onrender.com",
 };
 
 export default config;

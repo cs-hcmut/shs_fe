@@ -1,21 +1,4 @@
-const userInputs = [
-  "company_code",
-  "login_id",
-  "name",
-  "authority_group",
-  "pic_code",
-  "pic_number",
-  "phone",
-  "affiliation",
-  "location",
-  "department",
-  "date_of_employment",
-  "zip_code",
-  "address_name",
-  "address_number",
-  "email",
-  "password",
-] as const;
+const userInputs = ["name", "phone", "email", "password", "username"] as const;
 
 const inputNamesSet = new Set([...userInputs] as const);
 

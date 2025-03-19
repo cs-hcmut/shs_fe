@@ -3,22 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../contexts/app.context";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ErrorRespone, InputField } from "../../types/common.type";
 import mainPath from "../../constants/path";
 import AccountInput from "../../components/_inputs/AccountInput";
-import userQuery from "../../queries/useUserQuery";
+import authQuery from "../../queries/auth.query";
 import { isAxiosError } from "../../utils/utils";
-import { setAccessTokenToLS, setProfileToLS } from "../../utils/auth.util";
+import { setAccessTokenToLS } from "../../utils/auth.util";
 import { isArray } from "lodash";
 import createHttpStatusMessageMap from "../../constants/httpStatusMessage";
 import { loginSchema, LoginSchema } from "../../rules/auth.rule";
-import { useQueryClient } from "@tanstack/react-query";
+import { ErrorRespone, InputField } from "src/types/_commons/common.type";
 
 type FormData = LoginSchema;
 
 export default function LoginPage() {
-  const { setIsAuthenticated, setLoadingPage, setProfile } =
-    useContext(AppContext);
+  const { setIsAuthenticated, setLoadingPage } = useContext(AppContext);
   const navigate = useNavigate();
 
   const {
@@ -33,9 +31,9 @@ export default function LoginPage() {
 
   const loginForms: InputField[] = [
     {
-      name: "email",
-      title: "Email",
-      errorMsg: errors.email?.message,
+      name: "username",
+      title: "Username",
+      errorMsg: errors.username?.message,
       svgData: (
         <svg
           width="20"
@@ -73,9 +71,7 @@ export default function LoginPage() {
     },
   ];
 
-  const queryClient = useQueryClient();
-  const userLoginMutation = userQuery.mutation.useUserLogin();
-  const getProfileMutation = userQuery.mutation.useGetProfileMutation();
+  const userLoginMutation = authQuery.mutation.useUserLogin();
   const onSubmit = handleSubmit(async (data) => {
     setLoadingPage(true);
     await userLoginMutation.mutateAsync(data, {
@@ -83,25 +79,10 @@ export default function LoginPage() {
         setLoadingPage(false);
       },
       onSuccess(response) {
-        const token = response.data;
-        setAccessTokenToLS(token); // Save the token to localStorage or wherever needed
-
-        // Proceed to get profile after login
-        getProfileMutation
-          .mutateAsync()
-          .then((profileResponse) => {
-            setIsAuthenticated(true);
-            setProfileToLS(profileResponse.data); // Save profile data to localStorage
-            setProfile(profileResponse.data); // Update profile in the state
-            reset();
-            navigate(mainPath.home);
-          })
-          .catch((error) => {
-            console.error("Error fetching profile:", error);
-          });
-        queryClient.invalidateQueries({
-          queryKey: ["cart"],
-        });
+        const { token } = response.data;
+        setAccessTokenToLS(token);
+        setIsAuthenticated(true);
+        reset();
         navigate(mainPath.home);
       },
       onError: async (err) => {

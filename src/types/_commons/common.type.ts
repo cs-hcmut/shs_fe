@@ -21,6 +21,7 @@ export interface PagingResponse<Data>
     Pagination {}
 
 export interface SuccessReponse<Data> {
+  message: string;
   data: Data;
   // statusCode: number;
   // message: string | string[];
