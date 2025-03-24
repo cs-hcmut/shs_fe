@@ -1,24 +1,50 @@
 import { HouseSchedule_Condition } from "src/types/house-schedule/house-schedule.condition.type";
 import { create } from "zustand";
 
+export type HouseSchedule_Condition_RepeatEnum = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
 export interface IHouseScheduleStore_Conditions {
-  conditionList: HouseSchedule_Condition[];
-  setConditionList: (value: HouseSchedule_Condition[]) => void;
+  timeValue: string;
+  setTimeValue: (value: string) => void;
+  resetTimeValue: () => void;
+
+  repeat: Map<HouseSchedule_Condition_RepeatEnum, boolean>;
+  setRepeat: (key: HouseSchedule_Condition_RepeatEnum) => void;
+  clearRepeat: () => void;
 }
 
 export const HouseScheduleStore_Condition_defaultCondition: HouseSchedule_Condition =
   {
-    type: "time",
     time: "00:00:00",
-    interval: 0,
   };
 
 const useHouseScheduleStore_Conditions =
   create<IHouseScheduleStore_Conditions>()((set) => ({
-    conditionList: [HouseScheduleStore_Condition_defaultCondition],
-    setConditionList: (value: HouseSchedule_Condition[]) => {
+    timeValue: "06:00:00",
+    setTimeValue: (value: string) => {
       set((state) => {
-        state.conditionList = value;
+        state.timeValue = value;
+        return { ...state };
+      });
+    },
+    resetTimeValue: () => {
+      set((state) => {
+        state.timeValue = "06:00:00";
+        return { ...state };
+      });
+    },
+
+    repeat: new Map(),
+    setRepeat: (key: HouseSchedule_Condition_RepeatEnum) => {
+      set((state) => {
+        const { repeat } = state;
+        state.repeat.set(key, repeat.get(key) === true ? false : true);
+        return { ...state };
+      });
+    },
+    clearRepeat: () => {
+      set((state) => {
+        state.repeat = new Map();
         return { ...state };
       });
     },

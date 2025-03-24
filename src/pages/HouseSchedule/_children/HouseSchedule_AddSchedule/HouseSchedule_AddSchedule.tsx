@@ -9,7 +9,7 @@ import HouseSchedule_Actions from "../HouseSchedule_Actions";
 interface HouseSchedule_AddScheduleProps {}
 
 export default function HouseSchedule_AddSchedule({}: HouseSchedule_AddScheduleProps) {
-  const { setConditionList } = useHouseScheduleStore_Conditions();
+  const { resetTimeValue } = useHouseScheduleStore_Conditions();
   const { setActionList } = useHouseScheduleStore_Actions();
 
   const { addingSchedule, setAddingSchedule } =
@@ -17,7 +17,7 @@ export default function HouseSchedule_AddSchedule({}: HouseSchedule_AddScheduleP
 
   const cancelAddingSchedule = () => {
     setAddingSchedule(false);
-    setConditionList([]);
+    resetTimeValue();
     setActionList([]);
   };
 
@@ -35,11 +35,11 @@ export default function HouseSchedule_AddSchedule({}: HouseSchedule_AddScheduleP
         <Divider className="!border-border-primary" />
 
         <div className="flex flex-grow overflow-hidden">
-          <div className="w-full grid grid-cols-1 lg:grid-cols-2 h-full overflow-hidden">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-4 h-full overflow-hidden">
             <div className="col-span-1 pr-3 overflow-hidden h-full">
               <HouseSchedule_Conditions />
             </div>
-            <div className="col-span-1 lg:border-l border-border-primary pl-3 overflow-hidden h-full">
+            <div className="col-span-1 lg:col-span-3 lg:border-l border-border-primary pl-3 overflow-hidden h-full">
               <HouseSchedule_Actions />
             </div>
           </div>

@@ -9,6 +9,8 @@ import LoadingPage from "./components/_loadingComponents/LoadingPage";
 import { AppContext } from "./contexts/app.context";
 import { CartProvider } from "./contexts/cart.context";
 import { OrderProvider } from "./contexts/order.context";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 function AppIner() {
   const routes = useRouteElements();
@@ -33,7 +35,9 @@ function App() {
         <AppProvider>
           <CartProvider>
             <OrderProvider>
-              <AppIner />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <AppIner />
+              </LocalizationProvider>
             </OrderProvider>
           </CartProvider>
         </AppProvider>
