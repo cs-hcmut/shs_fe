@@ -1,4 +1,4 @@
-import { HouseSchedule_Condition } from "src/types/house-schedule/house-schedule.condition.type";
+import { HouseSchedule_Condition } from "src/types/schedule/schedule.condition.type";
 import { create } from "zustand";
 
 export type HouseSchedule_Condition_RepeatEnum = 0 | 1 | 2 | 3 | 4 | 5 | 6;

@@ -26,7 +26,7 @@ const floorApi = {
 
   // ! delete
   deleteFloor(id: IDType) {
-    return http.put<SuccessReponse<FloorModel>>(`${url}/${id}`);
+    return http.delete<SuccessReponse<FloorModel>>(`${url}/${id}`);
   },
 };
 

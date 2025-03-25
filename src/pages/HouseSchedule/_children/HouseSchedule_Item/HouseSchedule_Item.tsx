@@ -1,13 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Button } from "@mui/material";
-import { HouseSchedule_Condition } from "src/types/house-schedule/house-schedule.condition.type";
-import { HouseScheduleModel } from "src/types/house-schedule/house-schedule.type";
+import { HouseSchedule_Condition } from "src/types/schedule/schedule.condition.type";
+import { ScheduleModel } from "src/types/schedule/schedule.type";
 import useHouseScheduleStore_ScheduleDetail from "../../_stores/useHouseSchedule_ScheduleDetail.store";
 import { convertSecondsToHMS } from "src/utils/utils";
 import { IDType } from "src/types/_commons/id.type";
 
 interface HouseSchedule_ItemProps {
-  schedule: HouseScheduleModel;
+  schedule: ScheduleModel;
 }
 
 export default function HouseSchedule_Item({

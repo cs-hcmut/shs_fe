@@ -1,7 +1,7 @@
 import { IDType } from "../_commons/id.type";
 import { Schedule_DeviceAttribute } from "./schedule.deviceAttr.type";
 
-export interface HouseScheduleModel {
+export interface ScheduleModel {
   id: IDType;
   time: string;
   deviceAttrId: string;

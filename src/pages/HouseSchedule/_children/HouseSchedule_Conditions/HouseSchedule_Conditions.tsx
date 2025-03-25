@@ -1,4 +1,4 @@
-import { HouseScheduleModel } from "src/types/house-schedule/house-schedule.type";
+import { ScheduleModel } from "src/types/schedule/schedule.type";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import useHouseScheduleStore_Conditions, {
@@ -7,7 +7,7 @@ import useHouseScheduleStore_Conditions, {
 import classNames from "classnames";
 
 interface HouseSchedule_ConditionsProps {
-  defaultData?: HouseScheduleModel;
+  defaultData?: ScheduleModel;
 }
 
 export default function HouseSchedule_Conditions({

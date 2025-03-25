@@ -1,6 +1,6 @@
-import { HouseScheduleModel } from "src/types/house-schedule/house-schedule.type";
+import { ScheduleModel } from "src/types/schedule/schedule.type";
 
-export const _mock_HouseScheduleList: HouseScheduleModel[] = [
+export const _mock_HouseScheduleList: ScheduleModel[] = [
   {
     id: "1",
     deviceAttrId: "1",

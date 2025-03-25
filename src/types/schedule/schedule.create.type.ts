@@ -1,8 +1,8 @@
 import { IDType } from "../_commons/id.type";
 
-export interface HouseSchedule_Create {
+export interface Schedule_CreateBody {
   time: string;
-  deviceAttrId: IDType;
+  deviceAttrId: IDType[];
   value: number;
   repeat: string;
 }

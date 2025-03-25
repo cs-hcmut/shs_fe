@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 
 import CustomFormInput from "src/components/_inputs/CustomFormInput";
-import { HouseSchedule_ActionForm } from "src/types/house-schedule/house-schedule.action.type";
+import { HouseSchedule_ActionForm } from "src/types/schedule/schedule.action.type";
 import useHouseScheduleStore_Actions from "../../_stores/useHouseSchedule_Actions.store";
 
 interface HouseSchedule_Actions_ItemProps {

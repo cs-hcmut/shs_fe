@@ -16,7 +16,7 @@ const useListRooms = (
 ) => {
   return useQuery<SuccessReponse<RoomModel[]>, Error>({
     queryKey: [ROOM_KEY, userId],
-    queryFn: () => roomApi.lsitRooms(userId).then((res) => res.data),
+    queryFn: () => roomApi.listRooms(userId).then((res) => res.data),
     ...options,
   });
 };

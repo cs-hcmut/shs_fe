@@ -6,7 +6,7 @@ const url = "/rooms";
 
 const roomApi = {
   // ! get
-  lsitRooms(userId: string) {
+  listRooms(userId: string) {
     return http.get<SuccessReponse<RoomModel[]>>(`${url}/${userId}`);
   },
 };
