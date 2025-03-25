@@ -1,4 +1,5 @@
 import { IDType } from "../_commons/id.type";
+import { Schedule_DeviceAttribute } from "./schedule.deviceAttr.type";
 
 export interface HouseScheduleModel {
   id: IDType;
@@ -8,18 +9,5 @@ export interface HouseScheduleModel {
   repeat: string;
   isActive: boolean;
   lastActiveDate: string;
-  deviceAttribute: {
-    id: IDType;
-    feed: string;
-    key: string;
-    deviceId: string;
-    value: number;
-    device: {
-      id: IDType;
-      name: string;
-      roomId: null;
-      userId: string;
-      createdAt: string;
-    };
-  };
+  DeviceAttributes: Schedule_DeviceAttribute[];
 }

@@ -1,12 +1,9 @@
 import { IDType } from "src/types/_commons/id.type";
-import { DeviceActionType, DeviceType } from "src/types/device/device.type";
 import { create } from "zustand";
 
 export interface HouseSchedule_DeviceActionForm {
-  roomId: IDType;
-  deviceId: IDType;
-  deviceType: DeviceType;
-  action: DeviceActionType;
+  deviceAttrId: IDType;
+  value: number;
 }
 
 export interface IHouseScheduleStore_Actions {
@@ -18,10 +15,8 @@ export interface IHouseScheduleStore_Actions {
 
 export const HouseScheduleStore_Actions_defaultAction: HouseSchedule_DeviceActionForm =
   {
-    deviceType: "air_conditioner",
-    action: "turn_off",
-    roomId: "-1",
-    deviceId: "-1",
+    deviceAttrId: "-1",
+    value: 0,
   };
 
 const useHouseScheduleStore_Actions = create<IHouseScheduleStore_Actions>()(
