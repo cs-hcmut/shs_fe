@@ -5,13 +5,22 @@ export interface DeviceAttribute_Form {
   feed: string;
 }
 
+export type DeviceAttribute_KeyType = "temp" | "humidity" | "move" | "status";
+
 export interface DeviceAttribute {
   id: IDType;
   feed: string;
-  deviceId: string;
-  key: string;
+  deviceId: IDType;
+  key: DeviceAttribute_KeyType;
   value: number;
   isPublisher: boolean;
   createdAt: string;
   updatedAt: string;
+  device: {
+    id: IDType;
+    name: string;
+    roomId: IDType;
+    userId: IDType;
+    createdAt: string;
+  };
 }
