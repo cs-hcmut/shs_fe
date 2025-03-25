@@ -1,4 +1,6 @@
 import { DatabaseCommonFields } from "../_commons/common.type";
+import { IDType } from "../_commons/id.type";
+import { DeviceAttribute } from "./device.attribute.type";
 
 export const Device_DeviceTypeList = [
   "light",
@@ -23,4 +25,13 @@ export interface DeviceModel extends DatabaseCommonFields {
   powerConsumedInDay: number;
   powerConsumedInWeek: number;
   powerConsumedInMonth: number;
+}
+
+export interface Device {
+  id: IDType;
+  name: string;
+  roomId: IDType | null;
+  userId: IDType;
+  createdAt: string;
+  attributes: DeviceAttribute[];
 }
