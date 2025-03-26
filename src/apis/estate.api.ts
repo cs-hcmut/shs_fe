@@ -6,8 +6,8 @@ const url = "/estates";
 
 const estateApi = {
   // ! get
-  listEstatesOfUser(userId: string) {
-    return http.get<SuccessReponse<EstateModel[]>>(`${url}/all/${userId}`);
+  listEstatesOfUser() {
+    return http.get<SuccessReponse<EstateModel[]>>(`${url}/all`);
   },
 };
 

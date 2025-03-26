@@ -1,26 +1,24 @@
-import { HomeModel } from "../../../../types/home/home.type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { homeManagementPaths } from "../../../../constants/path";
 import { generateNameId } from "../../../../utils/utils";
+import { EstateModel } from "src/types/estate/estate.type";
 
 interface HM_HomeCardProps {
-  home: HomeModel;
+  estate: EstateModel;
 }
 
-export default function HM_HomeCard({ home }: HM_HomeCardProps) {
-  const { addressLine, city, state, country } = home;
-
-  const address = `${addressLine}, ${city}, ${state}, ${country}`;
+export default function HM_HomeCard({ estate }: HM_HomeCardProps) {
+  const { address, name } = estate;
 
   // ! Handle click house
   const navigate = useNavigate();
 
   const onClickHouse = () => {
     navigate({
-      pathname: `${homeManagementPaths.homes}/${generateNameId({ name: home.name, id: home.id })}`,
+      pathname: `${homeManagementPaths.homes}/${generateNameId({ name: estate.name, id: estate.id })}`,
     });
   };
 
@@ -39,7 +37,7 @@ export default function HM_HomeCard({ home }: HM_HomeCardProps) {
         </div>
       </div>
 
-      <p className="text-2xl font-medium">{home.name}</p>
+      <p className="text-2xl font-medium">{name}</p>
 
       <p className="w-full text-center text-wrap flex-grow">{address}</p>
     </Button>

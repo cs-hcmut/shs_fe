@@ -2,7 +2,7 @@
 import { HTMLInputTypeAttribute, ReactNode } from "react";
 import { Pagination } from "../paging.type";
 import { InputFieldName } from "../input.type";
-import { UserModel } from "../user.type";
+import { UserModel } from "../user/user.type";
 import { IDType } from "./id.type";
 
 export interface CustomImage {

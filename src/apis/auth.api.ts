@@ -1,5 +1,5 @@
 import http from "../utils/http.util";
-import { UserLogin } from "../types/user.type";
+import { UserLogin } from "../types/user/user.type";
 
 const url = "/auth";
 

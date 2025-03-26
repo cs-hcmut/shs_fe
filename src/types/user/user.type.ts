@@ -1,5 +1,6 @@
-import { DatabaseCommonFields } from "./_commons/common.type";
-import { PagingQueryConfig } from "./paging.type";
+import { DatabaseCommonFields } from "../_commons/common.type";
+import { IDType } from "../_commons/id.type";
+import { PagingQueryConfig } from "../paging.type";
 
 export interface UserCreate {
   name: string;
@@ -31,4 +32,8 @@ export interface UserUpdate {
 
 export interface UserQueryConfig extends PagingQueryConfig {
   keyword?: string;
+}
+
+export interface UserModel {
+  id: IDType;
 }

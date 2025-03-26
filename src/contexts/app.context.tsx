@@ -1,12 +1,11 @@
 import { useState, createContext } from "react";
-import { UserModel } from "../types/user.type";
 import {
   clearLS,
   getAccessTokenFromLS,
   getAccessTokenFromSessionStorage,
   getProfileFromLS,
-  setProfileToLS,
 } from "../utils/auth.util";
+import { UserModel } from "src/types/user/user.type";
 
 interface AppContextInterface {
   isAuthenticated: boolean;
