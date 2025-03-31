@@ -17,7 +17,6 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
   const showLightningDevices = true;
   const showFanDevices = true;
   const showACDevices = true;
-  const showDoorDevices = true;
 
   // ! get device
   const { data: deviceData } = DeviceServices.queries.useListAllDevices({
@@ -55,13 +54,13 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
           />
         )}
 
-        {showACDevices && (
+        {showFanDevices && (
           <RD_RoomController_Devices
             deviceType="fan"
             deviceList={fanDeviceList}
           />
         )}
-        {showDoorDevices && (
+        {showACDevices && (
           <RD_RoomController_Devices
             deviceType="air_conditioner"
             deviceList={airConditionorDeviceList}

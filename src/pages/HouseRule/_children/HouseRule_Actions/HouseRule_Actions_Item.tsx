@@ -1,7 +1,5 @@
 import { useForm } from "react-hook-form";
-import useHouseConfigStore_Actions, {
-  HouseConfig_DeviceActionForm,
-} from "../../_stores/HouseConfig_Actions.store";
+import useHouseRuleStore_Actions from "../../_stores/HouseRule_Actions.store";
 import CustomFormInput from "src/components/_inputs/CustomFormInput";
 import {
   DEVICE_ACTION_LIST,
@@ -9,19 +7,20 @@ import {
   Device_DeviceTypeList,
   DeviceType,
 } from "src/types/device/device.type";
+import { Rule_ActionForm } from "src/types/rule/rule.create.type";
 
-interface HouseConfig_Actions_ItemProps {
+interface HouseRule_Actions_ItemProps {
   actionIndex: number;
-  defaultData?: HouseConfig_DeviceActionForm;
+  defaultData?: Rule_ActionForm;
 }
 
-export default function HouseConfig_Actions_Item({
+export default function HouseRule_Actions_Item({
   actionIndex,
   defaultData,
-}: HouseConfig_Actions_ItemProps) {
-  const { removeDeviceAction } = useHouseConfigStore_Actions();
+}: HouseRule_Actions_ItemProps) {
+  const { removeDeviceAction } = useHouseRuleStore_Actions();
 
-  const formMethods = useForm<HouseConfig_DeviceActionForm>({
+  const formMethods = useForm<Rule_ActionForm>({
     defaultValues: defaultData ? defaultData : {},
   });
 
@@ -54,27 +53,12 @@ export default function HouseConfig_Actions_Item({
       </div>
 
       <div className="w-full flex flex-col gap-2">
-        <CustomFormInput
-          control={control}
-          inputField={{
-            name: "roomId",
-            title: "Room",
-            type: "options",
-            valueOptions: [
-              { name: "Room 1", value: "1" },
-              { name: "Room 2", value: "2" },
-              { name: "Room 3", value: "3" },
-            ],
-          }}
-          wrapperClassName={inputWrapperClassname}
-        />
-
         <div className="grid grid-cols-3 gap-1">
           <div className="col-span-1">
             <CustomFormInput
               control={control}
               inputField={{
-                name: "deviceType",
+                name: "deviceAttrId",
                 title: "Device type",
                 type: "options",
                 valueOptions: Device_DeviceTypeList.map((type) => {
@@ -84,27 +68,12 @@ export default function HouseConfig_Actions_Item({
               wrapperClassName={inputWrapperClassname}
             />
           </div>
+
           <div className="col-span-1">
             <CustomFormInput
               control={control}
               inputField={{
-                name: "deviceId",
-                title: "Device",
-                type: "options",
-                valueOptions: [
-                  { name: "Device 1", value: "1" },
-                  { name: "Device 2", value: "2" },
-                  { name: "Device 3", value: "3" },
-                ],
-              }}
-              wrapperClassName={inputWrapperClassname}
-            />
-          </div>
-          <div className="col-span-1">
-            <CustomFormInput
-              control={control}
-              inputField={{
-                name: "action",
+                name: "value",
                 title: "Action",
                 type: "options",
                 valueOptions: DEVICE_ACTION_LIST.map((action) => {

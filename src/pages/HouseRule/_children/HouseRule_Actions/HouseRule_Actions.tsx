@@ -1,28 +1,26 @@
 import { useEffect, useMemo } from "react";
-import useHouseConfigStore_Actions, {
-  HouseConfig_DeviceActionForm,
-  houseConfigStore_Actions_defaultAction,
-} from "../../_stores/HouseConfig_Actions.store";
-import useHouseConfigStore_ConfigDetail from "../../_stores/HouseConfig_ConfigDetail.store";
-import HouseConfig_Actions_Item from "./HouseConfig_Actions_Item";
+import useHouseRuleStore_Actions, {
+  HouseRuleStores_Actions_defaultAction,
+} from "../../_stores/HouseRule_Actions.store";
+import useHouseRuleStores_RuleDetail from "../../_stores/HouseRule_RuleDetail.store";
+import HouseRule_Actions_Item from "./HouseRule_Actions_Item";
+import { Rule_ActionForm } from "src/types/rule/rule.create.type";
 
-interface HouseConfig_ActionsProps {}
+interface HouseRule_ActionsProps {}
 
-export default function HouseConfig_Actions({}: HouseConfig_ActionsProps) {
-  const { currentConfig } = useHouseConfigStore_ConfigDetail();
+export default function HouseRule_Actions({}: HouseRule_ActionsProps) {
+  const { currentRule: currentConfig } = useHouseRuleStores_RuleDetail();
 
-  const { actionList, setActionList } = useHouseConfigStore_Actions();
+  const { actionList, setActionList } = useHouseRuleStore_Actions();
 
   // ! Handle editing case
-  const defaultActionList: HouseConfig_DeviceActionForm[] = useMemo(() => {
+  const defaultActionList: Rule_ActionForm[] = useMemo(() => {
     return (
       currentConfig?.actions.map((ele) => {
-        const { action, device, room, deviceType } = ele;
+        const { deviceAttrId, value } = ele;
         return {
-          roomId: room.id,
-          deviceId: device.id,
-          deviceType,
-          action,
+          deviceAttrId,
+          value,
         };
       }) || []
     );
@@ -36,7 +34,7 @@ export default function HouseConfig_Actions({}: HouseConfig_ActionsProps) {
 
   // ! add condition
   const onAddActionForm = () => {
-    setActionList([...actionList, houseConfigStore_Actions_defaultAction]);
+    setActionList([...actionList, HouseRuleStores_Actions_defaultAction]);
   };
 
   return (
@@ -46,7 +44,7 @@ export default function HouseConfig_Actions({}: HouseConfig_ActionsProps) {
       <div className="w-full flex flex-col gap-2 flex-grow overflow-auto">
         {actionList.map((_, index) => {
           return (
-            <HouseConfig_Actions_Item
+            <HouseRule_Actions_Item
               key={index}
               actionIndex={index}
               defaultData={currentConfig ? actionList[index] : undefined}

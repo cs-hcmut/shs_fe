@@ -2,32 +2,35 @@ import { Divider } from "@mui/material";
 import { useParams } from "react-router-dom";
 import CustomModal from "src/components/_common/CustomModal";
 import { getIdFromNameId } from "src/utils/utils";
-import useHouseConfigStore_ConfigDetail from "../../_stores/HouseConfig_ConfigDetail.store";
-import HouseConfig_Conditions from "../HouseConfig_Conditions";
-import HouseConfig_Actions from "../HouseConfig_Actions";
-import useHouseConfigStore_Conditions, {
-  houseConfigStore_Condition_defaultCondition,
-} from "../../_stores/HouseConfig_Conditions.store";
-import useHouseConfigStore_Actions, {
-  houseConfigStore_Actions_defaultAction,
-} from "../../_stores/HouseConfig_Actions.store";
+import useHouseRuleStores_RuleDetail from "../../_stores/HouseRule_RuleDetail.store";
+import HouseRule_Actions from "../HouseRule_Actions";
+import useHouseConfigStore_Condition, {
+  houseRuleStores_Condition_defaultCondition,
+} from "../../_stores/HouseRule_Conditions.store";
+import useHouseRuleStore_Actions, {
+  HouseRuleStores_Actions_defaultAction,
+} from "../../_stores/HouseRule_Actions.store";
+import HouseRule_Condition from "../HouseRule_Condition";
 
-interface HouseConfig_ConfigDetailProps {}
+interface HouseRule_RuleDetailProps {}
 
-export default function HouseConfig_ConfigDetail({}: HouseConfig_ConfigDetailProps) {
+export default function HouseRule_RuleDetail({}: HouseRule_RuleDetailProps) {
   const { homeId: houseNameId } = useParams();
   const houseId = getIdFromNameId(houseNameId as string);
-  const { setCurrentConfig, setViewingConfigDetail, viewingConfigDetail } =
-    useHouseConfigStore_ConfigDetail();
+  const {
+    setCurrentRule: setCurrentConfig,
+    setViewingRuleDetail: setViewingConfigDetail,
+    viewingRuleDetail: viewingConfigDetail,
+  } = useHouseRuleStores_RuleDetail();
 
-  const { setConditionList } = useHouseConfigStore_Conditions();
-  const { setActionList } = useHouseConfigStore_Actions();
+  const { setCondition } = useHouseConfigStore_Condition();
+  const { setActionList } = useHouseRuleStore_Actions();
 
   const closeConfigDetail = () => {
     setViewingConfigDetail(false);
     setCurrentConfig(undefined);
-    setConditionList([houseConfigStore_Condition_defaultCondition]);
-    setActionList([houseConfigStore_Actions_defaultAction]);
+    setCondition(houseRuleStores_Condition_defaultCondition);
+    setActionList([HouseRuleStores_Actions_defaultAction]);
   };
 
   return (
@@ -46,10 +49,10 @@ export default function HouseConfig_ConfigDetail({}: HouseConfig_ConfigDetailPro
         <div className="flex flex-grow overflow-hidden">
           <div className="w-full grid grid-cols-1 lg:grid-cols-2 h-full overflow-hidden">
             <div className="col-span-1 pr-3 overflow-hidden h-full">
-              <HouseConfig_Conditions />
+              <HouseRule_Condition />
             </div>
             <div className="col-span-1 lg:border-l border-border-primary pl-3 overflow-hidden h-full">
-              <HouseConfig_Actions />
+              <HouseRule_Actions />
             </div>
           </div>
         </div>

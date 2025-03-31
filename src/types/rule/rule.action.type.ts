@@ -1,5 +1,5 @@
 import { IDType } from "../_commons/id.type";
-import { DeviceAttribute } from "../device/device.attribute.type";
+import { DeviceAttributeModel } from "../device/deviceAttribute/deviceAttribute.type";
 
 export interface Rule_Action {
   id: IDType;
@@ -8,5 +8,5 @@ export interface Rule_Action {
   value: number;
   createdAt: string;
   updatedAt: string;
-  deviceAttribute: DeviceAttribute;
+  deviceAttribute: DeviceAttributeModel;
 }

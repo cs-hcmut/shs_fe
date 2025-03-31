@@ -6,8 +6,8 @@ import { homeManagementPaths } from "../constants/path";
 import HomeManagement from "../pages/HomeManagement";
 import HouseDetail from "../pages/HouseDetail";
 import RoomDetail from "../pages/RoomDetail";
-import HouseConfig from "src/pages/HouseConfig";
 import HouseSchedule from "src/pages/HouseSchedule";
+import HouseRule from "src/pages/HouseRule";
 
 export function ProtectedRouteWrapper() {
   const { isAuthenticated } = useContext(AppContext);
@@ -37,7 +37,7 @@ const ProtectedRoute: RouteObject = {
     },
     {
       path: homeManagementPaths.config,
-      element: <HouseConfig />,
+      element: <HouseRule />,
     },
     {
       path: homeManagementPaths.schedule,

@@ -14,4 +14,5 @@ export interface RuleModel {
   updatedAt: string;
   deviceAttribute: DeviceAttribute;
   actions: Rule_Action[];
+  receiveNotification: boolean;
 }

@@ -1,30 +1,31 @@
 import { Divider } from "@mui/material";
-import useHouseConfigStore from "../../_stores/HouseConfig.store";
+import useHouseRuleStores from "../../_stores/HouseRule.store";
 import CustomModal from "src/components/_common/CustomModal";
-import HouseConfig_Conditions from "../HouseConfig_Conditions";
-import HouseConfig_Actions from "../HouseConfig_Actions";
-import useHouseConfigStore_Conditions from "../../_stores/HouseConfig_Conditions.store";
-import useHouseConfigStore_Actions from "../../_stores/HouseConfig_Actions.store";
+import HouseRule_Actions from "../HouseRule_Actions";
+import useHouseConfigStore_Condition, {
+  houseRuleStores_Condition_defaultCondition,
+} from "../../_stores/HouseRule_Conditions.store";
+import useHouseRuleStore_Actions from "../../_stores/HouseRule_Actions.store";
+import HouseRule_Condition from "../HouseRule_Condition";
 
-interface HouseConfig_AddConfigProps {}
+interface HouseRule_AddRuleProps {}
 
-export default function HouseConfig_AddConfig({}: HouseConfig_AddConfigProps) {
-  const { setConditionList } = useHouseConfigStore_Conditions();
-  const { setActionList } = useHouseConfigStore_Actions();
+export default function HouseRule_AddRule({}: HouseRule_AddRuleProps) {
+  const { setCondition } = useHouseConfigStore_Condition();
+  const { setActionList } = useHouseRuleStore_Actions();
 
-  const { addingConfig, setAddingConfig } = useHouseConfigStore();
+  const { addingRule, setAddingRule } = useHouseRuleStores();
 
-  const cancelAddingConfig = () => {
-    setAddingConfig(false);
-    setConditionList([]);
+  const cancelAddingRule = () => {
+    setCondition(houseRuleStores_Condition_defaultCondition);
     setActionList([]);
   };
 
   return (
     <CustomModal
-      isOpen={addingConfig}
-      setIsOpen={setAddingConfig}
-      onClose={cancelAddingConfig}
+      isOpen={addingRule}
+      setIsOpen={setAddingRule}
+      onClose={cancelAddingRule}
     >
       <div className="max-w-[80vw] h-[90vh] overflow-auto flex flex-col gap-4 justify-between">
         <p className="font-semibold text-xl text-center text-primaryBlue">
@@ -36,10 +37,10 @@ export default function HouseConfig_AddConfig({}: HouseConfig_AddConfigProps) {
         <div className="flex flex-grow overflow-hidden">
           <div className="w-full grid grid-cols-1 lg:grid-cols-2 h-full overflow-hidden">
             <div className="col-span-1 pr-3 overflow-hidden h-full">
-              <HouseConfig_Conditions />
+              <HouseRule_Condition />
             </div>
             <div className="col-span-1 lg:border-l border-border-primary pl-3 overflow-hidden h-full">
-              <HouseConfig_Actions />
+              <HouseRule_Actions />
             </div>
           </div>
         </div>
@@ -49,7 +50,7 @@ export default function HouseConfig_AddConfig({}: HouseConfig_AddConfigProps) {
         <div className="w-full grid grid-cols-2 gap-4">
           <button
             type="button"
-            onClick={cancelAddingConfig}
+            onClick={cancelAddingRule}
             className="py-2 px-3 rounded-xl border border-border-primary font-medium hover:bg-slate-100"
           >
             Cancel

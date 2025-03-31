@@ -1,51 +1,30 @@
 import { useForm } from "react-hook-form";
-import { HouseConfig_ConditionForm } from "src/types/house-config/houseConfig.condition.type";
 import CustomFormInput from "src/components/_inputs/CustomFormInput";
-import useHouseConfigStore_Conditions from "../../_stores/HouseConfig_Conditions.store";
+import { Rule_ConditionForm } from "src/types/rule/rule.create.type";
 
-interface HouseConfig_Conditions_ItemProps {
-  conditionIndex: number;
-  defaultData?: HouseConfig_ConditionForm;
+interface HouseRule_Condition_ItemProps {
+  defaultData?: Rule_ConditionForm;
 }
 
-export default function HouseConfig_Conditions_Item({
-  conditionIndex,
+export default function HouseRule_Condition_Item({
   defaultData,
-}: HouseConfig_Conditions_ItemProps) {
-  const { conditionList, setConditionList } = useHouseConfigStore_Conditions();
-
-  const formMethods = useForm<HouseConfig_ConditionForm>({
+}: HouseRule_Condition_ItemProps) {
+  const formMethods = useForm<Rule_ConditionForm>({
     defaultValues: defaultData ? defaultData : {},
   });
 
   const { control } = formMethods;
-
-  // ! remove condition
-  const onRemoveCondition = () => {
-    setConditionList(
-      conditionList.filter((_, index) => index !== conditionIndex)
-    );
-  };
 
   const inputWrapperClassname =
     "bg-white p-2 border text-sm border-border-secondary rounded-lg overflow-hidden truncate";
 
   return (
     <div className="w-full flex flex-col gap-2 p-2 rounded-lg bg-slate-100 border border-border-primary">
-      <div className="w-full flex justify-end">
-        <button
-          onClick={onRemoveCondition}
-          className="bg-utility-error-500 hover:bg-utility-error-600 text-xs text-white py-1 px-2 rounded-lg"
-        >
-          Remove
-        </button>
-      </div>
-
       <div className="w-full flex flex-col gap-2">
         <CustomFormInput
           control={control}
           inputField={{
-            name: "sensorType",
+            name: "deviceAttrId",
             title: "Type",
             type: "options",
             valueOptions: [
@@ -57,28 +36,12 @@ export default function HouseConfig_Conditions_Item({
           }}
           wrapperClassName={inputWrapperClassname}
         />
-        <div className="grid grid-cols-4 gap-1">
-          <div className="col-span-2">
-            <CustomFormInput
-              control={control}
-              inputField={{
-                name: "sensorId",
-                title: "Sensor",
-                type: "options",
-                valueOptions: [
-                  { name: "Sensor 1", value: "1" },
-                  { name: "Sensor 2", value: "2" },
-                  { name: "Sensor 3", value: "3" },
-                ],
-              }}
-              wrapperClassName={inputWrapperClassname}
-            />
-          </div>
+        <div className="grid grid-cols-2 gap-1">
           <div className="col-span-1">
             <CustomFormInput
               control={control}
               inputField={{
-                name: "condition",
+                name: "compareType",
                 title: "Condition",
                 type: "options",
                 valueOptions: [
@@ -97,9 +60,9 @@ export default function HouseConfig_Conditions_Item({
             <CustomFormInput
               control={control}
               inputField={{
-                name: "threshold",
-                title: "Threshold",
-                type: "text",
+                name: "value",
+                title: "Value",
+                type: "number",
               }}
               wrapperClassName={inputWrapperClassname}
               inputContainerClassName={inputWrapperClassname}

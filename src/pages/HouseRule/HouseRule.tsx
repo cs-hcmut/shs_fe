@@ -6,19 +6,23 @@ import { homeManagementPaths } from "src/constants/path";
 import AppLayout from "src/layouts/AppLayout";
 import MuiStyles from "src/styles";
 import { getIdFromNameId } from "src/utils/utils";
-import { _mock_HouseConfigList } from "./_mocks/configList.mock";
-import HouseConfig_ConfigItem from "./_children/HouseConfig_ConfigItem";
-import HouseConfig_AddConfig from "./_children/HouseConfig_AddConfig";
-import useHouseConfigStore from "./_stores/HouseConfig.store";
-import HouseConfig_ConfigDetail from "./_children/HouseConfig_ConfigDetail";
+import HouseRule_RuleItem from "./_children/HouseRule_RuleItem";
+import HouseRule_AddRule from "./_children/HouseRule_AddRule";
+import useHouseRuleStores from "./_stores/HouseRule.store";
+import HouseRule_RuleDetail from "./_children/HouseRule_RuleDetail";
+import RuleServices from "src/services/rule.service";
 
-interface CHouseConfigProps {}
+interface HouseRuleProps {}
 
-export default function HouseConfig({}: CHouseConfigProps) {
-  const { setAddingConfig } = useHouseConfigStore();
+export default function HouseRule({}: HouseRuleProps) {
+  const { setAddingRule: setAddingConfig } = useHouseRuleStores();
 
   const { homeId: houseNameId } = useParams();
   const houseId = getIdFromNameId(houseNameId as string);
+
+  // ! get rule list
+  const { data: ruleData } = RuleServices.queries.useListRules();
+  const ruleList = ruleData?.data || [];
 
   return (
     <AppLayout
@@ -52,15 +56,15 @@ export default function HouseConfig({}: CHouseConfigProps) {
           </Button>
         </div>
         <div className="flex flex-col gap-4 w-full">
-          {_mock_HouseConfigList.map((config) => {
-            return <HouseConfig_ConfigItem key={config.id} config={config} />;
+          {ruleList.map((rule) => {
+            return <HouseRule_RuleItem key={rule.id} rule={rule} />;
           })}
         </div>
       </div>
 
-      <HouseConfig_AddConfig />
+      <HouseRule_AddRule />
 
-      <HouseConfig_ConfigDetail />
+      <HouseRule_RuleDetail />
     </AppLayout>
   );
 }
