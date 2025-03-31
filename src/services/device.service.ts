@@ -9,6 +9,7 @@ export const DEVICE_KEY = "devices";
 
 // ! get
 const useListAllDevices = (
+  params: Device_Params,
   options?: Omit<
     UseQueryOptions<SuccessReponse<Device[]>, Error>,
     "queryKey" | "queryFn"
@@ -16,7 +17,7 @@ const useListAllDevices = (
 ) => {
   return useQuery<SuccessReponse<Device[]>, Error>({
     queryKey: [DEVICE_KEY],
-    queryFn: () => deviceApi.listAllDevices().then((res) => res.data),
+    queryFn: () => deviceApi.listAllDevices(params).then((res) => res.data),
     ...options,
   });
 };
@@ -36,10 +37,10 @@ const useGetDeviceById = (
   });
 };
 
-const RoomServices = {
+const DeviceServices = {
   queries: { useListAllDevices, useGetDeviceById },
   create: {},
   update: {},
   delete: {},
 };
-export default RoomServices;
+export default DeviceServices;

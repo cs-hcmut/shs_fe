@@ -1,6 +1,5 @@
-import { DatabaseCommonFields } from "../_commons/common.type";
 import { IDType } from "../_commons/id.type";
-import { DeviceAttribute } from "./device.attribute.type";
+import { Device_Attribute } from "./device.attribute.type";
 
 export const Device_DeviceTypeList = [
   "light",
@@ -18,20 +17,12 @@ export const DEVICE_ACTION_NAME_MAP: { [key in DeviceActionType]: string } = {
 };
 export type DeviceActionType = (typeof DEVICE_ACTION_LIST)[number];
 
-export interface DeviceModel extends DatabaseCommonFields {
-  name: string;
-  type: DeviceType;
-  isActive: boolean;
-  powerConsumedInDay: number;
-  powerConsumedInWeek: number;
-  powerConsumedInMonth: number;
-}
-
 export interface Device {
   id: IDType;
   name: string;
   roomId: IDType | null;
   userId: IDType;
+  type: DeviceType;
   createdAt: string;
-  attributes: DeviceAttribute[];
+  attributes: Device_Attribute[];
 }

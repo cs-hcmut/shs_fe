@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { getIdFromNameId, getNameFromNameId } from "../../utils/utils";
+import { getNameFromNameId } from "../../utils/utils";
 import AppLayout from "../../layouts/AppLayout";
 import { homeManagementPaths } from "../../constants/path";
 import RD_RoomController from "./_children/RD_RoomController/RD_RoomController";
@@ -8,11 +8,11 @@ import RD_PowerUsageEstimate from "./_children/RD_PowerUsageEstimate";
 
 export default function RoomDetail() {
   const { roomId: roomNameId, homeId: homeNameId } = useParams();
-  const roomId = getIdFromNameId(roomNameId || "");
   const roomName = getNameFromNameId(roomNameId || "").replace("-", " ");
   // const homeId = getIdFromNameId(homeNameId || "");
   const homeName = getNameFromNameId(homeNameId || "").replace("-", " ");
 
+  // ! path
   const pathList = [
     {
       pathName: "My homes",

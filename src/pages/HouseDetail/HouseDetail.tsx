@@ -1,19 +1,28 @@
 import { getIdFromNameId } from "../../utils/utils";
-import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AppLayout from "../../layouts/AppLayout";
 import { homeManagementPaths } from "../../constants/path";
-import { HD_floorList } from "./_mocks/floor-list";
 import HD_FloorItem from "./_children/HD_FloorItem";
-import { Box, Button, Card, Divider } from "@mui/material";
+import { Divider } from "@mui/material";
 import HD_PowerStatistic from "./_children/HD_PowerStatistic";
-import { Chart } from "src/components/chart";
 import WidgetSummary from "src/components/_common/WidgetSummary";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
+import EstateServices from "src/services/estates.service";
 
 export default function HouseDetail() {
   const { homeId: houseNameId } = useParams();
   const houseId = getIdFromNameId(houseNameId as string);
+
+  console.log(houseId);
+
+  // ! get room list
+  const { data: houseDetailData } =
+    EstateServices.queries.useGetEstateDetail(houseId);
+
+  const houseDetail = houseDetailData?.data;
+  const floorList = houseDetail?.floors || [];
+  console.log(houseDetail);
 
   return (
     <AppLayout
@@ -67,7 +76,7 @@ export default function HouseDetail() {
         </div>
 
         <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-          {HD_floorList.map((floor) => (
+          {floorList.map((floor) => (
             <HD_FloorItem key={floor.id} floor={floor} />
           ))}
         </div>

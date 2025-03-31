@@ -8,8 +8,8 @@ const url = "/devices";
 
 const deviceApi = {
   // ! get
-  listAllDevices() {
-    return http.get<SuccessReponse<Device[]>>(`${url}/all`);
+  listAllDevices(params: Device_Params) {
+    return http.get<SuccessReponse<Device[]>>(`${url}/all`, { params });
   },
 
   getDeviceById(id: IDType, params: Device_Params) {

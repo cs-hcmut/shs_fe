@@ -9,7 +9,7 @@ interface HD_RoomItemProps {
 }
 
 export default function HD_RoomItem({ room }: HD_RoomItemProps) {
-  const { id: roomId, roomName, devicesCount, powerConsumedInDay } = room;
+  const { id: roomId, name: roomName, deviceCount } = room;
 
   // ! Handle click house
   const { homeId: homeNameId } = useParams();
@@ -29,22 +29,25 @@ export default function HD_RoomItem({ room }: HD_RoomItemProps) {
     >
       <p className="text-lg">{roomName}</p>
 
+      {/* <div className="w-full grid grid-cols-2 gap-2">
+        <p className="text-left text-sm lg:text-base font-medium">{roomName}</p>
+      </div> */}
       <div className="w-full grid grid-cols-2 gap-2">
         <p className="text-left text-sm lg:text-base text-darkColor500">
           Devices
         </p>
         <p className="text-left text-sm lg:text-base font-medium">
-          {devicesCount}
+          {deviceCount}
         </p>
       </div>
-      <div className="w-full grid grid-cols-2 gap-2">
+      {/* <div className="w-full grid grid-cols-2 gap-2">
         <p className="text-left text-sm lg:text-base text-darkColor500 ">
           Power used
         </p>
         <p className="text-left text-sm lg:text-base font-medium">
           {powerConsumedInDay}
         </p>
-      </div>
+      </div> */}
     </CustomButton>
   );
 }

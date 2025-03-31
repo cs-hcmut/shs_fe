@@ -1,12 +1,13 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import estateApi from "src/apis/estate.api";
 import { SuccessReponse } from "src/types/_commons/common.type";
-import { EstateModel } from "src/types/estate/estate.type";
+import { IDType } from "src/types/_commons/id.type";
+import { EstateDetail, EstateModel } from "src/types/estate/estate.type";
 
 export const ESTATE_KEY = "estates";
 
 // ! get
-const useListEstatesOfUser = (
+const useListEstates = (
   options?: Omit<
     UseQueryOptions<SuccessReponse<EstateModel[]>, Error>,
     "queryKey" | "queryFn"
@@ -19,8 +20,22 @@ const useListEstatesOfUser = (
   });
 };
 
+const useGetEstateDetail = (
+  estateId: IDType,
+  options?: Omit<
+    UseQueryOptions<SuccessReponse<EstateDetail>, Error>,
+    "queryKey" | "queryFn"
+  >
+) => {
+  return useQuery<SuccessReponse<EstateDetail>, Error>({
+    queryKey: [ESTATE_KEY],
+    queryFn: () => estateApi.getEstateDetail(estateId).then((res) => res.data),
+    ...options,
+  });
+};
+
 const EstateServices = {
-  queries: { useListEstatesOfUser },
+  queries: { useListEstates, useGetEstateDetail },
   create: {},
   update: {},
   delete: {},

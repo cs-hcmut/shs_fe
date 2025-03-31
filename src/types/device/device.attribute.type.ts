@@ -16,11 +16,22 @@ export interface DeviceAttribute {
   isPublisher: boolean;
   createdAt: string;
   updatedAt: string;
-  device: {
+  device?: {
     id: IDType;
     name: string;
     roomId: IDType;
     userId: IDType;
     createdAt: string;
   };
+}
+
+export interface Device_Attribute {
+  id: IDType;
+  feed: string;
+  deviceId: IDType;
+  key: DeviceAttribute_KeyType;
+  value: number;
+  isPublisher: boolean;
+  createdAt: string;
+  updatedAt: string;
 }

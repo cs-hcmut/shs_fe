@@ -1,12 +1,12 @@
-import { DatabaseCommonFields } from "../_commons/common.type";
 import { IDType } from "../_commons/id.type";
+import { RoomModel } from "../room/room.type";
 
-export interface FloorModel extends DatabaseCommonFields {
-  floorLevel: number;
-  houseId: IDType;
-  roomsCount: number;
-  devicesCount: number;
-  powerUsedInDay: number;
-  powerUsedInWeek: number;
-  powerUsedInMonth: number;
+export interface FloorModel {
+  id: IDType;
+  name: string;
+  realEstateId: IDType;
+  createdAt: string;
+  updatedAt: string;
+  deviceCount: number;
+  rooms: RoomModel[];
 }

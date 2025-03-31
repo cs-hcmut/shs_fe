@@ -3,7 +3,7 @@ import HM_HomeCard from "./_children/HM_HomeCard";
 
 export default function HomeManagement() {
   // ! get houses
-  const { data: estateData } = EstateServices.queries.useListEstatesOfUser();
+  const { data: estateData } = EstateServices.queries.useListEstates();
 
   const estateList = estateData?.data || [];
 
