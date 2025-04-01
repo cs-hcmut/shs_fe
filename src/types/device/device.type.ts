@@ -10,10 +10,10 @@ export const Device_DeviceTypeList = [
 
 export type DeviceType = (typeof Device_DeviceTypeList)[number];
 
-export const DEVICE_ACTION_LIST = ["turn_off", "turn_on"] as const;
+export const DEVICE_ACTION_LIST = [0, 1] as const;
 export const DEVICE_ACTION_NAME_MAP: { [key in DeviceActionType]: string } = {
-  turn_on: "Turn on",
-  turn_off: "Turn off",
+  0: "Turn off",
+  1: "Turn on",
 };
 export type DeviceActionType = (typeof DEVICE_ACTION_LIST)[number];
 

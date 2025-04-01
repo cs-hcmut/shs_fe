@@ -11,6 +11,7 @@ import { CartProvider } from "./contexts/cart.context";
 import { OrderProvider } from "./contexts/order.context";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Toaster } from "sonner";
 
 function AppIner() {
   const routes = useRouteElements();
@@ -22,6 +23,7 @@ function AppIner() {
         minHeight: "inherit",
       }}
     >
+      <Toaster position="top-center" />
       {routes}
       {loadingPage && <LoadingPage />}
     </div>

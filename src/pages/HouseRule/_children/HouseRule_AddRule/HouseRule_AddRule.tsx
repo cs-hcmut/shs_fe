@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Divider } from "@mui/material";
 import useHouseRuleStores from "../../_stores/HouseRule.store";
 import CustomModal from "src/components/_common/CustomModal";
@@ -7,18 +8,42 @@ import useHouseConfigStore_Condition, {
 } from "../../_stores/HouseRule_Conditions.store";
 import useHouseRuleStore_Actions from "../../_stores/HouseRule_Actions.store";
 import HouseRule_Condition from "../HouseRule_Condition";
+import RuleServices from "src/services/rule.service";
+import { Rule_CreateBody } from "src/types/rule/rule.create.type";
+import { toast } from "sonner";
+import { get } from "lodash";
 
 interface HouseRule_AddRuleProps {}
 
 export default function HouseRule_AddRule({}: HouseRule_AddRuleProps) {
-  const { setCondition } = useHouseConfigStore_Condition();
-  const { setActionList } = useHouseRuleStore_Actions();
+  const { setCondition, condition } = useHouseConfigStore_Condition();
+  const { setActionList, actionList } = useHouseRuleStore_Actions();
 
   const { addingRule, setAddingRule } = useHouseRuleStores();
 
   const cancelAddingRule = () => {
     setCondition(houseRuleStores_Condition_defaultCondition);
     setActionList([]);
+  };
+
+  // ! handle create rule
+  const createRuleMutation = RuleServices.create.useCreateRule();
+  const onCreateRule = () => {
+    const {} = condition;
+    const createBody: Rule_CreateBody = {
+      ...condition,
+      actions: actionList.map((ele) => {
+        return {
+          ...ele,
+        };
+      }),
+    };
+
+    toast.promise(createRuleMutation.mutateAsync(createBody), {
+      loading: "Creating",
+      success: "Created rule successfully",
+      error: (err: any) => get(err, "message", "Cannot create rule"),
+    });
   };
 
   return (
@@ -57,6 +82,7 @@ export default function HouseRule_AddRule({}: HouseRule_AddRuleProps) {
           </button>
           <button
             type="button"
+            onClick={onCreateRule}
             className="py-2 px-3 rounded-xl font-medium text-white bg-unhoveringBg hover:bg-hoveringBg"
           >
             Save

@@ -1,8 +1,8 @@
-import { DeviceAttribute } from "../device/device.attribute.type";
+import { DeviceAttributeModel } from "../device/deviceAttribute/deviceAttribute.type";
 import { Rule_CompareType } from "./rule.compareType.type";
 
 export interface Rule_Condition {
-  deviceAttribute: DeviceAttribute;
+  deviceAttribute: DeviceAttributeModel;
   value: number;
   compareType: Rule_CompareType;
 }

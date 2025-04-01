@@ -5,6 +5,8 @@ import useHouseRuleStore_Actions, {
 import useHouseRuleStores_RuleDetail from "../../_stores/HouseRule_RuleDetail.store";
 import HouseRule_Actions_Item from "./HouseRule_Actions_Item";
 import { Rule_ActionForm } from "src/types/rule/rule.create.type";
+import { InputOptionItem } from "src/components/_inputs/CustomFormInput/CustomFormInput";
+import RuleServices from "src/services/rule.service";
 
 interface HouseRule_ActionsProps {}
 
@@ -37,6 +39,16 @@ export default function HouseRule_Actions({}: HouseRule_ActionsProps) {
     setActionList([...actionList, HouseRuleStores_Actions_defaultAction]);
   };
 
+  // ! get subscribers
+  const { data: subscriberData } = RuleServices.queries.useGetSubscribers();
+  const subscribers = subscriberData?.data || [];
+  const subscriberOptionList: InputOptionItem[] = subscribers.map((ele) => {
+    return {
+      name: ele.device.name,
+      value: ele.id,
+    };
+  });
+
   return (
     <div className="w-full flex flex-col gap-4 h-full overflow-hidden">
       <p className="font-medium text-lg text-slate-800">Device & action</p>
@@ -48,6 +60,7 @@ export default function HouseRule_Actions({}: HouseRule_ActionsProps) {
               key={index}
               actionIndex={index}
               defaultData={currentConfig ? actionList[index] : undefined}
+              subscriberOptionList={subscriberOptionList}
             />
           );
         })}

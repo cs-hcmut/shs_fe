@@ -1,6 +1,6 @@
 import { SuccessReponse } from "src/types/_commons/common.type";
 import { IDType } from "src/types/_commons/id.type";
-import { DeviceAttribute } from "src/types/device/device.attribute.type";
+import { DeviceAttributeModel } from "src/types/device/deviceAttribute/deviceAttribute.type";
 import { Rule_CreateBody } from "src/types/rule/rule.create.type";
 import { RuleModel } from "src/types/rule/rule.type";
 import { Rule_UpdateDto } from "src/types/rule/rule.update.type";
@@ -21,11 +21,15 @@ const ruleApi = {
   },
 
   getPublishers() {
-    return http.get<SuccessReponse<DeviceAttribute[]>>(`${url}/publishers`);
+    return http.get<SuccessReponse<DeviceAttributeModel[]>>(
+      `${url}/publishers`
+    );
   },
 
   getSubscribers() {
-    return http.get<SuccessReponse<DeviceAttribute[]>>(`${url}/subscribers`);
+    return http.get<SuccessReponse<DeviceAttributeModel[]>>(
+      `${url}/subscribers`
+    );
   },
 
   // ! put

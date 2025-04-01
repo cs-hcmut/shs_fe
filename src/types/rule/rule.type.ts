@@ -1,5 +1,5 @@
 import { IDType } from "../_commons/id.type";
-import { DeviceAttribute } from "../device/device.attribute.type";
+import { DeviceAttributeModel } from "../device/deviceAttribute/deviceAttribute.type";
 import { Rule_Action } from "./rule.action.type";
 import { Rule_CompareType } from "./rule.compareType.type";
 
@@ -12,7 +12,7 @@ export interface RuleModel {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
-  deviceAttribute: DeviceAttribute;
+  deviceAttribute: DeviceAttributeModel;
   actions: Rule_Action[];
   receiveNotification: boolean;
 }

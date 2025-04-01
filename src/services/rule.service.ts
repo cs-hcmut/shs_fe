@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query";
 import ruleApi from "src/apis/rule.api";
 import { SuccessReponse } from "src/types/_commons/common.type";
-import { DeviceAttribute } from "src/types/device/device.attribute.type";
+import { DeviceAttributeModel } from "src/types/device/deviceAttribute/deviceAttribute.type";
 import { RuleModel } from "src/types/rule/rule.type";
 
 export const RULE_KEY = "rules";
@@ -42,12 +42,12 @@ const useListRules = (
 
 const useGetPublishers = (
   options?: Omit<
-    UseQueryOptions<SuccessReponse<DeviceAttribute[]>, Error>,
+    UseQueryOptions<SuccessReponse<DeviceAttributeModel[]>, Error>,
     "queryKey" | "queryFn"
   >
 ) => {
-  return useQuery<SuccessReponse<DeviceAttribute[]>, Error>({
-    queryKey: [RULE_KEY],
+  return useQuery<SuccessReponse<DeviceAttributeModel[]>, Error>({
+    queryKey: [PUBLISHERS_KEY],
     queryFn: () => ruleApi.getPublishers().then((res) => res.data),
     ...options,
   });
@@ -55,12 +55,12 @@ const useGetPublishers = (
 
 const useGetSubscribers = (
   options?: Omit<
-    UseQueryOptions<SuccessReponse<DeviceAttribute[]>, Error>,
+    UseQueryOptions<SuccessReponse<DeviceAttributeModel[]>, Error>,
     "queryKey" | "queryFn"
   >
 ) => {
-  return useQuery<SuccessReponse<DeviceAttribute[]>, Error>({
-    queryKey: [RULE_KEY],
+  return useQuery<SuccessReponse<DeviceAttributeModel[]>, Error>({
+    queryKey: [SUBSCRIBERS_KEY],
     queryFn: () => ruleApi.getSubscribers().then((res) => res.data),
     ...options,
   });

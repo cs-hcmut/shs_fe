@@ -37,6 +37,7 @@ interface CustomFormInputProps<FormType extends FieldValues>
   extends StyleProps {
   inputField: CustomInputField<FormType>;
   control: Control<FormType>;
+  onChange?: (e: string) => void;
 }
 
 export default function CustomFormInput<FormType extends FieldValues>({
@@ -45,6 +46,7 @@ export default function CustomFormInput<FormType extends FieldValues>({
   titleClassName,
   inputSx,
   wrapperClassName,
+  onChange,
 }: CustomFormInputProps<FormType>) {
   const options = inputField.valueOptions || [];
 
@@ -91,6 +93,9 @@ export default function CustomFormInput<FormType extends FieldValues>({
                 value={field.value || ""}
                 onChange={(e) => {
                   field.onChange(e.target.value);
+                  if (onChange) {
+                    onChange(e.target.value);
+                  }
                 }}
                 defaultValue={options[0].value}
                 sx={{
