@@ -22,6 +22,12 @@ const useCreateRule = () => {
       qc.invalidateQueries({
         queryKey: [RULE_KEY],
       });
+      qc.invalidateQueries({
+        queryKey: [SUBSCRIBERS_KEY],
+      });
+      qc.invalidateQueries({
+        queryKey: [PUBLISHERS_KEY],
+      });
     },
   });
 };
@@ -73,6 +79,30 @@ const useUpdateRule = () => {
     mutationFn: ruleApi.updateRule,
     onSuccess() {
       qc.invalidateQueries({
+        queryKey: [RULE_KEY],
+      });
+      qc.invalidateQueries({
+        queryKey: [SUBSCRIBERS_KEY],
+      });
+      qc.invalidateQueries({
+        queryKey: [PUBLISHERS_KEY],
+      });
+    },
+  });
+};
+
+const usePatchRule = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ruleApi.patchRule,
+    onSuccess() {
+      qc.invalidateQueries({
+        queryKey: [RULE_KEY],
+      });
+      qc.invalidateQueries({
+        queryKey: [SUBSCRIBERS_KEY],
+      });
+      qc.invalidateQueries({
         queryKey: [PUBLISHERS_KEY],
       });
     },
@@ -86,7 +116,13 @@ const useDeleteRule = () => {
     mutationFn: ruleApi.deleteRule,
     onSuccess() {
       qc.invalidateQueries({
+        queryKey: [RULE_KEY],
+      });
+      qc.invalidateQueries({
         queryKey: [SUBSCRIBERS_KEY],
+      });
+      qc.invalidateQueries({
+        queryKey: [PUBLISHERS_KEY],
       });
     },
   });
@@ -95,7 +131,7 @@ const useDeleteRule = () => {
 const RuleServices = {
   queries: { useListRules, useGetPublishers, useGetSubscribers },
   create: { useCreateRule },
-  update: { useUpdateRule },
+  update: { useUpdateRule, usePatchRule },
   delete: { useDeleteRule },
 };
 export default RuleServices;

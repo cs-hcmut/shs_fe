@@ -10,27 +10,32 @@ interface HouseRule_Condition_ItemProps {
   defaultData?: Rule_ConditionForm;
 }
 
-export default function HouseRule_Condition_Item({
-  defaultData,
-}: HouseRule_Condition_ItemProps) {
+export default function HouseRule_Condition_Item({}: HouseRule_Condition_ItemProps) {
   const { setCondition, condition } = useHouseConfigStore_Condition();
 
   const formMethods = useForm<Rule_ConditionForm>({
-    defaultValues: defaultData ? defaultData : {},
+    defaultValues: condition,
   });
 
   const { control } = formMethods;
 
   // ! get publishers
-  const { data: publisherData, isFetched } =
-    RuleServices.queries.useGetPublishers();
+  const { data: publisherData } = RuleServices.queries.useGetPublishers();
   const publisherList = publisherData?.data || [];
+  let includeCurrentCondition = false;
   const publisherOptionList: InputOptionItem[] = publisherList.map((ele) => {
+    if (condition.deviceAttrId === ele.id) includeCurrentCondition = true;
     return {
       name: ele.device.name,
       value: ele.id,
     };
   });
+  if (!includeCurrentCondition) {
+    publisherOptionList.push({
+      name: condition.deviceName,
+      value: condition.deviceAttrId,
+    });
+  }
 
   // ! handle change value
   const onChangeAttrId = (value: string) => {
@@ -49,12 +54,12 @@ export default function HouseRule_Condition_Item({
   return (
     <div className="w-full flex flex-col gap-2 p-2 rounded-lg bg-slate-100 border border-border-primary">
       <div className="w-full flex flex-col gap-2">
-        {isFetched && (
+        {publisherOptionList.length > 0 && (
           <CustomFormInput
             control={control}
             inputField={{
               name: "deviceAttrId",
-              title: "Type",
+              title: "Device",
               type: "options",
               valueOptions: publisherOptionList,
             }}
@@ -75,7 +80,7 @@ export default function HouseRule_Condition_Item({
                   { name: ">=", value: "gte" },
                   { name: "<", value: "lt" },
                   { name: "<=", value: "lte" },
-                  { name: "=", value: "e" },
+                  { name: "=", value: "eq" },
                 ],
               }}
               wrapperClassName={inputWrapperClassname}

@@ -77,7 +77,7 @@ export default function HouseRule_Actions_Item({
       </div>
 
       <div className="w-full flex flex-col gap-2">
-        <div className="grid grid-cols-3 gap-1">
+        <div className="grid grid-cols-2 gap-1">
           <div className="col-span-1">
             {subscriberOptionList.length > 0 && (
               <CustomFormInput

@@ -5,27 +5,44 @@ import { RuleModel } from "src/types/rule/rule.type";
 import { Rule_Condition } from "src/types/rule/rule.condition.type";
 import { Rule_CompareType } from "src/types/rule/rule.compareType.type";
 import { Rule_Action } from "src/types/rule/rule.action.type";
+import useHouseConfigStore_Condition from "../../_stores/HouseRule_Conditions.store";
+import useHouseRuleStore_Actions from "../../_stores/HouseRule_Actions.store";
 
 interface HouseRule_RuleItemProps {
   rule: RuleModel;
 }
 
 export default function HouseRule_RuleItem({ rule }: HouseRule_RuleItemProps) {
-  const { actions, compareType, value, deviceAttribute } = rule;
+  const { actions, compareType, value, deviceAttribute, deviceAttrId } = rule;
   const conditionItem: Rule_Condition = {
     deviceAttribute,
     compareType,
     value,
   };
 
-  const {
-    setViewingRuleDetail: setViewingConfigDetail,
-    setCurrentRule: setCurrentConfig,
-  } = useHouseRuleStores_RuleDetail();
+  const { setViewingRuleDetail, setCurrentRule } =
+    useHouseRuleStores_RuleDetail();
+
+  const { setCondition } = useHouseConfigStore_Condition();
+  const { setActionList } = useHouseRuleStore_Actions();
 
   const onClickEdit = () => {
-    setCurrentConfig(rule);
-    setViewingConfigDetail(true);
+    setCurrentRule(rule);
+    setCondition({
+      deviceAttrId,
+      compareType,
+      value,
+      deviceName: deviceAttribute.device.name,
+    });
+    setActionList(
+      actions.map((act) => {
+        return {
+          deviceAttrId: act.deviceAttrId,
+          value: act.value,
+        };
+      })
+    );
+    setViewingRuleDetail(true);
   };
 
   return (

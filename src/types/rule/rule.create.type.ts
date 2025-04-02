@@ -9,6 +9,7 @@ export interface Rule_ConditionForm {
   deviceAttrId: IDType;
   compareType: Rule_CompareType;
   value: number;
+  deviceName: string;
 }
 
 export interface Rule_ActionForm {

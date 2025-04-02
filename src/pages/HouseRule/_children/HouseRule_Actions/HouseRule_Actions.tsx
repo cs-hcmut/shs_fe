@@ -1,38 +1,36 @@
-import { useEffect, useMemo } from "react";
 import useHouseRuleStore_Actions, {
   HouseRuleStores_Actions_defaultAction,
 } from "../../_stores/HouseRule_Actions.store";
 import useHouseRuleStores_RuleDetail from "../../_stores/HouseRule_RuleDetail.store";
 import HouseRule_Actions_Item from "./HouseRule_Actions_Item";
-import { Rule_ActionForm } from "src/types/rule/rule.create.type";
 import { InputOptionItem } from "src/components/_inputs/CustomFormInput/CustomFormInput";
 import RuleServices from "src/services/rule.service";
 
 interface HouseRule_ActionsProps {}
 
 export default function HouseRule_Actions({}: HouseRule_ActionsProps) {
-  const { currentRule: currentConfig } = useHouseRuleStores_RuleDetail();
+  const { currentRule } = useHouseRuleStores_RuleDetail();
 
   const { actionList, setActionList } = useHouseRuleStore_Actions();
 
-  // ! Handle editing case
-  const defaultActionList: Rule_ActionForm[] = useMemo(() => {
-    return (
-      currentConfig?.actions.map((ele) => {
-        const { deviceAttrId, value } = ele;
-        return {
-          deviceAttrId,
-          value,
-        };
-      }) || []
-    );
-  }, [currentConfig]);
+  // // ! Handle editing case
+  // const defaultActionList: Rule_ActionForm[] = useMemo(() => {
+  //   return (
+  //     currentConfig?.actions.map((ele) => {
+  //       const { deviceAttrId, value } = ele;
+  //       return {
+  //         deviceAttrId,
+  //         value,
+  //       };
+  //     }) || []
+  //   );
+  // }, [currentConfig]);
 
-  useEffect(() => {
-    if (currentConfig) {
-      setActionList(defaultActionList);
-    }
-  }, [currentConfig, defaultActionList, setActionList]);
+  // useEffect(() => {
+  //   if (currentConfig) {
+  //     setActionList(defaultActionList);
+  //   }
+  // }, [currentConfig, defaultActionList, setActionList]);
 
   // ! add condition
   const onAddActionForm = () => {
@@ -59,7 +57,7 @@ export default function HouseRule_Actions({}: HouseRule_ActionsProps) {
             <HouseRule_Actions_Item
               key={index}
               actionIndex={index}
-              defaultData={currentConfig ? actionList[index] : undefined}
+              defaultData={currentRule ? actionList[index] : undefined}
               subscriberOptionList={subscriberOptionList}
             />
           );

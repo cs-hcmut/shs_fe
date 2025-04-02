@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { homeManagementPaths } from "src/constants/path";
 import AppLayout from "src/layouts/AppLayout";
 import MuiStyles from "src/styles";
-import { getIdFromNameId } from "src/utils/utils";
 import HouseRule_RuleItem from "./_children/HouseRule_RuleItem";
 import HouseRule_AddRule from "./_children/HouseRule_AddRule";
 import useHouseRuleStores from "./_stores/HouseRule.store";
@@ -18,7 +17,6 @@ export default function HouseRule({}: HouseRuleProps) {
   const { setAddingRule: setAddingConfig } = useHouseRuleStores();
 
   const { homeId: houseNameId } = useParams();
-  const houseId = getIdFromNameId(houseNameId as string);
 
   // ! get rule list
   const { data: ruleData } = RuleServices.queries.useListRules();
@@ -41,7 +39,7 @@ export default function HouseRule({}: HouseRuleProps) {
       <div className="w-full flex flex-col gap-6 py-4">
         <div className="flex justify-between w-full items-center">
           <p className="text-2xl leading-6 font-semibold text-primary-blue">
-            Config List
+            Rule List
           </p>
 
           <Button
@@ -52,7 +50,7 @@ export default function HouseRule({}: HouseRuleProps) {
             className="!rounded-lg !text-white !font-medium flex !items-center !py-2 !px-4 !justify-center !normal-case !gap-2"
           >
             <FontAwesomeIcon icon={faPlus} />
-            Add config
+            Add rule
           </Button>
         </div>
         <div className="flex flex-col gap-4 w-full">

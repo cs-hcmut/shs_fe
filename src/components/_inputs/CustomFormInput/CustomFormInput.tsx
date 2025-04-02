@@ -90,7 +90,7 @@ export default function CustomFormInput<FormType extends FieldValues>({
                 id={`select-${inputField.name}`}
                 select
                 fullWidth
-                value={field.value || ""}
+                value={field.value !== undefined ? field.value : ""}
                 onChange={(e) => {
                   field.onChange(e.target.value);
                   if (onChange) {
