@@ -7,6 +7,9 @@ export interface IHouseRuleStores_RuleDetail {
 
   currentRule: RuleModel | undefined;
   setCurrentRule: (value: RuleModel | undefined) => void;
+
+  activateRule: boolean;
+  setActivateRule: (value: boolean) => void;
 }
 
 const useHouseRuleStores_RuleDetail = create<IHouseRuleStores_RuleDetail>()(
@@ -23,6 +26,14 @@ const useHouseRuleStores_RuleDetail = create<IHouseRuleStores_RuleDetail>()(
     setCurrentRule: (value: RuleModel | undefined) => {
       set((state) => {
         state.currentRule = value;
+        return { ...state };
+      });
+    },
+
+    activateRule: false,
+    setActivateRule: (value: boolean) => {
+      set((state) => {
+        state.activateRule = value;
         return { ...state };
       });
     },
