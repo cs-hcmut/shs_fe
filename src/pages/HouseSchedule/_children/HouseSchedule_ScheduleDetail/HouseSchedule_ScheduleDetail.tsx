@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import { getIdFromNameId } from "src/utils/utils";
 import useHouseScheduleStore_ScheduleDetail from "../../_stores/useHouseSchedule_ScheduleDetail.store";
-import useHouseScheduleStore_Conditions, {
+import useHouseScheduleStores_Condition, {
   HouseScheduleStore_Condition_defaultCondition,
 } from "../../_stores/useHouseSchedule_Conditions.store";
-import useHouseScheduleStore_Actions, {
+import useHouseScheduleStores_Actions, {
   HouseScheduleStore_Actions_defaultAction,
 } from "../../_stores/useHouseSchedule_Actions.store";
 import CustomModal from "src/components/_common/CustomModal";
@@ -23,8 +23,9 @@ export default function HouseSchedule_ScheduleDetail({}: HouseSchedule_ScheduleD
     viewingScheduleDetail,
   } = useHouseScheduleStore_ScheduleDetail();
 
-  const { setConditionList } = useHouseScheduleStore_Conditions();
-  const { setActionList } = useHouseScheduleStore_Actions();
+  const { setConditionList } = useHouseScheduleStores_Condition();
+  const { setDeviceAttributeList: setActionList } =
+    useHouseScheduleStores_Actions();
 
   const closeScheduleDetail = () => {
     setViewingScheduleDetail(false);

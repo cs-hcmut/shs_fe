@@ -1,10 +1,7 @@
 import { useForm } from "react-hook-form";
 import useHouseRuleStore_Actions from "../../_stores/HouseRule_Actions.store";
 import CustomFormInput from "src/components/_inputs/CustomFormInput";
-import {
-  DEVICE_ACTION_LIST,
-  DEVICE_ACTION_NAME_MAP,
-} from "src/types/device/device.type";
+import { Device_ActionOptionList } from "src/types/device/device.type";
 import { Rule_ActionForm } from "src/types/rule/rule.create.type";
 import { InputOptionItem } from "src/components/_inputs/CustomFormInput/CustomFormInput";
 
@@ -101,12 +98,7 @@ export default function HouseRule_Actions_Item({
                 name: "value",
                 title: "Action",
                 type: "options",
-                valueOptions: DEVICE_ACTION_LIST.map((action) => {
-                  return {
-                    name: DEVICE_ACTION_NAME_MAP[action],
-                    value: action,
-                  };
-                }),
+                valueOptions: Device_ActionOptionList,
               }}
               wrapperClassName={inputWrapperClassname}
               onChange={onChangeValue}

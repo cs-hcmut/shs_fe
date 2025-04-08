@@ -14,8 +14,14 @@ export interface DeviceAttributeModel {
   device: {
     id: IDType;
     name: string;
-    roomId: IDType;
+    room: DeviceAttribute_Room | null;
     userId: IDType;
     createdAt: string;
   };
+}
+
+export interface DeviceAttribute_Room {
+  id: IDType;
+  name: string;
+  floorId: IDType;
 }

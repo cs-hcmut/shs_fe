@@ -1,53 +1,61 @@
-import { IDType } from "src/types/_commons/id.type";
+import { HouseSchedule_DevicesForm } from "src/types/schedule/schedule.action.type";
 import { create } from "zustand";
 
-export interface HouseSchedule_DeviceActionForm {
-  deviceAttrId: IDType;
-  value: number;
+export interface IHouseScheduleStores_Actions {
+  deviceAttributeList: HouseSchedule_DevicesForm[];
+  setDeviceAttributeList: (value: HouseSchedule_DevicesForm[]) => void;
+
+  action: boolean;
+  setAction: (value: boolean) => void;
+
+  addDevice: () => void;
+  removeDevice: (actionIndex: number) => void;
 }
 
-export interface IHouseScheduleStore_Actions {
-  actionList: HouseSchedule_DeviceActionForm[];
-  setActionList: (value: HouseSchedule_DeviceActionForm[]) => void;
-  addDeviceAction: () => void;
-  removeDeviceAction: (actionIndex: number) => void;
-}
-
-export const HouseScheduleStore_Actions_defaultAction: HouseSchedule_DeviceActionForm =
+export const HouseScheduleStore_Actions_defaultAction: HouseSchedule_DevicesForm =
   {
     deviceAttrId: "-1",
-    value: 0,
+    deviceName: "No device",
   };
 
-const useHouseScheduleStore_Actions = create<IHouseScheduleStore_Actions>()(
+const useHouseScheduleStores_Actions = create<IHouseScheduleStores_Actions>()(
   (set) => ({
-    actionList: [HouseScheduleStore_Actions_defaultAction],
-    setActionList: (value: HouseSchedule_DeviceActionForm[]) => {
+    deviceAttributeList: [HouseScheduleStore_Actions_defaultAction],
+    setDeviceAttributeList: (value: HouseSchedule_DevicesForm[]) => {
       set((state) => {
-        state.actionList = value;
+        state.deviceAttributeList = value;
         return { ...state };
       });
     },
-    addDeviceAction: () => {
+
+    addDevice: () => {
       set((state) => {
         const newActionList = [
-          ...state.actionList,
+          ...state.deviceAttributeList,
           HouseScheduleStore_Actions_defaultAction,
         ];
-        state.actionList = newActionList;
+        state.deviceAttributeList = newActionList;
         return { ...state };
       });
     },
-    removeDeviceAction: (actionIndex: number) => {
+    removeDevice: (actionIndex: number) => {
       set((state) => {
-        const newActionList = state.actionList.filter(
+        const newActionList = state.deviceAttributeList.filter(
           (_, index) => index !== actionIndex
         );
-        state.actionList = newActionList;
+        state.deviceAttributeList = newActionList;
+        return { ...state };
+      });
+    },
+
+    action: false,
+    setAction: (value: boolean) => {
+      set((state) => {
+        state.action = value;
         return { ...state };
       });
     },
   })
 );
 
-export default useHouseScheduleStore_Actions;
+export default useHouseScheduleStores_Actions;

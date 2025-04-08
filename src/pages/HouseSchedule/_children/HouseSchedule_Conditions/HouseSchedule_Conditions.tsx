@@ -1,7 +1,7 @@
 import { ScheduleModel } from "src/types/schedule/schedule.type";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
-import useHouseScheduleStore_Conditions, {
+import useHouseScheduleStores_Condition, {
   HouseSchedule_Condition_RepeatEnum,
 } from "../../_stores/useHouseSchedule_Conditions.store";
 import classNames from "classnames";
@@ -13,8 +13,8 @@ interface HouseSchedule_ConditionsProps {
 export default function HouseSchedule_Conditions({
   defaultData,
 }: HouseSchedule_ConditionsProps) {
-  const { setTimeValue, timeValue, repeat, setRepeat } =
-    useHouseScheduleStore_Conditions();
+  const { setTimeValue, timeValue, repeat, setRepeat, toggleRepeat } =
+    useHouseScheduleStores_Condition();
 
   const defaultTime = defaultData?.time;
 
@@ -22,7 +22,7 @@ export default function HouseSchedule_Conditions({
 
   // ! on click repeat
   const onClickRepeat = (key: HouseSchedule_Condition_RepeatEnum) => () => {
-    setRepeat(key);
+    toggleRepeat(key);
   };
 
   // ! day map

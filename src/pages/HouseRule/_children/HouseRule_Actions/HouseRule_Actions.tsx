@@ -13,25 +13,6 @@ export default function HouseRule_Actions({}: HouseRule_ActionsProps) {
 
   const { actionList, setActionList } = useHouseRuleStore_Actions();
 
-  // // ! Handle editing case
-  // const defaultActionList: Rule_ActionForm[] = useMemo(() => {
-  //   return (
-  //     currentConfig?.actions.map((ele) => {
-  //       const { deviceAttrId, value } = ele;
-  //       return {
-  //         deviceAttrId,
-  //         value,
-  //       };
-  //     }) || []
-  //   );
-  // }, [currentConfig]);
-
-  // useEffect(() => {
-  //   if (currentConfig) {
-  //     setActionList(defaultActionList);
-  //   }
-  // }, [currentConfig, defaultActionList, setActionList]);
-
   // ! add condition
   const onAddActionForm = () => {
     setActionList([...actionList, HouseRuleStores_Actions_defaultAction]);

@@ -26,3 +26,10 @@ export interface Device {
   createdAt: string;
   attributes: Device_Attribute[];
 }
+
+export const Device_ActionOptionList = DEVICE_ACTION_LIST.map((action) => {
+  return {
+    name: DEVICE_ACTION_NAME_MAP[action],
+    value: action,
+  };
+});

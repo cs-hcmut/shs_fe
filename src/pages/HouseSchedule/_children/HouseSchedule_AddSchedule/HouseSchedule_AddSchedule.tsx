@@ -1,16 +1,24 @@
 import CustomModal from "src/components/_common/CustomModal";
-import useHouseScheduleStore_Actions from "../../_stores/useHouseSchedule_Actions.store";
+import useHouseScheduleStores_Actions from "../../_stores/useHouseSchedule_Actions.store";
 import useHouseScheduleStore_AddSchedule from "../../_stores/useHouseSchedule_AddSchedule.store";
-import useHouseScheduleStore_Conditions from "../../_stores/useHouseSchedule_Conditions.store";
+import useHouseScheduleStores_Condition from "../../_stores/useHouseSchedule_Conditions.store";
 import { Divider } from "@mui/material";
 import HouseSchedule_Conditions from "../HouseSchedule_Conditions";
 import HouseSchedule_Actions from "../HouseSchedule_Actions";
+import ScheduleServices from "src/services/schedule.service";
+import { Schedule_CreateBody } from "src/types/schedule/schedule.create.type";
+import { toast } from "sonner";
+import { get } from "lodash";
 
 interface HouseSchedule_AddScheduleProps {}
 
 export default function HouseSchedule_AddSchedule({}: HouseSchedule_AddScheduleProps) {
-  const { resetTimeValue } = useHouseScheduleStore_Conditions();
-  const { setActionList } = useHouseScheduleStore_Actions();
+  const { resetTimeValue, clearRepeat, timeValue, convertRepeatToString } =
+    useHouseScheduleStores_Condition();
+  const {
+    setDeviceAttributeList: setActionList,
+    deviceAttributeList: actionList,
+  } = useHouseScheduleStores_Actions();
 
   const { addingSchedule, setAddingSchedule } =
     useHouseScheduleStore_AddSchedule();
@@ -19,6 +27,37 @@ export default function HouseSchedule_AddSchedule({}: HouseSchedule_AddScheduleP
     setAddingSchedule(false);
     resetTimeValue();
     setActionList([]);
+    clearRepeat();
+  };
+
+  // ! handle create schedule
+  const createScheduleMutation = ScheduleServices.create.useCreateSchedule();
+  const onCreateSchedule = () => {
+    const createBody: Schedule_CreateBody = {
+      repeat: convertRepeatToString(),
+      time: timeValue,
+      deviceAttrIds: actionList.map((ele) => {
+        return ele.deviceAttrId;
+      }),
+      value: 1,
+    };
+
+    // console.log(createBody);
+    // return;
+
+    toast.promise(
+      createScheduleMutation.mutateAsync(createBody, {
+        onSuccess() {
+          cancelAddingSchedule();
+        },
+      }),
+      {
+        loading: "Creating",
+        success: "Created rule successfully",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        error: (err: any) => get(err, "message", "Cannot create rule"),
+      }
+    );
   };
 
   return (
@@ -57,6 +96,7 @@ export default function HouseSchedule_AddSchedule({}: HouseSchedule_AddScheduleP
           </button>
           <button
             type="button"
+            onClick={onCreateSchedule}
             className="py-2 px-3 rounded-xl font-medium text-white bg-unhoveringBg hover:bg-hoveringBg"
           >
             Save

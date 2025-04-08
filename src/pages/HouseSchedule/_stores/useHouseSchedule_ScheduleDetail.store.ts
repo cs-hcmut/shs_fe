@@ -7,6 +7,9 @@ export interface IHouseScheduleStore_ScheduleDetail {
 
   currentSchedule: ScheduleModel | undefined;
   setCurrentSchedule: (value: ScheduleModel | undefined) => void;
+
+  isActive: boolean;
+  setIsActive: (value: boolean) => void;
 }
 
 const useHouseScheduleStore_ScheduleDetail =
@@ -23,6 +26,14 @@ const useHouseScheduleStore_ScheduleDetail =
     setCurrentSchedule: (value: ScheduleModel | undefined) => {
       set((state) => {
         state.currentSchedule = value;
+        return { ...state };
+      });
+    },
+
+    isActive: false,
+    setIsActive: (value: boolean) => {
+      set((state) => {
+        state.isActive = value;
         return { ...state };
       });
     },

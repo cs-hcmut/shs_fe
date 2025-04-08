@@ -3,14 +3,13 @@ import HouseSchedule_AddSchedule from "./_children/HouseSchedule_AddSchedule";
 import HouseSchedule_ScheduleDetail from "./_children/HouseSchedule_ScheduleDetail";
 import { homeManagementPaths } from "src/constants/path";
 import { useParams } from "react-router-dom";
-import { getIdFromNameId } from "src/utils/utils";
 import { Button } from "@mui/material";
 import MuiStyles from "src/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import HouseSchedule_Item from "./_children/HouseSchedule_Item";
-import { _mock_HouseScheduleList } from "./_mocks/scheduleList.mock";
 import useHouseScheduleStore_AddSchedule from "./_stores/useHouseSchedule_AddSchedule.store";
+import ScheduleServices from "src/services/schedule.service";
 
 interface HouseScheduleProps {}
 
@@ -18,7 +17,10 @@ export default function HouseSchedule({}: HouseScheduleProps) {
   const { setAddingSchedule } = useHouseScheduleStore_AddSchedule();
 
   const { homeId: houseNameId } = useParams();
-  const houseId = getIdFromNameId(houseNameId as string);
+
+  // ! get schedule
+  const { data: scheduleData } = ScheduleServices.queries.useListSchedules();
+  const scheduleList = scheduleData?.data || [];
 
   return (
     <AppLayout
@@ -52,7 +54,7 @@ export default function HouseSchedule({}: HouseScheduleProps) {
           </Button>
         </div>
         <div className="flex flex-col gap-4 w-full">
-          {_mock_HouseScheduleList.map((schedule) => {
+          {scheduleList.map((schedule) => {
             return <HouseSchedule_Item key={schedule.id} schedule={schedule} />;
           })}
         </div>
