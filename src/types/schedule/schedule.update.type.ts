@@ -2,7 +2,7 @@ import { IDType } from "../_commons/id.type";
 
 export interface Schedule_UpdateBody {
   time?: string;
-  deviceAttrId?: IDType[];
+  deviceAttrIds?: IDType[];
   value?: number;
   repeat?: string;
 }

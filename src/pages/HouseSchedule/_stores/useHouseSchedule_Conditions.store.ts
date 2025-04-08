@@ -10,6 +10,7 @@ export interface IHouseScheduleStore_Condition {
 
   repeat: Map<HouseSchedule_Condition_RepeatEnum, boolean>;
   setRepeat: (value: Map<HouseSchedule_Condition_RepeatEnum, boolean>) => void;
+  setRepeatFromString: (binaryString: string) => void;
   toggleRepeat: (key: HouseSchedule_Condition_RepeatEnum) => void;
   clearRepeat: () => void;
   convertRepeatToString: () => string; // Thêm method mới
@@ -41,6 +42,30 @@ const useHouseScheduleStores_Condition =
     setRepeat: (value: Map<HouseSchedule_Condition_RepeatEnum, boolean>) => {
       set((state) => {
         state.repeat = value;
+        return { ...state };
+      });
+    },
+    setRepeatFromString: (binaryString: string) => {
+      const resultMap = new Map<HouseSchedule_Condition_RepeatEnum, boolean>();
+
+      // // Ensure the binary string is exactly 7 characters
+      // if (binaryString.length !== 7) {
+      //   throw new Error('Binary string must be exactly 7 characters long');
+      // }
+
+      // // Validate that the string contains only 0s and 1s
+      // if (!/^[01]+$/.test(binaryString)) {
+      //   throw new Error('Binary string must contain only 0s and 1s');
+      // }
+
+      // Populate the map - each character position corresponds to an enum value
+      for (let i = 0; i < binaryString.length; i++) {
+        const enumKey = i as HouseSchedule_Condition_RepeatEnum;
+        const boolValue = binaryString[i] === "1";
+        resultMap.set(enumKey, boolValue);
+      }
+      set((state) => {
+        state.repeat = resultMap;
         return { ...state };
       });
     },

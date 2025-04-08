@@ -13,7 +13,7 @@ interface HouseSchedule_ConditionsProps {
 export default function HouseSchedule_Conditions({
   defaultData,
 }: HouseSchedule_ConditionsProps) {
-  const { setTimeValue, timeValue, repeat, setRepeat, toggleRepeat } =
+  const { setTimeValue, timeValue, repeat, toggleRepeat } =
     useHouseScheduleStores_Condition();
 
   const defaultTime = defaultData?.time;

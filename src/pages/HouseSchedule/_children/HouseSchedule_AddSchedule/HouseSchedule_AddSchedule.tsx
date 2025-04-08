@@ -15,10 +15,8 @@ interface HouseSchedule_AddScheduleProps {}
 export default function HouseSchedule_AddSchedule({}: HouseSchedule_AddScheduleProps) {
   const { resetTimeValue, clearRepeat, timeValue, convertRepeatToString } =
     useHouseScheduleStores_Condition();
-  const {
-    setDeviceAttributeList: setActionList,
-    deviceAttributeList: actionList,
-  } = useHouseScheduleStores_Actions();
+  const { setDeviceAttributeList, deviceAttributeList, action } =
+    useHouseScheduleStores_Actions();
 
   const { addingSchedule, setAddingSchedule } =
     useHouseScheduleStore_AddSchedule();
@@ -26,7 +24,7 @@ export default function HouseSchedule_AddSchedule({}: HouseSchedule_AddScheduleP
   const cancelAddingSchedule = () => {
     setAddingSchedule(false);
     resetTimeValue();
-    setActionList([]);
+    setDeviceAttributeList([]);
     clearRepeat();
   };
 
@@ -36,10 +34,12 @@ export default function HouseSchedule_AddSchedule({}: HouseSchedule_AddScheduleP
     const createBody: Schedule_CreateBody = {
       repeat: convertRepeatToString(),
       time: timeValue,
-      deviceAttrIds: actionList.map((ele) => {
-        return ele.deviceAttrId;
-      }),
-      value: 1,
+      deviceAttrIds: deviceAttributeList
+        .map((ele) => {
+          return ele.deviceAttrId === "-1" ? null : ele.deviceAttrId;
+        })
+        .filter((ele) => ele !== null),
+      value: action,
     };
 
     // console.log(createBody);

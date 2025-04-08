@@ -5,8 +5,8 @@ export interface IHouseScheduleStores_Actions {
   deviceAttributeList: HouseSchedule_DevicesForm[];
   setDeviceAttributeList: (value: HouseSchedule_DevicesForm[]) => void;
 
-  action: boolean;
-  setAction: (value: boolean) => void;
+  action: number;
+  setAction: (value: number) => void;
 
   addDevice: () => void;
   removeDevice: (actionIndex: number) => void;
@@ -48,8 +48,8 @@ const useHouseScheduleStores_Actions = create<IHouseScheduleStores_Actions>()(
       });
     },
 
-    action: false,
-    setAction: (value: boolean) => {
+    action: 0,
+    setAction: (value: number) => {
       set((state) => {
         state.action = value;
         return { ...state };

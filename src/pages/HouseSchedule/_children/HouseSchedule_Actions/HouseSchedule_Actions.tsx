@@ -22,11 +22,11 @@ export default function HouseSchedule_Actions({}: HouseSchedule_ActionsProps) {
   // ! handle change action value
   const { control } = useForm<HouseSchedule_ActionForm>({
     defaultValues: {
-      value: 0,
+      value: currentSchedule?.value || 0,
     },
   });
   const onChangeValue = (value: string) => {
-    setAction(value === "1");
+    setAction(Number(value));
   };
 
   // ! add condition
@@ -48,6 +48,10 @@ export default function HouseSchedule_Actions({}: HouseSchedule_ActionsProps) {
       name: inputName,
       value: ele.id,
     };
+  });
+  subscriberOptionList.push({
+    name: "No device",
+    value: "-1",
   });
 
   return (

@@ -9,7 +9,7 @@ export interface Schedule_DeviceAttribute {
   device: {
     id: IDType;
     name: string;
-    roomId: null;
+    room: { id: IDType; name: string } | null;
     userId: string;
     createdAt: string;
   };

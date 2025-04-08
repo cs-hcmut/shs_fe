@@ -1,9 +1,5 @@
-import { useParams } from "react-router-dom";
-import { getIdFromNameId } from "src/utils/utils";
 import useHouseScheduleStore_ScheduleDetail from "../../_stores/useHouseSchedule_ScheduleDetail.store";
-import useHouseScheduleStores_Condition, {
-  HouseScheduleStore_Condition_defaultCondition,
-} from "../../_stores/useHouseSchedule_Conditions.store";
+import useHouseScheduleStores_Condition from "../../_stores/useHouseSchedule_Conditions.store";
 import useHouseScheduleStores_Actions, {
   HouseScheduleStore_Actions_defaultAction,
 } from "../../_stores/useHouseSchedule_Actions.store";
@@ -11,27 +7,75 @@ import CustomModal from "src/components/_common/CustomModal";
 import { Divider } from "@mui/material";
 import HouseSchedule_Conditions from "../HouseSchedule_Conditions";
 import HouseSchedule_Actions from "../HouseSchedule_Actions";
+import { toast } from "sonner";
+import { Schedule_UpdateBody } from "src/types/schedule/schedule.update.type";
+import ScheduleServices from "src/services/schedule.service";
+import { get } from "lodash";
 
 interface HouseSchedule_ScheduleDetailProps {}
 
 export default function HouseSchedule_ScheduleDetail({}: HouseSchedule_ScheduleDetailProps) {
-  const { homeId: houseNameId } = useParams();
-  const houseId = getIdFromNameId(houseNameId as string);
   const {
+    currentSchedule,
     setCurrentSchedule,
     setViewingScheduleDetail,
     viewingScheduleDetail,
   } = useHouseScheduleStore_ScheduleDetail();
 
-  const { setConditionList } = useHouseScheduleStores_Condition();
-  const { setDeviceAttributeList: setActionList } =
+  const { setRepeat, convertRepeatToString, timeValue } =
+    useHouseScheduleStores_Condition();
+  const { setDeviceAttributeList, action, setAction, deviceAttributeList } =
     useHouseScheduleStores_Actions();
 
   const closeScheduleDetail = () => {
     setViewingScheduleDetail(false);
     setCurrentSchedule(undefined);
-    setConditionList([HouseScheduleStore_Condition_defaultCondition]);
-    setActionList([HouseScheduleStore_Actions_defaultAction]);
+    setRepeat(new Map());
+    setAction(0);
+    setDeviceAttributeList([HouseScheduleStore_Actions_defaultAction]);
+  };
+
+  // ! handle create schedule
+  const updateScheduleMutation = ScheduleServices.update.useUpdateSchedule();
+  const onUpdateSchedule = () => {
+    if (!currentSchedule) {
+      toast.error("No schedule selected");
+      return;
+    }
+
+    const updateBody: Schedule_UpdateBody = {
+      repeat: convertRepeatToString(),
+      time: timeValue,
+      deviceAttrIds: deviceAttributeList
+        .map((ele) => {
+          return ele.deviceAttrId === "-1" ? null : ele.deviceAttrId;
+        })
+        .filter((ele) => ele !== null),
+      value: action,
+    };
+
+    // console.log(createBody);
+    // return;
+
+    toast.promise(
+      updateScheduleMutation.mutateAsync(
+        {
+          id: currentSchedule.id,
+          body: updateBody,
+        },
+        {
+          onSuccess() {
+            closeScheduleDetail();
+          },
+        }
+      ),
+      {
+        loading: "Creating",
+        success: "Created rule successfully",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        error: (err: any) => get(err, "message", "Cannot create rule"),
+      }
+    );
   };
 
   return (
@@ -70,6 +114,7 @@ export default function HouseSchedule_ScheduleDetail({}: HouseSchedule_ScheduleD
           </button>
           <button
             type="button"
+            onClick={onUpdateSchedule}
             className="py-2 px-3 rounded-xl font-medium text-white bg-unhoveringBg hover:bg-hoveringBg"
           >
             Save

@@ -4,7 +4,6 @@ import { HouseSchedule_Condition } from "src/types/schedule/schedule.condition.t
 import { ScheduleModel } from "src/types/schedule/schedule.type";
 import useHouseScheduleStore_ScheduleDetail from "../../_stores/useHouseSchedule_ScheduleDetail.store";
 import { HouseSchedule_DevicesForm } from "src/types/schedule/schedule.action.type";
-import useHouseConfigStore_Condition from "src/pages/HouseRule/_stores/HouseRule_Conditions.store";
 import useHouseScheduleStores_Condition from "../../_stores/useHouseSchedule_Conditions.store";
 import useHouseScheduleStores_Actions from "../../_stores/useHouseSchedule_Actions.store";
 
@@ -15,18 +14,36 @@ interface HouseSchedule_ItemProps {
 export default function HouseSchedule_Item({
   schedule,
 }: HouseSchedule_ItemProps) {
-  const { time, repeat, DeviceAttributes } = schedule;
+  const { time, repeat, DeviceAttributes, value } = schedule;
 
   const { setViewingScheduleDetail, setCurrentSchedule } =
     useHouseScheduleStore_ScheduleDetail();
 
-  const { setRepeat, setTimeValue } = useHouseScheduleStores_Condition();
-  const { setDeviceAttributeList: setActionList } =
+  const { setRepeatFromString, setTimeValue } =
+    useHouseScheduleStores_Condition();
+  const { setDeviceAttributeList, setAction } =
     useHouseScheduleStores_Actions();
 
   // ! handle edit
   const onClickEdit = () => {
     setCurrentSchedule(schedule);
+
+    setRepeatFromString(repeat);
+    setTimeValue(time);
+    setAction(value);
+    setDeviceAttributeList(
+      DeviceAttributes.map((ele) => {
+        const deviceName = ele.device.room
+          ? `${ele.device.name} - ${ele.device.room.name}`
+          : ele.device.name;
+
+        return {
+          deviceName,
+          deviceAttrId: ele.id,
+        };
+      })
+    );
+
     setViewingScheduleDetail(true);
   };
 
@@ -60,9 +77,9 @@ export default function HouseSchedule_Item({
               <ActionItem
                 actionItem={{
                   deviceAttrId: ele.id,
-                  value: ele.value,
                   deviceName: ele.device.name,
                 }}
+                actionValue={value}
               />
             );
           })}
@@ -132,9 +149,10 @@ function Condition({ conditionItem }: ConditionProps) {
 
 interface ActionProps {
   actionItem: HouseSchedule_DevicesForm;
+  actionValue: number;
 }
-function ActionItem({ actionItem }: ActionProps) {
-  const { deviceName, value } = actionItem;
+function ActionItem({ actionItem, actionValue }: ActionProps) {
+  const { deviceName } = actionItem;
 
   const actionMap: { [key: number]: string } = {
     1: "Turn on",
@@ -146,7 +164,7 @@ function ActionItem({ actionItem }: ActionProps) {
       <span className="font-semibold">{deviceName}</span>
 
       <span>will</span>
-      <span className="text-primaryBlue italic">{actionMap[value]}</span>
+      <span className="text-primaryBlue italic">{actionMap[actionValue]}</span>
     </p>
   );
 }
