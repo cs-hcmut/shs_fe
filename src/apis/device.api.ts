@@ -15,6 +15,16 @@ const deviceApi = {
   getDeviceById(id: IDType, params: Device_Params) {
     return http.get<SuccessReponse<Device>>(`${url}/${id}`, { params });
   },
+
+  // ! post
+  uploadVoiceRecord(body: { file: File }) {
+    return http.post<SuccessReponse<string>>(`${url}/voice-control`, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      timeout: 1000 * 60 * 5,
+    });
+  },
 };
 
 export default deviceApi;

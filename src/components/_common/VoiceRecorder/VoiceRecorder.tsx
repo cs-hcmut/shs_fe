@@ -1,0 +1,184 @@
+"use client";
+
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMicrophone,
+  faStop,
+  faTrash,
+  faSave,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
+import CustomButton from "../CustomButton";
+import MuiStyles from "../../../styles";
+import { useVoiceRecorder } from "src/hooks/common/useVoiceRecorder";
+
+interface VoiceRecorderProps {
+  onSave?: (blob: Blob) => void;
+  className?: string;
+}
+
+export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
+  onSave,
+  className = "",
+}) => {
+  const {
+    isRecording,
+    audioBlob,
+    startRecording,
+    stopRecording,
+    resetRecording,
+    saveRecording,
+    recordingTime,
+    error,
+  } = useVoiceRecorder();
+
+  const [filename, setFilename] = useState<string>("recording.wav");
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+
+  // Format recording time as MM:SS
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+  };
+
+  // Handle save with optional callback
+  const handleSave = async () => {
+    if (!audioBlob) return;
+
+    setIsSaving(true);
+    try {
+      saveRecording(filename);
+
+      if (onSave) {
+        // Clone the blob to make sure it's not affected by any operations
+        const blobCopy = audioBlob.slice(0, audioBlob.size, audioBlob.type);
+        onSave(blobCopy);
+      }
+    } catch (err) {
+      console.error("Error handling save:", err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Handle recording start with error handling
+  const handleStartRecording = async () => {
+    try {
+      await startRecording();
+    } catch (err) {
+      console.error("Could not start recording:", err);
+    }
+  };
+
+  return (
+    <div className={`voice-recorder ${className}`}>
+      <div className="recorder-container p-4 border rounded-lg shadow-sm">
+        <h2 className="text-lg font-medium mb-4">Ghi âm giọng nói</h2>
+
+        {error && (
+          <div className="error-message bg-red-50 text-red-600 p-2 rounded mb-4">
+            {error}
+          </div>
+        )}
+
+        <div className="controls flex flex-wrap items-center gap-2 mb-4">
+          {!isRecording ? (
+            <CustomButton
+              variant="contained"
+              onClick={handleStartRecording}
+              disabled={isRecording}
+              sx={MuiStyles.buttonStyles.bluePrimaryBg}
+              className="!text-white flex !items-center !gap-1 !rounded-lg !py-2 !px-3"
+            >
+              <FontAwesomeIcon icon={faMicrophone} />
+              <span>Bắt đầu ghi âm</span>
+            </CustomButton>
+          ) : (
+            <CustomButton
+              variant="contained"
+              onClick={stopRecording}
+              sx={MuiStyles.buttonStyles.contained.dangerActionBg}
+              className="!text-white flex !items-center !gap-1 !rounded-lg !py-2 !px-3"
+            >
+              <FontAwesomeIcon icon={faStop} />
+              <span>Dừng ghi âm</span>
+            </CustomButton>
+          )}
+
+          {audioBlob && (
+            <>
+              <CustomButton
+                variant="outlined"
+                onClick={resetRecording}
+                className="flex !items-center !gap-1 !border-red-600 !text-red-500 !rounded-lg !py-2 !px-3"
+              >
+                <FontAwesomeIcon icon={faTrash} />
+                <span>Xóa</span>
+              </CustomButton>
+
+              <CustomButton
+                variant="contained"
+                onClick={handleSave}
+                disabled={isSaving}
+                className="!text-white flex !items-center !gap-1 !rounded-lg !py-2 !px-3"
+              >
+                <FontAwesomeIcon
+                  icon={isSaving ? faSpinner : faSave}
+                  className={isSaving ? "animate-spin" : ""}
+                />
+                <span>{isSaving ? "Uploading..." : "Confirm"}</span>
+              </CustomButton>
+            </>
+          )}
+        </div>
+
+        {isRecording && (
+          <div className="recording-status flex items-center gap-2 py-2 px-3 bg-red-50 rounded-lg">
+            <div className="record-indicator w-3 h-3 bg-red-600 rounded-full animate-pulse"></div>
+            <span className="font-medium">
+              Đang ghi âm: {formatTime(recordingTime)}
+            </span>
+          </div>
+        )}
+
+        {audioBlob && !isRecording && (
+          <div className="audio-info mt-4 p-3 bg-gray-50 rounded-lg">
+            <p className="mb-2 font-medium">Bản ghi âm đã sẵn sàng</p>
+            <p className="text-sm text-gray-500">
+              Kích thước: {(audioBlob.size / 1024).toFixed(2)} KB | Thời lượng:{" "}
+              {formatTime(recordingTime)}
+            </p>
+
+            <div className="filename-input mt-4">
+              <label htmlFor="filename" className="block text-sm mb-1">
+                Tên file:
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  id="filename"
+                  value={filename}
+                  onChange={(e) =>
+                    setFilename(
+                      e.target.value.endsWith(".wav")
+                        ? e.target.value
+                        : e.target.value
+                    )
+                  }
+                  className="flex-1 px-3 py-2 border rounded"
+                />
+                {!filename.endsWith(".wav") && (
+                  <span className="py-2 text-gray-500">.wav</span>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default VoiceRecorder;

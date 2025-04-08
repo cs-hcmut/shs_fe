@@ -7,6 +7,10 @@ import RD_RoomController_Devices from "./_children/RD_RoomController_Devices";
 import DeviceServices from "src/services/device.service";
 import { useParams } from "react-router-dom";
 import { getIdFromNameId } from "src/utils/utils";
+import VoiceRecorder from "src/components/_common/VoiceRecorder";
+import { toast } from "sonner";
+import { createFileFromAudioBlob } from "src/utils/audio.util";
+import { get } from "lodash";
 
 interface RD_RoomControllerProps {}
 
@@ -31,6 +35,28 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
     (d) => d.type === "air_conditioner"
   );
 
+  // ! voice recording
+
+  const uploadVoiceMutation = DeviceServices.create.useUploadVoiceRecord();
+  const handleSaveRecording = (blob: Blob) => {
+    // setSavedRecordings((prev) => [...prev, { id: Date.now(), url }]);
+
+    const audioFile = createFileFromAudioBlob(blob);
+
+    const body = {
+      file: audioFile,
+    };
+    // console.log(body);
+    // return;
+
+    toast.promise(uploadVoiceMutation.mutateAsync(body), {
+      loading: "Uploading",
+      success: "Uploaded voice command successfully",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      error: (err: any) => get(err, "message", "Cannot upload voice"),
+    });
+  };
+
   return (
     <div className="w-full flex flex-col gap-4">
       <div className="w-full flex items-center justify-center">
@@ -43,6 +69,8 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
           <p className="text-xl uppercase">Turn off all devices</p>
         </CustomButton>
       </div>
+
+      <VoiceRecorder onSave={handleSaveRecording} />
 
       <Divider className="!border-primaryBlue" />
 

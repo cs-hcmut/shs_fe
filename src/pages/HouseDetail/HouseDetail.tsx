@@ -14,15 +14,12 @@ export default function HouseDetail() {
   const { homeId: houseNameId } = useParams();
   const houseId = getIdFromNameId(houseNameId as string);
 
-  console.log(houseId);
-
   // ! get room list
   const { data: houseDetailData } =
     EstateServices.queries.useGetEstateDetail(houseId);
 
   const houseDetail = houseDetailData?.data;
   const floorList = houseDetail?.floors || [];
-  console.log(houseDetail);
 
   return (
     <AppLayout

@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import deviceApi from "src/apis/device.api";
 import { SuccessReponse } from "src/types/_commons/common.type";
 import { IDType } from "src/types/_commons/id.type";
@@ -37,9 +37,16 @@ const useGetDeviceById = (
   });
 };
 
+// ! post
+const useUploadVoiceRecord = () => {
+  return useMutation({
+    mutationFn: deviceApi.uploadVoiceRecord,
+  });
+};
+
 const DeviceServices = {
   queries: { useListAllDevices, useGetDeviceById },
-  create: {},
+  create: { useUploadVoiceRecord },
   update: {},
   delete: {},
 };

@@ -28,7 +28,7 @@ const useGetEstateDetail = (
   >
 ) => {
   return useQuery<SuccessReponse<EstateDetail>, Error>({
-    queryKey: [ESTATE_KEY],
+    queryKey: [ESTATE_KEY, estateId],
     queryFn: () => estateApi.getEstateDetail(estateId).then((res) => res.data),
     ...options,
   });
