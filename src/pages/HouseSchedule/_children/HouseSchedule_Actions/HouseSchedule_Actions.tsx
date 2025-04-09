@@ -2,7 +2,7 @@ import RuleServices from "src/services/rule.service";
 import useHouseScheduleStores_Actions, {
   HouseScheduleStore_Actions_defaultAction,
 } from "../../_stores/useHouseSchedule_Actions.store";
-import useHouseScheduleStore_ScheduleDetail from "../../_stores/useHouseSchedule_ScheduleDetail.store";
+import useHouseScheduleStores_ScheduleDetail from "../../_stores/useHouseSchedule_ScheduleDetail.store";
 import HouseSchedule_Actions_Item from "../HouseSchedule_Actions_Item/HouseSchedule_Actions_Item";
 import CustomFormInput, {
   InputOptionItem,
@@ -14,7 +14,7 @@ import { HouseSchedule_ActionForm } from "src/types/schedule/schedule.action.typ
 interface HouseSchedule_ActionsProps {}
 
 export default function HouseSchedule_Actions({}: HouseSchedule_ActionsProps) {
-  const { currentSchedule } = useHouseScheduleStore_ScheduleDetail();
+  const { currentSchedule } = useHouseScheduleStores_ScheduleDetail();
 
   const { deviceAttributeList, setAction, setDeviceAttributeList } =
     useHouseScheduleStores_Actions();

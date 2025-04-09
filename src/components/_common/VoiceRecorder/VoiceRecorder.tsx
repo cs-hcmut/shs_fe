@@ -75,7 +75,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
   return (
     <div className={`voice-recorder ${className}`}>
       <div className="recorder-container p-4 border rounded-lg shadow-sm">
-        <h2 className="text-lg font-medium mb-4">Ghi âm giọng nói</h2>
+        <h2 className="text-lg font-medium mb-4">Voice record</h2>
 
         {error && (
           <div className="error-message bg-red-50 text-red-600 p-2 rounded mb-4">
@@ -93,7 +93,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
               className="!text-white flex !items-center !gap-1 !rounded-lg !py-2 !px-3"
             >
               <FontAwesomeIcon icon={faMicrophone} />
-              <span>Bắt đầu ghi âm</span>
+              <span>Start recording</span>
             </CustomButton>
           ) : (
             <CustomButton
@@ -103,7 +103,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
               className="!text-white flex !items-center !gap-1 !rounded-lg !py-2 !px-3"
             >
               <FontAwesomeIcon icon={faStop} />
-              <span>Dừng ghi âm</span>
+              <span>Stop recording</span>
             </CustomButton>
           )}
 
@@ -115,7 +115,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
                 className="flex !items-center !gap-1 !border-red-600 !text-red-500 !rounded-lg !py-2 !px-3"
               >
                 <FontAwesomeIcon icon={faTrash} />
-                <span>Xóa</span>
+                <span>Cancel</span>
               </CustomButton>
 
               <CustomButton
@@ -138,22 +138,22 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
           <div className="recording-status flex items-center gap-2 py-2 px-3 bg-red-50 rounded-lg">
             <div className="record-indicator w-3 h-3 bg-red-600 rounded-full animate-pulse"></div>
             <span className="font-medium">
-              Đang ghi âm: {formatTime(recordingTime)}
+              Recording: {formatTime(recordingTime)}
             </span>
           </div>
         )}
 
         {audioBlob && !isRecording && (
           <div className="audio-info mt-4 p-3 bg-gray-50 rounded-lg">
-            <p className="mb-2 font-medium">Bản ghi âm đã sẵn sàng</p>
+            <p className="mb-2 font-medium">The record is ready</p>
             <p className="text-sm text-gray-500">
-              Kích thước: {(audioBlob.size / 1024).toFixed(2)} KB | Thời lượng:{" "}
+              Size: {(audioBlob.size / 1024).toFixed(2)} KB | Length:{" "}
               {formatTime(recordingTime)}
             </p>
 
             <div className="filename-input mt-4">
               <label htmlFor="filename" className="block text-sm mb-1">
-                Tên file:
+                File name:
               </label>
               <div className="flex gap-2">
                 <input

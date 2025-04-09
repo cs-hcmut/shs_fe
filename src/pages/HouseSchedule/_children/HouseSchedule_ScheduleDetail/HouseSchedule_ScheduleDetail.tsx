@@ -1,82 +1,18 @@
-import useHouseScheduleStore_ScheduleDetail from "../../_stores/useHouseSchedule_ScheduleDetail.store";
-import useHouseScheduleStores_Condition from "../../_stores/useHouseSchedule_Conditions.store";
-import useHouseScheduleStores_Actions, {
-  HouseScheduleStore_Actions_defaultAction,
-} from "../../_stores/useHouseSchedule_Actions.store";
+import useHouseScheduleStores_ScheduleDetail from "../../_stores/useHouseSchedule_ScheduleDetail.store";
 import CustomModal from "src/components/_common/CustomModal";
 import { Divider } from "@mui/material";
 import HouseSchedule_Conditions from "../HouseSchedule_Conditions";
 import HouseSchedule_Actions from "../HouseSchedule_Actions";
-import { toast } from "sonner";
-import { Schedule_UpdateBody } from "src/types/schedule/schedule.update.type";
-import ScheduleServices from "src/services/schedule.service";
-import { get } from "lodash";
+import { useHouseSchedule_ScheduleDetail } from "./useHouseSchedule_ScheduleDetail.hook";
 
 interface HouseSchedule_ScheduleDetailProps {}
 
 export default function HouseSchedule_ScheduleDetail({}: HouseSchedule_ScheduleDetailProps) {
-  const {
-    currentSchedule,
-    setCurrentSchedule,
-    setViewingScheduleDetail,
-    viewingScheduleDetail,
-  } = useHouseScheduleStore_ScheduleDetail();
+  const { setViewingScheduleDetail, viewingScheduleDetail } =
+    useHouseScheduleStores_ScheduleDetail();
 
-  const { setRepeat, convertRepeatToString, timeValue } =
-    useHouseScheduleStores_Condition();
-  const { setDeviceAttributeList, action, setAction, deviceAttributeList } =
-    useHouseScheduleStores_Actions();
-
-  const closeScheduleDetail = () => {
-    setViewingScheduleDetail(false);
-    setCurrentSchedule(undefined);
-    setRepeat(new Map());
-    setAction(0);
-    setDeviceAttributeList([HouseScheduleStore_Actions_defaultAction]);
-  };
-
-  // ! handle create schedule
-  const updateScheduleMutation = ScheduleServices.update.useUpdateSchedule();
-  const onUpdateSchedule = () => {
-    if (!currentSchedule) {
-      toast.error("No schedule selected");
-      return;
-    }
-
-    const updateBody: Schedule_UpdateBody = {
-      repeat: convertRepeatToString(),
-      time: timeValue,
-      deviceAttrIds: deviceAttributeList
-        .map((ele) => {
-          return ele.deviceAttrId === "-1" ? null : ele.deviceAttrId;
-        })
-        .filter((ele) => ele !== null),
-      value: action,
-    };
-
-    // console.log(createBody);
-    // return;
-
-    toast.promise(
-      updateScheduleMutation.mutateAsync(
-        {
-          id: currentSchedule.id,
-          body: updateBody,
-        },
-        {
-          onSuccess() {
-            closeScheduleDetail();
-          },
-        }
-      ),
-      {
-        loading: "Creating",
-        success: "Created rule successfully",
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        error: (err: any) => get(err, "message", "Cannot create rule"),
-      }
-    );
-  };
+  const { onUpdateSchedule, closeScheduleDetail, onDeleteSchedule } =
+    useHouseSchedule_ScheduleDetail();
 
   return (
     <CustomModal
@@ -85,9 +21,18 @@ export default function HouseSchedule_ScheduleDetail({}: HouseSchedule_ScheduleD
       onClose={closeScheduleDetail}
     >
       <div className="max-w-[80vw] h-[90vh] overflow-auto flex flex-col gap-4 justify-between">
-        <p className="font-semibold text-xl text-center text-primaryBlue">
-          Schedule Detail
-        </p>
+        <div className="flex items-center justify-center gap-4">
+          <p className="font-semibold text-xl text-center text-primaryBlue">
+            Schedule Detail
+          </p>
+          <button
+            type="button"
+            onClick={onDeleteSchedule}
+            className="bg-alert-red hover:bg-alertRed text-white font-medium py-1 px-2 rounded-md "
+          >
+            Delete schedule
+          </button>
+        </div>
 
         <Divider className="!border-border-primary" />
 

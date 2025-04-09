@@ -23,7 +23,7 @@ function AppIner() {
         minHeight: "inherit",
       }}
     >
-      <Toaster position="top-center" />
+      <Toaster position="top-center" duration={2000} />
       {routes}
       {loadingPage && <LoadingPage />}
     </div>

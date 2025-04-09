@@ -2,10 +2,8 @@
 import { Button } from "@mui/material";
 import { HouseSchedule_Condition } from "src/types/schedule/schedule.condition.type";
 import { ScheduleModel } from "src/types/schedule/schedule.type";
-import useHouseScheduleStore_ScheduleDetail from "../../_stores/useHouseSchedule_ScheduleDetail.store";
 import { HouseSchedule_DevicesForm } from "src/types/schedule/schedule.action.type";
-import useHouseScheduleStores_Condition from "../../_stores/useHouseSchedule_Conditions.store";
-import useHouseScheduleStores_Actions from "../../_stores/useHouseSchedule_Actions.store";
+import { useHouseSchedule_Item } from "./useHouseSchedule_Item.hook";
 
 interface HouseSchedule_ItemProps {
   schedule: ScheduleModel;
@@ -16,36 +14,7 @@ export default function HouseSchedule_Item({
 }: HouseSchedule_ItemProps) {
   const { time, repeat, DeviceAttributes, value } = schedule;
 
-  const { setViewingScheduleDetail, setCurrentSchedule } =
-    useHouseScheduleStore_ScheduleDetail();
-
-  const { setRepeatFromString, setTimeValue } =
-    useHouseScheduleStores_Condition();
-  const { setDeviceAttributeList, setAction } =
-    useHouseScheduleStores_Actions();
-
-  // ! handle edit
-  const onClickEdit = () => {
-    setCurrentSchedule(schedule);
-
-    setRepeatFromString(repeat);
-    setTimeValue(time);
-    setAction(value);
-    setDeviceAttributeList(
-      DeviceAttributes.map((ele) => {
-        const deviceName = ele.device.room
-          ? `${ele.device.name} - ${ele.device.room.name}`
-          : ele.device.name;
-
-        return {
-          deviceName,
-          deviceAttrId: ele.id,
-        };
-      })
-    );
-
-    setViewingScheduleDetail(true);
-  };
+  const { onClickEdit } = useHouseSchedule_Item({ schedule });
 
   return (
     <div className="rounded-lg bg-white overflow-hidden flex flex-col w-full gap-4 py-4 px-4 border border-border-primary relative">

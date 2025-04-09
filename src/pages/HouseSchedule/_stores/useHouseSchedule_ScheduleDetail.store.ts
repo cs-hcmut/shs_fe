@@ -12,7 +12,7 @@ export interface IHouseScheduleStore_ScheduleDetail {
   setIsActive: (value: boolean) => void;
 }
 
-const useHouseScheduleStore_ScheduleDetail =
+const useHouseScheduleStores_ScheduleDetail =
   create<IHouseScheduleStore_ScheduleDetail>()((set) => ({
     viewingScheduleDetail: false,
     setViewingScheduleDetail: (value: boolean) => {
@@ -39,4 +39,4 @@ const useHouseScheduleStore_ScheduleDetail =
     },
   }));
 
-export default useHouseScheduleStore_ScheduleDetail;
+export default useHouseScheduleStores_ScheduleDetail;
