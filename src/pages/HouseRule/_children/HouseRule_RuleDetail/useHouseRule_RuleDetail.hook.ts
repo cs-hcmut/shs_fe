@@ -30,7 +30,7 @@ export const useHouseRule_RuleDetail = () => {
   const { setCondition, condition } = useHouseConfigStore_Condition();
   const { setActionList, actionList } = useHouseRuleStore_Actions();
 
-  const closeConfigDetail = () => {
+  const closeRuleDetail = () => {
     setViewingRuleDetail(false);
     setCurrentRule(undefined);
     setCondition(houseRuleStores_Condition_defaultCondition);
@@ -128,5 +128,28 @@ export const useHouseRule_RuleDetail = () => {
     );
   };
 
-  return { closeConfigDetail, onClickSave };
+  // ! handle delete rule
+  const deleteRuleMutation = RuleServices.delete.useDeleteRule();
+  const onDeleteRule = () => {
+    if (!currentRule) {
+      toast.error("No rule selected");
+      return;
+    }
+
+    toast.promise(
+      deleteRuleMutation.mutateAsync(currentRule.id, {
+        onSuccess() {
+          closeRuleDetail();
+        },
+      }),
+      {
+        loading: "Deleting",
+        success: "Deleted schedule",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        error: (err: any) => get(err, "message", "Cannot delete schedule"),
+      }
+    );
+  };
+
+  return { closeRuleDetail, onClickSave, onDeleteRule };
 };

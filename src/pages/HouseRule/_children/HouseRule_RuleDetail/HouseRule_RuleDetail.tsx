@@ -19,20 +19,22 @@ export default function HouseRule_RuleDetail({}: HouseRule_RuleDetailProps) {
     activateRule,
   } = useHouseRuleStores_RuleDetail();
 
-  const { onClickSave, closeConfigDetail } = useHouseRule_RuleDetail();
+  const { onClickSave, closeRuleDetail, onDeleteRule } =
+    useHouseRule_RuleDetail();
 
   return (
     <CustomModal
       isOpen={viewingRuleDetail}
       setIsOpen={setViewingRuleDetail}
-      onClose={closeConfigDetail}
+      onClose={closeRuleDetail}
     >
       <div className="max-w-[80vw] h-[90vh] overflow-auto flex flex-col gap-4 justify-between">
-        <div className="flex w-full items-center justify-center gap-4">
+        <div className="flex w-full items-center justify-between gap-4">
           <p className="font-semibold text-xl text-center text-primaryBlue">
             Rule Detail
           </p>
-          <div className="flex items-center justify-center gap-2">
+
+          <div className="flex items-center justify-center gap-2 border px-2 rounded-lg  border-border-primary">
             <p className="font-semibold">Activate</p>
             <Switch
               sx={MuiStyles.switchStyles.green}
@@ -42,6 +44,13 @@ export default function HouseRule_RuleDetail({}: HouseRule_RuleDetailProps) {
               }}
             />
           </div>
+          <button
+            type="button"
+            onClick={onDeleteRule}
+            className="bg-alert-red hover:bg-alertRed text-white font-medium py-1 px-2 rounded-md "
+          >
+            Delete rule
+          </button>
         </div>
 
         <Divider className="!border-border-primary" />
@@ -66,7 +75,7 @@ export default function HouseRule_RuleDetail({}: HouseRule_RuleDetailProps) {
         <div className="w-full grid grid-cols-2 gap-4">
           <button
             type="button"
-            onClick={closeConfigDetail}
+            onClick={closeRuleDetail}
             className="py-2 px-3 rounded-xl border border-border-primary font-medium hover:bg-slate-100"
           >
             Cancel

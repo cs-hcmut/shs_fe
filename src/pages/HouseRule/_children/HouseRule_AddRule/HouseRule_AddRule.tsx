@@ -29,7 +29,23 @@ export default function HouseRule_AddRule({}: HouseRule_AddRuleProps) {
   // ! handle create rule
   const createRuleMutation = RuleServices.create.useCreateRule();
   const onCreateRule = () => {
-    const {} = condition;
+    if (condition.deviceAttrId == "-1") {
+      toast.error("No sensor device is selected");
+      return;
+    }
+
+    if (actionList.length === 0) {
+      toast.error("Actions cannot be empty");
+      return;
+    }
+
+    actionList.forEach((act, index) => {
+      if (act.deviceAttrId == "-1") {
+        toast.error(`Invalid action ${index + 1}: no device is assigned`);
+        return;
+      }
+    });
+
     const createBody: Rule_CreateBody = {
       ...condition,
       actions: actionList.map((ele) => {
@@ -38,6 +54,9 @@ export default function HouseRule_AddRule({}: HouseRule_AddRuleProps) {
         };
       }),
     };
+
+    // console.log(createBody);
+    // return;
 
     toast.promise(createRuleMutation.mutateAsync(createBody), {
       loading: "Creating",
