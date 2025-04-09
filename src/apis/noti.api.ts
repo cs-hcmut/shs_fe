@@ -23,7 +23,7 @@ const notiApi = {
   // ! put
   updateNotification(dto: Notification_UpdateDto) {
     const { body, id } = dto;
-    return http.put<SuccessReponse<NotificationModel>>(`${url}/${id}`, body);
+    return http.patch<SuccessReponse<NotificationModel>>(`${url}/${id}`, body);
   },
 
   // ! delete
