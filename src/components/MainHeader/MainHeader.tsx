@@ -16,7 +16,7 @@ import { Badge } from "@mui/material";
 import classNames from "classnames";
 
 export default function MainHeader() {
-  const { isAuthenticated } = useContext(AppContext);
+  const { isAuthenticated, handleLogout } = useContext(AppContext);
 
   const { setShowingNotificationModal } = useNotificationSiteStore();
 
@@ -28,6 +28,11 @@ export default function MainHeader() {
     (count, noti) => count + (noti.status === "unack" ? 1 : 0),
     0
   );
+
+  // ! logout
+  const onLogout = () => {
+    handleLogout();
+  };
 
   return (
     <div
@@ -76,7 +81,7 @@ export default function MainHeader() {
           </button>
         )}
         {isAuthenticated && (
-          <button>
+          <button onClick={onLogout}>
             <FontAwesomeIcon
               icon={faSignOut}
               className="text-gray-text w-8 h-8 hover:text-primary-blue"

@@ -11,7 +11,7 @@ import HouseRule from "src/pages/HouseRule";
 
 export function ProtectedRouteWrapper() {
   const { isAuthenticated } = useContext(AppContext);
-  return true ? (
+  return isAuthenticated ? (
     <MainLayout>
       <Outlet />
     </MainLayout>
