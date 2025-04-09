@@ -7,8 +7,6 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { AppProvider } from "./contexts/app.context";
 import LoadingPage from "./components/_loadingComponents/LoadingPage";
 import { AppContext } from "./contexts/app.context";
-import { CartProvider } from "./contexts/cart.context";
-import { OrderProvider } from "./contexts/order.context";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Toaster } from "sonner";
@@ -35,13 +33,9 @@ function App() {
     <ScrollToTop>
       <PrimeReactProvider>
         <AppProvider>
-          <CartProvider>
-            <OrderProvider>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <AppIner />
-              </LocalizationProvider>
-            </OrderProvider>
-          </CartProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <AppIner />
+          </LocalizationProvider>
         </AppProvider>
       </PrimeReactProvider>
     </ScrollToTop>
