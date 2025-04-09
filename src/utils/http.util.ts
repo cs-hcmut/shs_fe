@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse, type AxiosInstance } from "axios";
 import {
   clearLS,
   getAccessTokenFromLS,
-  getAccessTokenFromSessionStorage,
+  setAccessTokenToLS,
   setAccessTokenToSessionStorage,
 } from "./auth.util";
 import config from "../configs/config";
@@ -16,8 +16,7 @@ class Http {
   instance: AxiosInstance;
   private accessToken: string | null;
   constructor() {
-    this.accessToken =
-      getAccessTokenFromLS() || getAccessTokenFromSessionStorage();
+    this.accessToken = getAccessTokenFromLS();
     this.instance = axios.create({
       baseURL: ApiURL,
       timeout: 30000,
@@ -47,6 +46,7 @@ class Http {
           if (accessToken !== undefined) {
             this.accessToken = accessToken;
             setAccessTokenToSessionStorage(accessToken);
+            setAccessTokenToLS(accessToken);
           }
         }
         return response;
