@@ -1,10 +1,5 @@
 import axios, { AxiosError, AxiosResponse, type AxiosInstance } from "axios";
-import {
-  clearLS,
-  getAccessTokenFromLS,
-  setAccessTokenToLS,
-  setAccessTokenToSessionStorage,
-} from "./auth.util";
+import { clearLS, getAccessTokenFromLS, setAccessTokenToLS } from "./auth.util";
 import config from "../configs/config";
 import { HttpErrorKeys } from "../constants/httpResponeErrorKey";
 import { ErrorRespone } from "src/types/_commons/common.type";
@@ -39,13 +34,12 @@ class Http {
     // Add a response interceptor
     this.instance.interceptors.response.use(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (response: AxiosResponse<string, any>) => {
+      (response: AxiosResponse<{ message: string; token: string }, any>) => {
         const { url } = response.config;
-        if (url === "/v1/user/login") {
-          const accessToken = response.data;
+        if (url === "/auth/login") {
+          const accessToken = response.data.token;
           if (accessToken !== undefined) {
             this.accessToken = accessToken;
-            setAccessTokenToSessionStorage(accessToken);
             setAccessTokenToLS(accessToken);
           }
         }

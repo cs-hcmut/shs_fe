@@ -4,7 +4,9 @@ import {
   useQueryClient,
   UseQueryOptions,
 } from "@tanstack/react-query";
+import { useContext } from "react";
 import notiApi from "src/apis/noti.api";
+import { AppContext } from "src/contexts/app.context";
 import { SuccessReponse } from "src/types/_commons/common.type";
 import { NotificationParams } from "src/types/notification/notification.params.type";
 import { NotificationModel } from "src/types/notification/notification.type";
@@ -32,9 +34,11 @@ const useListNotis = (
     "queryKey" | "queryFn"
   >
 ) => {
+  const { isAuthenticated } = useContext(AppContext);
   return useQuery<SuccessReponse<NotificationModel[]>, Error>({
     queryKey: [NOTIFICATION_KEY, params],
     queryFn: () => notiApi.listNotifications(params).then((res) => res.data),
+    enabled: isAuthenticated,
     ...options,
   });
 };
