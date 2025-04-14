@@ -7,22 +7,46 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import mainPath, { homeManagementPaths } from "../../constants/path";
-import { useContext, useMemo } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../../contexts/app.context";
 import NotificationSite from "src/pages/NotificationSite";
 import useNotificationSiteStore from "src/pages/NotificationSite/_stores/NotificationSite.store";
 import NotiServices from "src/services/noti.service";
 import { Badge } from "@mui/material";
 import classNames from "classnames";
+import { parseNotificationMessage } from "src/types/notification/notification.type";
+import socket from "src/utils/socket.util";
+import useNotificationStores from "src/stores/Notification.store";
 
 export default function MainHeader() {
   const { isAuthenticated, handleLogout } = useContext(AppContext);
+
+  const { notiList, setNotiList } = useNotificationStores();
 
   const { setShowingNotificationModal } = useNotificationSiteStore();
 
   // ! get notification
   const { data: notiData } = NotiServices.queries.useListNotis({});
-  const notiList = useMemo(() => notiData?.data || [], [notiData]);
+
+  useEffect(() => {
+    if (notiData) {
+      setNotiList(notiData.data);
+    }
+  }, [notiData, setNotiList]);
+
+  useEffect(() => {
+    socket.connect();
+
+    socket.on("notification", (data) => {
+      const newNoti = parseNotificationMessage(data);
+      setNotiList([newNoti, ...notiList]);
+    });
+
+    return () => {
+      socket.off("notification");
+      socket.disconnect();
+    };
+  }, [notiList, setNotiList]);
 
   const unAckNotiCount = notiList.reduce(
     (count, noti) => count + (noti.status === "unack" ? 1 : 0),

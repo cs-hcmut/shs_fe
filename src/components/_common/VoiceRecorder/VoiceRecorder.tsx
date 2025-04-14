@@ -28,7 +28,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
     startRecording,
     stopRecording,
     resetRecording,
-    saveRecording,
+    // saveRecording,
     recordingTime,
     error,
   } = useVoiceRecorder();
@@ -49,7 +49,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
 
     setIsSaving(true);
     try {
-      saveRecording(filename);
+      // saveRecording(filename);
 
       if (onSave) {
         // Clone the blob to make sure it's not affected by any operations
@@ -75,7 +75,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
   return (
     <div className={`voice-recorder ${className}`}>
       <div className="recorder-container p-4 border rounded-lg shadow-sm">
-        <h2 className="text-lg font-medium mb-4">Voice record</h2>
+        <p className="text-xl font-medium mb-4 uppercase ">Control by voice</p>
 
         {error && (
           <div className="error-message bg-red-50 text-red-600 p-2 rounded mb-4">
@@ -83,7 +83,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
           </div>
         )}
 
-        <div className="controls flex flex-wrap items-center gap-2 mb-4">
+        <div className="controls flex flex-wrap justify-center items-center gap-2 mb-4">
           {!isRecording ? (
             <CustomButton
               variant="contained"

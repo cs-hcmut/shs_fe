@@ -17,7 +17,7 @@ const deviceApi = {
   },
 
   // ! post
-  uploadVoiceRecord(body: { file: File }) {
+  uploadVoiceRecord(body: FormData) {
     return http.post<SuccessReponse<string>>(`${url}/voice-control`, body, {
       headers: {
         "Content-Type": "multipart/form-data",

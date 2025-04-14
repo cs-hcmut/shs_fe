@@ -39,17 +39,18 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
 
   const uploadVoiceMutation = DeviceServices.create.useUploadVoiceRecord();
   const handleSaveRecording = (blob: Blob) => {
-    // setSavedRecordings((prev) => [...prev, { id: Date.now(), url }]);
-
     const audioFile = createFileFromAudioBlob(blob);
 
-    const body = {
-      file: audioFile,
-    };
+    // const body = {
+    //   file: audioFile,
+    // };
     // console.log(body);
     // return;
 
-    toast.promise(uploadVoiceMutation.mutateAsync(body), {
+    const formData = new FormData();
+    formData.append("file", audioFile);
+
+    toast.promise(uploadVoiceMutation.mutateAsync(formData), {
       loading: "Uploading",
       success: "Uploaded voice command successfully",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

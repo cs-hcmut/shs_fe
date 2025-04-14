@@ -1,9 +1,7 @@
-import NotiServices from "src/services/noti.service";
+import useNotificationStores from "src/stores/Notification.store";
 
 export const useNotificationSite = () => {
-  // ! get notification
-  const { data: notiData } = NotiServices.queries.useListNotis({});
-  const notiList = notiData?.data || [];
+  const { notiList } = useNotificationStores();
 
   const unAckNotiCount = notiList.reduce(
     (count, noti) => (count + noti.status === "unack" ? 1 : 0),
