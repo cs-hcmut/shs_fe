@@ -9,7 +9,10 @@ import { useParams } from "react-router-dom";
 import { getIdFromNameId } from "src/utils/utils";
 import VoiceRecorder from "src/components/_common/VoiceRecorder";
 import { toast } from "sonner";
-import { createFileFromAudioBlob } from "src/utils/audio.util";
+import {
+  createFileFromAudioBlob,
+  fixAudioMetadata,
+} from "src/utils/audio.util";
 import { get } from "lodash";
 
 interface RD_RoomControllerProps {}
@@ -38,8 +41,9 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
   // ! voice recording
 
   const uploadVoiceMutation = DeviceServices.create.useUploadVoiceRecord();
-  const handleSaveRecording = (blob: Blob) => {
-    const audioFile = createFileFromAudioBlob(blob);
+  const handleSaveRecording = async (blob: Blob) => {
+    const fixedBlob = await fixAudioMetadata(blob);
+    const audioFile = createFileFromAudioBlob(fixedBlob);
 
     // const body = {
     //   file: audioFile,
@@ -58,6 +62,19 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
     });
   };
 
+  // const handleSave = async (blob: Blob) => {
+  //   try {
+  //     // Sửa metadata trước khi tải xuống
+  //     const fixedBlob = await fixAudioMetadata(blob);
+  //     const audioFile = createFileFromAudioBlob(fixedBlob);
+  //     downloadAudioFile(audioFile);
+  //   } catch (error) {
+  //     console.error("Error processing audio:", error);
+  //     // Fallback: vẫn tải file gốc nếu có lỗi xảy ra
+  //     const audioFile = createFileFromAudioBlob(blob);
+  //     downloadAudioFile(audioFile);
+  //   }
+  // };
   return (
     <div className="w-full flex flex-col gap-4">
       <div className="w-full flex items-center justify-center">

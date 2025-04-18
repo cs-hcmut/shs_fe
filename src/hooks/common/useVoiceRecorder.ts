@@ -11,7 +11,11 @@ interface UseVoiceRecorderReturn {
   stopRecording: () => void;
   resetRecording: () => void;
   saveRecording: (filename?: string) => void;
+  playRecording: () => void;
+  pausePlayback: () => void;
+  isPlaying: boolean;
   recordingTime: number;
+  currentPlaybackTime: number;
   error: string | null;
 }
 
@@ -25,16 +29,27 @@ export const useVoiceRecorder = (): UseVoiceRecorderReturn => {
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [recordingTime, setRecordingTime] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [currentPlaybackTime, setCurrentPlaybackTime] = useState<number>(0);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
+  const playbackTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Cleanup function
   useEffect(() => {
     return () => {
       stopAllMedia();
+      if (audioPlayerRef.current) {
+        audioPlayerRef.current.pause();
+        audioPlayerRef.current.src = "";
+      }
+      if (playbackTimerRef.current) {
+        clearInterval(playbackTimerRef.current);
+      }
     };
   }, []);
 
@@ -76,6 +91,9 @@ export const useVoiceRecorder = (): UseVoiceRecorderReturn => {
 
       // Stop any previous recording session
       stopAllMedia();
+
+      // Stop any playing audio
+      pausePlayback();
 
       // Get user media
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -169,8 +187,10 @@ export const useVoiceRecorder = (): UseVoiceRecorderReturn => {
   // Reset recording function
   const resetRecording = useCallback(() => {
     stopAllMedia();
+    pausePlayback();
     setAudioBlob(null);
     setRecordingTime(0);
+    setCurrentPlaybackTime(0);
     setError(null);
     audioChunksRef.current = [];
   }, []);
@@ -210,6 +230,108 @@ export const useVoiceRecorder = (): UseVoiceRecorderReturn => {
     [audioBlob]
   );
 
+  // Play recording function
+  const playRecording = useCallback(() => {
+    if (!audioBlob) {
+      setError("Không có bản ghi âm để phát");
+      return;
+    }
+
+    try {
+      // Stop any previous playback
+      if (audioPlayerRef.current) {
+        audioPlayerRef.current.pause();
+      }
+
+      // Clear any existing playback timer
+      if (playbackTimerRef.current) {
+        clearInterval(playbackTimerRef.current);
+        playbackTimerRef.current = null;
+      }
+
+      // Create a temporary audio element if it doesn't exist
+      if (!audioPlayerRef.current) {
+        audioPlayerRef.current = new Audio();
+      }
+
+      // Create a blob URL for the audio
+      const audioUrl = window.URL.createObjectURL(audioBlob);
+
+      // Set up audio player
+      audioPlayerRef.current.src = audioUrl;
+      audioPlayerRef.current.onloadedmetadata = () => {
+        if (audioPlayerRef.current) {
+          audioPlayerRef.current.play().catch((err) => {
+            console.error("Error playing audio:", err);
+            setError("Lỗi khi phát bản ghi âm");
+            setIsPlaying(false);
+          });
+        }
+      };
+
+      // Set up event listeners
+      audioPlayerRef.current.onplay = () => {
+        setIsPlaying(true);
+        // Start a timer to update current playback time
+        playbackTimerRef.current = setInterval(() => {
+          if (audioPlayerRef.current) {
+            setCurrentPlaybackTime(
+              Math.floor(audioPlayerRef.current.currentTime)
+            );
+          }
+        }, 1000);
+      };
+
+      audioPlayerRef.current.onpause = () => {
+        setIsPlaying(false);
+        if (playbackTimerRef.current) {
+          clearInterval(playbackTimerRef.current);
+          playbackTimerRef.current = null;
+        }
+      };
+
+      audioPlayerRef.current.onended = () => {
+        setIsPlaying(false);
+        setCurrentPlaybackTime(0);
+        // Revoke the URL to free up memory
+        window.URL.revokeObjectURL(audioUrl);
+        if (playbackTimerRef.current) {
+          clearInterval(playbackTimerRef.current);
+          playbackTimerRef.current = null;
+        }
+      };
+
+      audioPlayerRef.current.onerror = (event) => {
+        console.error("Audio playback error:", event);
+        setError("Lỗi khi phát bản ghi âm");
+        setIsPlaying(false);
+        window.URL.revokeObjectURL(audioUrl);
+        if (playbackTimerRef.current) {
+          clearInterval(playbackTimerRef.current);
+          playbackTimerRef.current = null;
+        }
+      };
+    } catch (err) {
+      console.error("Error setting up audio playback:", err);
+      setError(
+        err instanceof Error ? err.message : "Có lỗi khi phát bản ghi âm"
+      );
+    }
+  }, [audioBlob]);
+
+  // Pause playback function
+  const pausePlayback = useCallback(() => {
+    if (audioPlayerRef.current && isPlaying) {
+      audioPlayerRef.current.pause();
+      setIsPlaying(false);
+
+      if (playbackTimerRef.current) {
+        clearInterval(playbackTimerRef.current);
+        playbackTimerRef.current = null;
+      }
+    }
+  }, [isPlaying]);
+
   return {
     isRecording,
     audioBlob,
@@ -217,7 +339,11 @@ export const useVoiceRecorder = (): UseVoiceRecorderReturn => {
     stopRecording,
     resetRecording,
     saveRecording,
+    playRecording,
+    pausePlayback,
+    isPlaying,
     recordingTime,
+    currentPlaybackTime,
     error,
   };
 };

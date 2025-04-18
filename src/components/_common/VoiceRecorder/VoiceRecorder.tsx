@@ -8,6 +8,8 @@ import {
   faTrash,
   faSave,
   faSpinner,
+  faPlay,
+  faPause,
 } from "@fortawesome/free-solid-svg-icons";
 import CustomButton from "../CustomButton";
 import MuiStyles from "../../../styles";
@@ -31,6 +33,10 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
     // saveRecording,
     recordingTime,
     error,
+    playRecording,
+    pausePlayback,
+    isPlaying,
+    currentPlaybackTime,
   } = useVoiceRecorder();
 
   const [filename, setFilename] = useState<string>("recording.wav");
@@ -53,8 +59,8 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
 
       if (onSave) {
         // Clone the blob to make sure it's not affected by any operations
-        const blobCopy = audioBlob.slice(0, audioBlob.size, audioBlob.type);
-        onSave(blobCopy);
+        // const blobCopy = audioBlob.slice(0, audioBlob.size, audioBlob.type);
+        onSave(audioBlob);
       }
     } catch (err) {
       console.error("Error handling save:", err);
@@ -69,6 +75,15 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
       await startRecording();
     } catch (err) {
       console.error("Could not start recording:", err);
+    }
+  };
+
+  // Handle playback toggle
+  const handlePlaybackToggle = () => {
+    if (isPlaying) {
+      pausePlayback();
+    } else {
+      playRecording();
     }
   };
 
@@ -130,6 +145,16 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
                 />
                 <span>{isSaving ? "Uploading..." : "Confirm"}</span>
               </CustomButton>
+
+              <CustomButton
+                variant="outlined"
+                onClick={handlePlaybackToggle}
+                disabled={!audioBlob}
+                className="flex !items-center !gap-1 !border-blue-600 !text-blue-500 !rounded-lg !py-2 !px-3"
+              >
+                <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
+                <span>{isPlaying ? "Pause" : "Play"}</span>
+              </CustomButton>
             </>
           )}
         </div>
@@ -143,6 +168,16 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
           </div>
         )}
 
+        {isPlaying && (
+          <div className="playback-status flex items-center gap-2 py-2 px-3 bg-blue-50 rounded-lg mt-2">
+            <div className="play-indicator w-3 h-3 bg-blue-600 rounded-full animate-pulse"></div>
+            <span className="font-medium">
+              Playing: {formatTime(currentPlaybackTime)} /{" "}
+              {formatTime(recordingTime)}
+            </span>
+          </div>
+        )}
+
         {audioBlob && !isRecording && (
           <div className="audio-info mt-4 p-3 bg-gray-50 rounded-lg">
             <p className="mb-2 font-medium">The record is ready</p>
@@ -150,6 +185,20 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
               Size: {(audioBlob.size / 1024).toFixed(2)} KB | Length:{" "}
               {formatTime(recordingTime)}
             </p>
+
+            {/* Audio playback progress bar */}
+            {audioBlob && (
+              <div className="playback-progress mt-3">
+                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-blue-500 transition-all duration-300"
+                    style={{
+                      width: `${recordingTime > 0 ? (currentPlaybackTime / recordingTime) * 100 : 0}%`,
+                    }}
+                  ></div>
+                </div>
+              </div>
+            )}
 
             <div className="filename-input mt-4">
               <label htmlFor="filename" className="block text-sm mb-1">
