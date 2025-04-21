@@ -9,6 +9,9 @@ import WidgetSummary from "src/components/_common/WidgetSummary";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import EstateServices from "src/services/estates.service";
+import DeviceServices from "src/services/device.service";
+import { Device_Attribute } from "src/types/device/device.attribute.type";
+import { DeviceAttribute_KeyType } from "src/types/device/deviceAttribute/deviceAttribute.type";
 
 export default function HouseDetail() {
   const { homeId: houseNameId } = useParams();
@@ -20,6 +23,25 @@ export default function HouseDetail() {
 
   const houseDetail = houseDetailData?.data;
   const floorList = houseDetail?.floors || [];
+
+  // ! gen sensor devices
+  const { data: deviceData } = DeviceServices.queries.useListAllDevices({});
+  const deviceList = deviceData?.data || [];
+  const sensorList = deviceList.filter(
+    (device) => device.attributes[0].isPublisher
+  );
+  const sensorAttributeList = sensorList.reduce(
+    (acc: Device_Attribute[], ele) => {
+      const attrList = ele.attributes;
+      return [...acc, ...attrList];
+    },
+    []
+  );
+
+  const sensorValueMap: Map<DeviceAttribute_KeyType, number> = new Map();
+  sensorAttributeList.map((ele) => sensorValueMap.set(ele.key, ele.value));
+
+  console.log(sensorValueMap);
 
   return (
     <AppLayout
@@ -37,11 +59,19 @@ export default function HouseDetail() {
     >
       <div className="w-full flex flex-col gap-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4">
-          <WidgetSummary title="Temperature" percent={2.6} total={18765} />
+          <WidgetSummary
+            title="Temperature"
+            shouldHideTrend
+            total={Number(sensorValueMap.get("temp"))}
+          />
 
-          <WidgetSummary title="Humidity " percent={2.6} total={18765} />
+          <WidgetSummary
+            title="Humidity "
+            shouldHideTrend
+            total={Number(sensorValueMap.get("humidity"))}
+          />
 
-          <WidgetSummary title="Air Quality" percent={2.6} total={18765} />
+          <WidgetSummary title="Air Quality" shouldHideTrend total={3.3} />
 
           <WidgetSummary title="Power Usage" percent={2.6} total={18765} />
         </div>

@@ -6,20 +6,22 @@ import { fNumber, fPercent } from "src/utils/format-number";
 type Props = CardProps & {
   title: string;
   total: number;
-  percent: number;
+  percent?: number;
   chart?: {
     colors?: string[];
     categories: string[];
     series: number[];
     options?: ChartOptions;
   };
+  shouldHideTrend?: boolean;
 };
 
 export default function WidgetSummary({
   title,
-  percent,
+  percent = 0,
   total,
   sx,
+  shouldHideTrend = false,
   ...other
 }: Props) {
   // const theme = useTheme();
@@ -84,7 +86,7 @@ export default function WidgetSummary({
         <Box sx={{ typography: "h6" }}>{title}</Box>
         <Box sx={{ mt: 1.5, mb: 1, typography: "h3" }}>{fNumber(total)}</Box>
 
-        {renderTrending}
+        {!shouldHideTrend && renderTrending}
       </div>
 
       {/* <Chart
