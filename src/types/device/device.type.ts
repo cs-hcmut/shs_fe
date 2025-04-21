@@ -6,6 +6,7 @@ export const Device_DeviceTypeList = [
   "fan",
   "door",
   "air_conditioner",
+  "other",
 ] as const;
 
 export type DeviceType = (typeof Device_DeviceTypeList)[number];

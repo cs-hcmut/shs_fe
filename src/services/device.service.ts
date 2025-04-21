@@ -23,7 +23,6 @@ const useListAllDevices = (
   return useQuery<SuccessReponse<Device[]>, Error>({
     queryKey: [DEVICE_KEY, params],
     queryFn: async () => {
-      // Add a small delay to ensure server has processed changes
       await new Promise((resolve) => setTimeout(resolve, 500));
       return deviceApi
         .listAllDevices({
@@ -31,7 +30,6 @@ const useListAllDevices = (
         })
         .then((res) => res.data);
     },
-    staleTime: 0,
     ...options,
   });
 };
@@ -47,7 +45,6 @@ const useGetDeviceById = (
   return useQuery<SuccessReponse<Device>, Error>({
     queryKey: [DEVICE_KEY, id, params],
     queryFn: async () => {
-      // Add a small delay to ensure server has processed changes
       await new Promise((resolve) => setTimeout(resolve, 500));
       return deviceApi
         .getDeviceById(id, {
@@ -55,7 +52,6 @@ const useGetDeviceById = (
         })
         .then((res) => res.data);
     },
-    staleTime: 0,
     ...options,
   });
 };
@@ -65,18 +61,12 @@ const useUploadVoiceRecord = () => {
   return useMutation({
     mutationFn: deviceApi.uploadVoiceRecord,
     onSuccess: () => {
-      // Remove queries immediately
-      qc.removeQueries({
-        queryKey: [DEVICE_KEY],
-      });
-
-      // Delay the refetch to ensure the server has time to process
       setTimeout(() => {
         qc.invalidateQueries({
           queryKey: [DEVICE_KEY],
           refetchType: "all",
         });
-      }, 1000);
+      }, 200);
     },
   });
 };
@@ -87,11 +77,9 @@ const useUpdateDeviceAttr = () => {
     mutationFn: deviceApi.updateDeviceAttribute,
     onSuccess: () => {
       // Delay the refetch to ensure the server has time to process
-      setTimeout(() => {
-        qc.invalidateQueries({
-          queryKey: [DEVICE_KEY],
-        });
-      }, 200);
+      qc.invalidateQueries({
+        queryKey: [DEVICE_KEY],
+      });
     },
   });
 };

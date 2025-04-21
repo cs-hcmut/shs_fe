@@ -17,6 +17,7 @@ const titleMap: { [key in DeviceType]: string } = {
   fan: "Fans",
   door: "Doors",
   air_conditioner: "Air conditioners",
+  other: "Others",
 };
 
 export default function RD_RoomController_Devices({
@@ -55,23 +56,29 @@ export default function RD_RoomController_Devices({
     <div className="border rounded-lg shrink border-border-primary p-2 overflow-hidden flex flex-col gap-2">
       <p className="text-lg font-semibold">{titleMap[deviceType]}</p>
       <Divider className="!border-border-secondary" />
-      {deviceList.map((device) => {
-        const { id, name, attributes } = device;
-        const statusAttr = attributes.find((attr) => attr.key === "status");
-        return (
-          <div
-            key={id}
-            className="flex justify-between w-full items-center px-4"
-          >
-            <p className="">{name}</p>
-            <Switch
-              checked={statusAttr?.value == 1}
-              sx={MuiStyles.switchStyles.green}
-              onChange={onToggleValue(id, statusAttr?.id)}
-            />
-          </div>
-        );
-      })}
+      {deviceList.length == 0 ? (
+        <div className="py-2 flex w-full items-center justify-center">
+          <p className="">No devices</p>
+        </div>
+      ) : (
+        deviceList.map((device) => {
+          const { id, name, attributes } = device;
+          const statusAttr = attributes.find((attr) => attr.key === "status");
+          return (
+            <div
+              key={id}
+              className="flex justify-between w-full items-center px-4"
+            >
+              <p className="">{name}</p>
+              <Switch
+                checked={statusAttr?.value == 1}
+                sx={MuiStyles.switchStyles.green}
+                onChange={onToggleValue(id, statusAttr?.id)}
+              />
+            </div>
+          );
+        })
+      )}
     </div>
   );
 }

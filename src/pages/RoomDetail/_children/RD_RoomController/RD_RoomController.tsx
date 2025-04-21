@@ -37,6 +37,7 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
   const airConditionorDeviceList = deviceList.filter(
     (d) => d.type === "air_conditioner"
   );
+  const otherDeviceList = deviceList.filter((d) => d.type === "other");
 
   // ! voice recording
 
@@ -99,6 +100,11 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
             deviceList={airConditionorDeviceList}
           />
         )}
+
+        <RD_RoomController_Devices
+          deviceType="other"
+          deviceList={otherDeviceList}
+        />
       </div>
     </div>
   );
