@@ -22,7 +22,7 @@
     "@iconify/react": "^5.2.0",
     "@mui/material": "^6.4.5",
     "@mui/x-date-pickers": "^7.28.0",
-    "@tanstack/react-query": "^5.60.6",
+    "@tanstack/react-query": "^5.74.4",
     "@types/yup": "^0.29.14",
     "apexcharts": "^4.5.0",
     "axios": "^1.7.7",

@@ -10,6 +10,9 @@ import { AppContext } from "./contexts/app.context";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Toaster } from "sonner";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function AppIner() {
   const routes = useRouteElements();
@@ -30,15 +33,17 @@ function AppIner() {
 
 function App() {
   return (
-    <ScrollToTop>
-      <PrimeReactProvider>
-        <AppProvider>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <AppIner />
-          </LocalizationProvider>
-        </AppProvider>
-      </PrimeReactProvider>
-    </ScrollToTop>
+    <QueryClientProvider client={queryClient}>
+      <ScrollToTop>
+        <PrimeReactProvider>
+          <AppProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <AppIner />
+            </LocalizationProvider>
+          </AppProvider>
+        </PrimeReactProvider>
+      </ScrollToTop>
+    </QueryClientProvider>
   );
 }
 
