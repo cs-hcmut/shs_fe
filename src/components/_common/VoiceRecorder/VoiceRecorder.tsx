@@ -6,8 +6,6 @@ import {
   faMicrophone,
   faStop,
   faTrash,
-  faSave,
-  faSpinner,
   faPlay,
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
@@ -40,7 +38,6 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
   } = useVoiceRecorder();
 
   const [filename, setFilename] = useState<string>("recording.wav");
-  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   // Format recording time as MM:SS
   const formatTime = (seconds: number): string => {
@@ -49,27 +46,27 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
     return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
-  // Handle save with optional callback
-  const handleSave = async () => {
-    if (!audioBlob) return;
+  // // ! Handle save with optional callback
+  // const handleSave = async () => {
+  //   if (!audioBlob) return;
 
-    setIsSaving(true);
-    try {
-      // saveRecording(filename);
+  //   setIsSaving(true);
+  //   try {
+  //     // saveRecording(filename);
 
-      if (onSave) {
-        // Clone the blob to make sure it's not affected by any operations
-        // const blobCopy = audioBlob.slice(0, audioBlob.size, audioBlob.type);
-        onSave(audioBlob);
-      }
-    } catch (err) {
-      console.error("Error handling save:", err);
-    } finally {
-      setIsSaving(false);
-    }
-  };
+  //     if (onSave) {
+  //       // Clone the blob to make sure it's not affected by any operations
+  //       // const blobCopy = audioBlob.slice(0, audioBlob.size, audioBlob.type);
+  //       onSave(audioBlob);
+  //     }
+  //   } catch (err) {
+  //     console.error("Error handling save:", err);
+  //   } finally {
+  //     setIsSaving(false);
+  //   }
+  // };
 
-  // Handle recording start with error handling
+  // ! Handle recording start with error handling
   const handleStartRecording = async () => {
     try {
       await startRecording();
@@ -84,6 +81,20 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
       pausePlayback();
     } else {
       playRecording();
+    }
+  };
+
+  // ! handle stop recording
+  const onStopRecording = async () => {
+    // stopRecording now returns a Promise with the latest blob
+    const blob = await stopRecording();
+
+    if (blob && onSave) {
+      try {
+        onSave(blob);
+      } catch (err) {
+        console.error("Error handling save:", err);
+      }
     }
   };
 
@@ -113,7 +124,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
           ) : (
             <CustomButton
               variant="contained"
-              onClick={stopRecording}
+              onClick={onStopRecording}
               sx={MuiStyles.buttonStyles.contained.dangerActionBg}
               className="!text-white flex !items-center !gap-1 !rounded-lg !py-2 !px-3"
             >
@@ -133,7 +144,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
                 <span>Cancel</span>
               </CustomButton>
 
-              <CustomButton
+              {/* <CustomButton
                 variant="contained"
                 onClick={handleSave}
                 disabled={isSaving}
@@ -144,7 +155,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
                   className={isSaving ? "animate-spin" : ""}
                 />
                 <span>{isSaving ? "Uploading..." : "Confirm"}</span>
-              </CustomButton>
+              </CustomButton> */}
 
               <CustomButton
                 variant="outlined"

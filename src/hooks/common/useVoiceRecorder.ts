@@ -8,7 +8,7 @@ interface UseVoiceRecorderReturn {
   isRecording: boolean;
   audioBlob: Blob | null;
   startRecording: () => Promise<void>;
-  stopRecording: () => void;
+  stopRecording: (autoSave?: boolean) => Promise<Blob | null>;
   resetRecording: () => void;
   saveRecording: (filename?: string) => void;
   playRecording: () => void;
@@ -38,6 +38,7 @@ export const useVoiceRecorder = (): UseVoiceRecorderReturn => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
   const playbackTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const stopCallbackRef = useRef<((blob: Blob) => void) | null>(null);
 
   // Cleanup function
   useEffect(() => {
@@ -53,7 +54,7 @@ export const useVoiceRecorder = (): UseVoiceRecorderReturn => {
     };
   }, []);
 
-  // Helper function to stop all media and timers
+  // ! Helper function to stop all media and timers
   const stopAllMedia = () => {
     if (mediaRecorderRef.current && isRecording) {
       try {
@@ -142,6 +143,12 @@ export const useVoiceRecorder = (): UseVoiceRecorderReturn => {
             clearInterval(timerRef.current);
             timerRef.current = null;
           }
+
+          // Call the stop callback if it exists
+          if (stopCallbackRef.current) {
+            stopCallbackRef.current(audioBlob);
+            stopCallbackRef.current = null;
+          }
         } catch (err) {
           console.error("Error processing recorded data:", err);
           setError("Lỗi khi xử lý bản ghi âm");
@@ -171,20 +178,35 @@ export const useVoiceRecorder = (): UseVoiceRecorderReturn => {
     }
   }, []);
 
-  // Stop recording function
-  const stopRecording = useCallback(() => {
-    if (mediaRecorderRef.current && isRecording) {
-      try {
-        mediaRecorderRef.current.stop();
-      } catch (err) {
-        console.error("Error stopping recording:", err);
-        setError("Lỗi khi dừng ghi âm");
-        stopAllMedia();
-      }
-    }
-  }, [isRecording]);
+  // ! Stop recording function that returns a promise with the audio blob
+  const stopRecording = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async (_autoSave: boolean = false): Promise<Blob | null> => {
+      return new Promise((resolve) => {
+        if (mediaRecorderRef.current && isRecording) {
+          try {
+            // Set up a callback to be called when the media recorder stops
+            stopCallbackRef.current = (blob: Blob) => {
+              resolve(blob);
+            };
 
-  // Reset recording function
+            mediaRecorderRef.current.stop();
+          } catch (err) {
+            console.error("Error stopping recording:", err);
+            setError("Lỗi khi dừng ghi âm");
+            stopAllMedia();
+            resolve(null);
+          }
+        } else {
+          // If not recording, resolve with current audioBlob
+          resolve(audioBlob);
+        }
+      });
+    },
+    [isRecording, audioBlob]
+  );
+
+  // ! Reset recording function
   const resetRecording = useCallback(() => {
     stopAllMedia();
     pausePlayback();

@@ -55,26 +55,13 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
     formData.append("file", audioFile);
 
     toast.promise(uploadVoiceMutation.mutateAsync(formData), {
-      loading: "Uploading",
+      loading: "Uploading voice command",
       success: "Uploaded voice command successfully",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       error: (err: any) => get(err, "message", "Cannot upload voice"),
     });
   };
 
-  // const handleSave = async (blob: Blob) => {
-  //   try {
-  //     // Sửa metadata trước khi tải xuống
-  //     const fixedBlob = await fixAudioMetadata(blob);
-  //     const audioFile = createFileFromAudioBlob(fixedBlob);
-  //     downloadAudioFile(audioFile);
-  //   } catch (error) {
-  //     console.error("Error processing audio:", error);
-  //     // Fallback: vẫn tải file gốc nếu có lỗi xảy ra
-  //     const audioFile = createFileFromAudioBlob(blob);
-  //     downloadAudioFile(audioFile);
-  //   }
-  // };
   return (
     <div className="w-full flex flex-col gap-4">
       <div className="w-full flex items-center justify-center">
