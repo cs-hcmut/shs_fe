@@ -10,6 +10,9 @@ export interface IHouseRuleStores_RuleDetail {
 
   activateRule: boolean;
   setActivateRule: (value: boolean) => void;
+
+  receiveNoti: boolean;
+  setReceiveNoti: (value: boolean) => void;
 }
 
 const useHouseRuleStores_RuleDetail = create<IHouseRuleStores_RuleDetail>()(
@@ -34,6 +37,14 @@ const useHouseRuleStores_RuleDetail = create<IHouseRuleStores_RuleDetail>()(
     setActivateRule: (value: boolean) => {
       set((state) => {
         state.activateRule = value;
+        return { ...state };
+      });
+    },
+
+    receiveNoti: false,
+    setReceiveNoti: (value: boolean) => {
+      set((state) => {
+        state.receiveNoti = value;
         return { ...state };
       });
     },

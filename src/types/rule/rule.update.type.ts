@@ -4,7 +4,8 @@ import { Rule_CreateBody } from "./rule.create.type";
 export interface Rule_UpdateBody extends Partial<Rule_CreateBody> {}
 
 export interface Rule_PatchBody {
-  isActive: boolean;
+  isActive?: boolean;
+  receiveNotification?: boolean;
 }
 
 export interface Rule_PatchDto {

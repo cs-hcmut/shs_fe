@@ -17,6 +17,8 @@ export default function HouseRule_RuleDetail({}: HouseRule_RuleDetailProps) {
     viewingRuleDetail,
     setActivateRule,
     activateRule,
+    receiveNoti,
+    setReceiveNoti,
   } = useHouseRuleStores_RuleDetail();
 
   const { onClickSave, closeRuleDetail, onDeleteRule } =
@@ -44,6 +46,17 @@ export default function HouseRule_RuleDetail({}: HouseRule_RuleDetailProps) {
               }}
             />
           </div>
+          <div className="flex items-center justify-center gap-2 border px-2 rounded-lg  border-border-primary">
+            <p className="font-semibold">Receive notification</p>
+            <Switch
+              sx={MuiStyles.switchStyles.green}
+              checked={receiveNoti}
+              onChange={(_, value) => {
+                setReceiveNoti(value);
+              }}
+            />
+          </div>
+
           <button
             type="button"
             onClick={onDeleteRule}

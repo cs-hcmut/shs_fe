@@ -1,6 +1,7 @@
 import { get } from "lodash";
 import { toast } from "sonner";
 import {
+  Rule_PatchBody,
   Rule_UpdateBody,
   Rule_UpdateDto,
 } from "src/types/rule/rule.update.type";
@@ -23,8 +24,8 @@ export const useHouseRule_RuleDetail = () => {
     setCurrentRule,
     setViewingRuleDetail,
     currentRule,
-    setActivateRule,
     activateRule,
+    receiveNoti,
   } = useHouseRuleStores_RuleDetail();
 
   const { setCondition, condition } = useHouseConfigStore_Condition();
@@ -35,7 +36,6 @@ export const useHouseRule_RuleDetail = () => {
     setCurrentRule(undefined);
     setCondition(houseRuleStores_Condition_defaultCondition);
     setActionList([HouseRuleStores_Actions_defaultAction]);
-    setActivateRule(true);
   };
 
   // ! handle update rule
@@ -108,12 +108,18 @@ export const useHouseRule_RuleDetail = () => {
 
           // Then call handlePatchRule without its internal toast
           // Only if activation state is different from current
+          const patchBody: Rule_PatchBody = {};
           if (currentRule.isActive !== activateRule) {
-            await patchRuleMutation.mutateAsync({
-              id: currentRule.id,
-              body: { isActive: activateRule },
-            });
+            patchBody.isActive = activateRule;
           }
+
+          if (currentRule.receiveNotification !== receiveNoti) {
+            patchBody.receiveNotification = receiveNoti;
+          }
+          await patchRuleMutation.mutateAsync({
+            id: currentRule.id,
+            body: patchBody,
+          });
 
           return "Success";
         } catch (error) {

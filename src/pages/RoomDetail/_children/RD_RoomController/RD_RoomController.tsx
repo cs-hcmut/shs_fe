@@ -1,7 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CustomButton from "../../../../components/_common/CustomButton";
-import MuiStyles from "../../../../styles";
-import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { Divider } from "@mui/material";
 import RD_RoomController_Devices from "./_children/RD_RoomController_Devices";
 import DeviceServices from "src/services/device.service";
@@ -65,7 +61,7 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
 
   return (
     <div className="w-full flex flex-col gap-4">
-      <div className="w-full flex items-center justify-center">
+      {/* <div className="w-full flex items-center justify-center">
         <CustomButton
           variant="contained"
           sx={MuiStyles.buttonStyles.contained.dangerActionBg}
@@ -74,7 +70,7 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
           <FontAwesomeIcon icon={faPowerOff} />
           <p className="text-xl uppercase">Turn off all devices</p>
         </CustomButton>
-      </div>
+      </div> */}
 
       <VoiceRecorder onSave={handleSaveRecording} />
 

@@ -21,6 +21,7 @@ export default function HouseRule_RuleItem({ rule }: HouseRule_RuleItemProps) {
     deviceAttribute,
     deviceAttrId,
     isActive,
+    receiveNotification,
   } = rule;
   const conditionItem: Rule_Condition = {
     deviceAttribute,
@@ -28,8 +29,12 @@ export default function HouseRule_RuleItem({ rule }: HouseRule_RuleItemProps) {
     value,
   };
 
-  const { setViewingRuleDetail, setCurrentRule, setActivateRule } =
-    useHouseRuleStores_RuleDetail();
+  const {
+    setViewingRuleDetail,
+    setCurrentRule,
+    setActivateRule,
+    setReceiveNoti,
+  } = useHouseRuleStores_RuleDetail();
 
   const { setCondition } = useHouseConfigStore_Condition();
   const { setActionList } = useHouseRuleStore_Actions();
@@ -51,6 +56,7 @@ export default function HouseRule_RuleItem({ rule }: HouseRule_RuleItemProps) {
       })
     );
     setActivateRule(isActive);
+    setReceiveNoti(receiveNotification);
     setViewingRuleDetail(true);
   };
 
