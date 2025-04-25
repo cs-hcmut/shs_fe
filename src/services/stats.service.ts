@@ -28,10 +28,10 @@ const useGetStats = (
   });
 };
 
-const DeviceServices = {
+const StatsServices = {
   queries: { useGetStats },
   create: {},
   update: {},
   delete: {},
 };
-export default DeviceServices;
+export default StatsServices;

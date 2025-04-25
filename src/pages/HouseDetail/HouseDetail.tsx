@@ -1,5 +1,4 @@
-import { getIdFromNameId } from "../../utils/utils";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AppLayout from "../../layouts/AppLayout";
 import { homeManagementPaths } from "../../constants/path";
 import HD_FloorItem from "./_children/HD_FloorItem";
@@ -8,40 +7,10 @@ import HD_PowerStatistic from "./_children/HD_PowerStatistic";
 import WidgetSummary from "src/components/_common/WidgetSummary";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
-import EstateServices from "src/services/estates.service";
-import DeviceServices from "src/services/device.service";
-import { Device_Attribute } from "src/types/device/device.attribute.type";
-import { DeviceAttribute_KeyType } from "src/types/device/deviceAttribute/deviceAttribute.type";
+import { useHouseDetail } from "./useHouseDetail.hook";
 
 export default function HouseDetail() {
-  const { homeId: houseNameId } = useParams();
-  const houseId = getIdFromNameId(houseNameId as string);
-
-  // ! get room list
-  const { data: houseDetailData } =
-    EstateServices.queries.useGetEstateDetail(houseId);
-
-  const houseDetail = houseDetailData?.data;
-  const floorList = houseDetail?.floors || [];
-
-  // ! gen sensor devices
-  const { data: deviceData } = DeviceServices.queries.useListAllDevices({});
-  const deviceList = deviceData?.data || [];
-  const sensorList = deviceList.filter(
-    (device) => device.attributes[0].isPublisher
-  );
-  const sensorAttributeList = sensorList.reduce(
-    (acc: Device_Attribute[], ele) => {
-      const attrList = ele.attributes;
-      return [...acc, ...attrList];
-    },
-    []
-  );
-
-  const sensorValueMap: Map<DeviceAttribute_KeyType, number> = new Map();
-  sensorAttributeList.map((ele) => sensorValueMap.set(ele.key, ele.value));
-
-  console.log(sensorValueMap);
+  const { floorList, sensorValueMap, houseNameId } = useHouseDetail();
 
   return (
     <AppLayout
@@ -71,7 +40,7 @@ export default function HouseDetail() {
             total={Number(sensorValueMap.get("humidity"))}
           />
 
-          <WidgetSummary title="Air Quality" shouldHideTrend total={3.3} />
+          <WidgetSummary title="Air Quality" total={3.3} percent={-0.6} />
 
           <WidgetSummary title="Power Usage" percent={2.6} total={18765} />
         </div>
