@@ -11,6 +11,7 @@ export const houseRuleStores_Condition_defaultCondition: Rule_ConditionForm = {
   compareType: "eq",
   value: 0,
   deviceName: "No device",
+  key: "status",
 };
 
 const useHouseConfigStore_Condition = create<IHouseRuleStores_Condition>()(

@@ -52,6 +52,7 @@ export const useHouseRule_RuleDetail = () => {
         compareType: currentRule.compareType,
         value: currentRule.value,
         deviceName: currentRule.deviceAttribute.device.name,
+        key: currentRule.deviceAttribute.key,
       }
     : undefined;
 
