@@ -3,7 +3,6 @@ import { getNameFromNameId } from "../../utils/utils";
 import AppLayout from "../../layouts/AppLayout";
 import { homeManagementPaths } from "../../constants/path";
 import RD_RoomController from "./_children/RD_RoomController/RD_RoomController";
-import RD_PowerStatistic from "./_children/RD_PowerStatistic";
 import RD_PowerUsageEstimate from "./_children/RD_PowerUsageEstimate";
 
 export default function RoomDetail() {
@@ -51,7 +50,7 @@ export default function RoomDetail() {
           </div>
         </div>
 
-        <RD_PowerStatistic />
+        {/* <RD_PowerStatistic /> */}
       </div>
     </AppLayout>
   );

@@ -17,3 +17,12 @@ export interface Stats_Log {
   createdAt: string;
   value: number;
 }
+
+export interface PowerUsage {
+  device: {
+    id: IDType;
+    name: string;
+    power: number;
+  };
+  power: number;
+}

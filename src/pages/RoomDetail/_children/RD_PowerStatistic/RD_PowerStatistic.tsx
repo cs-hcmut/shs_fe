@@ -1,5 +1,4 @@
 import { Divider } from "@mui/material";
-import RD_PowerStatistic_Usage from "./_children/RD_PowerStatistic_Usage";
 import RD_PowerStatistic_LineChart from "./_children/RD_PowerStatistic_LineChart";
 
 interface RD_PowerStatisticProps {}
@@ -11,9 +10,9 @@ export default function RD_PowerStatistic({}: RD_PowerStatisticProps) {
         Power statistics
       </p>
 
-      <Divider className="!border-primary-blue" />
+      {/* <Divider className="!border-primary-blue" />
 
-      <RD_PowerStatistic_Usage />
+      <RD_PowerStatistic_Usage /> */}
 
       <Divider className="!border-primary-blue" />
 
