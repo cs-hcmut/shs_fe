@@ -46,6 +46,7 @@ export default function HouseRule_RuleItem({ rule }: HouseRule_RuleItemProps) {
       compareType,
       value,
       deviceName: deviceAttribute.device.name,
+      key: deviceAttribute.key,
     });
     setActionList(
       actions.map((act) => {

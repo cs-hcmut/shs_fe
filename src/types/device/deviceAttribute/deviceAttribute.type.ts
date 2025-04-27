@@ -2,6 +2,15 @@ import { IDType } from "src/types/_commons/id.type";
 
 export type DeviceAttribute_KeyType = "temp" | "humidity" | "move" | "status";
 
+export const deviceAttributeKey_vietnameseMap: {
+  [key in DeviceAttribute_KeyType]: string;
+} = {
+  humidity: "Độ ẩm",
+  move: "Chuyển động",
+  status: "Trạng thái",
+  temp: "Nhiệt độ",
+};
+
 export interface DeviceAttributeModel {
   id: IDType;
   feed: string;

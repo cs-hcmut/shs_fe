@@ -15,18 +15,21 @@ import NotiServices from "src/services/noti.service";
 import { Badge } from "@mui/material";
 import classNames from "classnames";
 import { parseNotificationMessage } from "src/types/notification/notification.type";
-import socket from "src/utils/socket.util";
 import useNotificationStores from "src/stores/Notification.store";
+import { useSocket } from "src/contexts/SocketContext";
 
 export default function MainHeader() {
   const { isAuthenticated, handleLogout } = useContext(AppContext);
+  const { socket } = useSocket();
 
   const { notiList, setNotiList } = useNotificationStores();
 
   const { setShowingNotificationModal } = useNotificationSiteStore();
 
   // ! get notification
-  const { data: notiData } = NotiServices.queries.useListNotis({});
+  const { data: notiData } = NotiServices.queries.useListNotis({
+    sort: "createdAt:desc",
+  });
 
   useEffect(() => {
     if (notiData) {
@@ -35,8 +38,6 @@ export default function MainHeader() {
   }, [notiData, setNotiList]);
 
   useEffect(() => {
-    socket.connect();
-
     socket.on("notification", (data) => {
       const newNoti = parseNotificationMessage(data);
       setNotiList([newNoti, ...notiList]);
@@ -44,8 +45,8 @@ export default function MainHeader() {
 
     return () => {
       socket.off("notification");
-      socket.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notiList, setNotiList]);
 
   const unAckNotiCount = notiList.reduce(

@@ -11,6 +11,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/L
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Toaster } from "sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SocketProvider } from "./contexts/SocketContext";
 
 const queryClient = new QueryClient();
 
@@ -38,7 +39,9 @@ function App() {
         <PrimeReactProvider>
           <AppProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <AppIner />
+              <SocketProvider>
+                <AppIner />
+              </SocketProvider>
             </LocalizationProvider>
           </AppProvider>
         </PrimeReactProvider>

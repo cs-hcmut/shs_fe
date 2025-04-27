@@ -1,5 +1,5 @@
 import useHouseRuleStores_RuleDetail from "../../_stores/HouseRule_RuleDetail.store";
-import HouseRule_Condition_Item from "./HouseConfig_Conditions_Item";
+import HouseRule_Condition_Item from "./HouseRule_Conditions_Item";
 import { useMemo } from "react";
 import { Rule_ConditionForm } from "src/types/rule/rule.create.type";
 

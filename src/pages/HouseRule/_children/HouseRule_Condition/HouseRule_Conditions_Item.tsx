@@ -5,6 +5,7 @@ import RuleServices from "src/services/rule.service";
 import { Rule_ConditionForm } from "src/types/rule/rule.create.type";
 import useHouseConfigStore_Condition from "../../_stores/HouseRule_Conditions.store";
 import { Rule_CompareType } from "src/types/rule/rule.compareType.type";
+import { deviceAttributeKey_vietnameseMap } from "src/types/device/deviceAttribute/deviceAttribute.type";
 
 interface HouseRule_Condition_ItemProps {
   defaultData?: Rule_ConditionForm;
@@ -26,13 +27,13 @@ export default function HouseRule_Condition_Item({}: HouseRule_Condition_ItemPro
   const publisherOptionList: InputOptionItem[] = publisherList.map((ele) => {
     if (condition.deviceAttrId === ele.id) includeCurrentCondition = true;
     return {
-      name: ele.device.name,
+      name: `${ele.device.name} - ${deviceAttributeKey_vietnameseMap[ele.key]}`,
       value: ele.id,
     };
   });
   if (!includeCurrentCondition) {
     publisherOptionList.push({
-      name: condition.deviceName,
+      name: `${condition.deviceName} - ${deviceAttributeKey_vietnameseMap[condition.key]}`,
       value: condition.deviceAttrId,
     });
   }

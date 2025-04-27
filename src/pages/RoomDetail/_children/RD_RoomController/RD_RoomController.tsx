@@ -10,10 +10,14 @@ import {
   fixAudioMetadata,
 } from "src/utils/audio.util";
 import { get } from "lodash";
+import { useSocket } from "src/contexts/SocketContext";
+import { useEffect } from "react";
 
 interface RD_RoomControllerProps {}
 
 export default function RD_RoomController({}: RD_RoomControllerProps) {
+  const { socket } = useSocket();
+
   const { roomId: roomNameId } = useParams();
   const roomId = getIdFromNameId(roomNameId || "");
 
@@ -22,11 +26,19 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
   const showACDevices = true;
 
   // ! get device
-  const { data: deviceData } = DeviceServices.queries.useListAllDevices({
-    roomId,
-  });
+  const { data: deviceData, refetch: refecthDeviceData } =
+    DeviceServices.queries.useListAllDevices({
+      roomId,
+    });
 
   const deviceList = deviceData?.data || [];
+
+  useEffect(() => {
+    socket.on("refresh", () => {
+      refecthDeviceData();
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fanDeviceList = deviceList.filter((d) => d.type === "fan");
   const lightDeviceList = deviceList.filter((d) => d.type === "light");
@@ -41,12 +53,6 @@ export default function RD_RoomController({}: RD_RoomControllerProps) {
   const handleSaveRecording = async (blob: Blob) => {
     const fixedBlob = await fixAudioMetadata(blob);
     const audioFile = createFileFromAudioBlob(fixedBlob);
-
-    // const body = {
-    //   file: audioFile,
-    // };
-    // console.log(body);
-    // return;
 
     const formData = new FormData();
     formData.append("file", audioFile);

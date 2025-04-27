@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSocket } from "src/contexts/SocketContext";
 import DeviceServices from "src/services/device.service";
 import EstateServices from "src/services/estates.service";
 import { Device_Attribute } from "src/types/device/device.attribute.type";
@@ -6,6 +8,8 @@ import { DeviceAttribute_KeyType } from "src/types/device/deviceAttribute/device
 import { getIdFromNameId } from "src/utils/utils";
 
 export const useHouseDetail = () => {
+  const { socket } = useSocket();
+
   const { homeId: houseNameId } = useParams();
   const houseId = getIdFromNameId(houseNameId as string);
 
@@ -17,7 +21,8 @@ export const useHouseDetail = () => {
   const floorList = houseDetail?.floors || [];
 
   // ! gen sensor devices
-  const { data: deviceData } = DeviceServices.queries.useListAllDevices({});
+  const { data: deviceData, refetch: refetchSensorData } =
+    DeviceServices.queries.useListAllDevices({});
   const deviceList = deviceData?.data || [];
   const sensorList = deviceList.filter(
     (device) => device.attributes[0].isPublisher
@@ -29,6 +34,13 @@ export const useHouseDetail = () => {
     },
     []
   );
+
+  useEffect(() => {
+    socket.on("refresh", () => {
+      refetchSensorData();
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const sensorValueMap: Map<DeviceAttribute_KeyType, number> = new Map();
   sensorAttributeList.map((ele) => sensorValueMap.set(ele.key, ele.value));
