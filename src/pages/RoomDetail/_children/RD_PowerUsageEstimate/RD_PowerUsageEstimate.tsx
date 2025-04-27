@@ -40,9 +40,7 @@ export default function RD_PowerUsageEstimate({}: RD_PowerUsageEstimateProps) {
 
       <Divider className="!border-border-primary" />
 
-      {/* <p className="w-full text-left text-lg font-semibold">
-        Till the end of today
-      </p> */}
+      <p className="w-full text-left text-lg font-semibold">Today</p>
       <div className="flex flex-col gap-2 w-full text-sm xl:text-base px-2">
         {powerUsageList.map((ele) => {
           return (
