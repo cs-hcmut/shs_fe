@@ -142,6 +142,12 @@ export default function CustomFormInput<FormType extends FieldValues>({
               error={!!fieldState.error?.message}
               placeholder={inputField.placeHolder}
               multiline={inputField.type === "textArea"}
+              onChange={(e) => {
+                field.onChange(e.target.value);
+                if (onChange) {
+                  onChange(e.target.value);
+                }
+              }}
               rows={1}
               sx={{
                 ...inputSx,

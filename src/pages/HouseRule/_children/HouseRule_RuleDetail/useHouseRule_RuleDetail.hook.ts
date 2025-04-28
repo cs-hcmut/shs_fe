@@ -65,6 +65,9 @@ export const useHouseRule_RuleDetail = () => {
       return;
     }
 
+    // console.log(condition);
+    // return;
+
     toast.promise(
       (async () => {
         // eslint-disable-next-line no-useless-catch
