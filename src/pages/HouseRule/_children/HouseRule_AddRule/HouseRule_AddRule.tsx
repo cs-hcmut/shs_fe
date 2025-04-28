@@ -58,11 +58,18 @@ export default function HouseRule_AddRule({}: HouseRule_AddRuleProps) {
     // console.log(createBody);
     // return;
 
-    toast.promise(createRuleMutation.mutateAsync(createBody), {
-      loading: "Creating",
-      success: "Created rule successfully",
-      error: (err: any) => get(err, "message", "Cannot create rule"),
-    });
+    toast.promise(
+      createRuleMutation.mutateAsync(createBody, {
+        onSuccess() {
+          setAddingRule(false);
+        },
+      }),
+      {
+        loading: "Creating",
+        success: "Created rule successfully",
+        error: (err: any) => get(err, "message", "Cannot create rule"),
+      }
+    );
   };
 
   return (
