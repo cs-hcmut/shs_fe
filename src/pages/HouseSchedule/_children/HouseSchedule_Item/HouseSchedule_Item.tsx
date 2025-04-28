@@ -44,6 +44,7 @@ export default function HouseSchedule_Item({
           {DeviceAttributes.map((ele) => {
             return (
               <ActionItem
+                key={ele.id}
                 actionItem={{
                   deviceAttrId: ele.id,
                   deviceName: ele.device.name,
